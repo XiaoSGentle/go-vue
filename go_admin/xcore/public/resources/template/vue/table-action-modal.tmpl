@@ -1,0 +1,177 @@
+{{ $Table := .Table -}} 
+{{ $Columns := .Columns -}}
+<template>
+  <n-modal
+    v-model:show="modalVisible"
+    preset="card"
+    :mask-closable="false"
+    :title="title"
+    class="w-700px"
+  >
+    <n-form
+      ref="formRef"
+      label-placement="left"
+      :label-width="100"
+      :model="formModel"
+      :rules="rules"
+    >
+      <n-grid :cols="24" :x-gap="18">
+        {{-  range $index, $value := $Columns -}}
+          {{- with $value -}}
+            {{- if  .IsRequired  }}
+        <n-form-item-grid-item :span="24" label="{{.ColumnComment}}" {{- if .IsRequired -}} path="{{ .ColumnLowUpName }}" {{- end -}}>
+          <n-input v-model:value="formModel.{{.ColumnLowUpName}}" />
+        </n-form-item-grid-item>
+            {{- end -}}
+          {{- end -}}
+        {{- end }}
+        <n-form-item-grid-item :span="24" label="角色名称" path="name">
+          <n-input v-model:value="formModel.name" />
+        </n-form-item-grid-item>
+      </n-grid>
+      <n-space class="w-full pt-16px" :size="24" justify="end">
+        <n-button class="w-72px" @click="closeModal">取消</n-button>
+        <n-button class="w-72px" type="primary" @click="handleSubmit"
+          >确定</n-button
+        >
+      </n-space>
+    </n-form>
+  </n-modal>
+</template>
+
+<script setup lang="ts">
+  import { ref, computed, watch } from "vue";
+  import type { FormInst, FormItemRule } from "naive-ui";
+  import { useMessage } from "naive-ui";
+  import { createRequiredFormRule } from "@/utils";
+  import { addOrUp{{$Table.UpUpName}} } from "~/src/service";
+  export interface Props {
+    /** 弹窗可见性 */
+    visible: boolean;
+    /**
+     * 弹窗类型
+     * add: 新增
+     * edit: 编辑
+     */
+    type?: "add" | "edit";
+
+    /** 编辑的表格行数据 */
+    editData?: {{ $Table.UpUpName -}}Management.Base{{ $Table.UpUpName }} | null;
+  }
+
+  // 导出ModelAction的枚举
+  export type ModalType = NonNullable<Props["type"]>;
+
+  // 命名对外暴露的组件
+  defineOptions({ name: "TableActionModal" });
+
+  // 初始化数据表单
+  const props = withDefaults(defineProps<Props>(), {
+    type: "add",
+    editData: null,
+  });
+
+  // 定义模态框可见性传参接口
+  interface Emits {
+    (e: "update:visible", visible: boolean): void;
+  }
+  const emit = defineEmits<Emits>();
+
+  // 定义模态框的可见性
+  const modalVisible = computed({
+    get() {
+      return props.visible;
+    },
+    set(visible) {
+      emit("update:visible", visible);
+    },
+  });
+  // 关闭模态框
+  const closeModal = () => {
+    modalVisible.value = false;
+  };
+
+  // 根据模态框出现的类型动态计算modal的标题
+  const title = computed(() => {
+    const titles: Record<ModalType, string> = {
+      add: "添加",
+      edit: "编辑",
+    };
+    return titles[props.type];
+  });
+
+  // 定义表单实例方便validate
+  const formRef = ref<HTMLElement & FormInst>();
+
+  // 定义表单的数据
+  const formModel = ref<{{ $Table.UpUpName -}}Management.AddOrUp{{ $Table.UpUpName }}Param>(createDefaultFormModel());
+
+  // 定义表单的校验规则类型
+  type AddRoleParamRules = Partial<{{ $Table.UpUpName -}}Management.AddOrUp{{ $Table.UpUpName }}Param>;
+
+  // 目前只更新了必填项
+  const rules: Record<keyof AddRoleParamRules, FormItemRule | FormItemRule[]> =
+    {
+    {{-  range $index, $value := $Columns -}}
+      {{- with $value -}}
+        {{- if  .IsRequired  }}
+      /* {{- .ColumnComment -}} */ 
+      {{ .ColumnLowUpName }}:createRequiredFormRule();
+        {{- end -}}
+      {{- end -}}
+    {{- end }}
+    };
+
+  function createDefaultFormModel(): formModel {
+    return {
+    {{-  range $index, $value := $Columns -}}
+      {{- with $value }}
+      /* {{- .ColumnComment -}} */ 
+      {{ .ColumnLowUpName }}:"";
+      {{- end -}}
+    {{- end }}
+    };
+  }
+
+  function handleUpdateFormModel(model: Partial<AddRoleParamRules>) {
+    Object.assign(formModel.value, model);
+  }
+
+  function handleUpdateFormModelByModalType() {
+    const handlers: Record<ModalType, () => void> = {
+      add: () => {
+        const defaultFormModel = createDefaultFormModel();
+        handleUpdateFormModel(defaultFormModel);
+      },
+      edit: () => {
+        if (props.editData) {
+          handleUpdateFormModel(props.editData);
+        }
+      },
+    };
+
+    handlers[props.type]();
+  }
+
+  async function handleSubmit() {
+    await formRef.value?.validate();
+    const { data } = await addOrUp{{$Table.UpUpName}}(formModel.value);
+    if (data) {
+      window.$dialog?.success({ title: '操作成功' });
+    }else{
+      window.$dialog?.error({ title: '操作失败' });
+    }
+    closeModal();
+  }
+
+  watch(
+    () => props.visible,
+    (newValue) => {
+      if (newValue) {
+        handleUpdateFormModelByModalType();
+      }
+    }
+  );
+</script>
+
+<style scoped></style>

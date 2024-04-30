@@ -1,0 +1,38 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+
+package {{ $Table.TableName }}
+import (
+    "xiaos-go/app/model"
+    "xiaos-go/system/model/base_info"
+)
+
+type {{ $Table.UpUpName }}PageParam struct{
+	base_info.PageParam
+	{{-  range $index, $value := $Columns -}}
+	    {{- with $value -}}
+             {{- if  .IsQuery  -}}
+    {{ .ColumnUpUpName }}  {{ .ColumnType}} `json:"{{ .ColumnLowUpName }}" comment:"{{ .ColumnComment }}" validate:"{{- if .IsRequired -}}required{{ end }}"`
+             {{- end }}
+        {{- end -}}
+	{{- end }}
+}
+
+type Delete{{ $Table.UpUpName }}UuidsParam struct {
+	base_info.DelIds
+}
+
+type AddOrUp{{ $Table.UpUpName }}Param struct {
+    UUID    string    `json:"uuid"`
+	{{-  range $index, $value := $Columns -}}
+	    {{- with $value -}}
+             {{- if  .IsEdit  }}
+    {{ .ColumnUpUpName }}  {{ .ColumnType}} `json:"{{ .ColumnLowUpName }}" comment:"{{ .ColumnComment }}" validate:"{{ if .IsEdit }}required{{ end }}"`
+             {{- end }}
+        {{- end -}}
+	{{- end }}
+}
+
+type {{ $Table.UpUpName }}DetailsById struct {
+    base_info.DetailsId
+}

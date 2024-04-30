@@ -1,0 +1,50 @@
+package xmiddlewares
+
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"time"
+)
+
+type Resp struct {
+	Code int64  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+// LogMiddleHandler  该函数前需要调用 tokenCheck 插件
+func LogMiddleHandler(c *gin.Context) {
+	respWriter := &ResponseWriterWrapper{c.Writer, bytes.NewBuffer([]byte{})}
+	// 获取基本日志变量
+	c.Writer = respWriter
+	startTime := time.Now().UnixMilli()
+
+	c.Next()
+	cosTime := time.Now().UnixMilli() - startTime
+
+	// 响应状态码
+	responseStatus := int64(c.Writer.Status())
+
+	respResult := (*respWriter.Body).String()
+
+	var resp Resp
+	json.Unmarshal([]byte(respResult), &resp)
+	fmt.Printf("[%s]【%s】 %s CosTime:%dms RespStatus:%d Resp:%s\n", time.Now().Format(time.DateTime), c.Request.Method, c.Request.URL.String(), cosTime, responseStatus, resp.Msg)
+
+}
+
+type ResponseWriterWrapper struct {
+	gin.ResponseWriter
+	Body *bytes.Buffer // 缓存
+}
+
+func (w ResponseWriterWrapper) Write(b []byte) (int, error) {
+	w.Body.Write(b)
+	return w.ResponseWriter.Write(b)
+}
+
+func (w ResponseWriterWrapper) WriteString(s string) (int, error) {
+	w.Body.WriteString(s)
+	return w.ResponseWriter.WriteString(s)
+}

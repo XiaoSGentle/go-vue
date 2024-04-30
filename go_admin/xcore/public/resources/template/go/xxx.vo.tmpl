@@ -1,0 +1,14 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+
+package {{ $Table.TableName }}
+import (
+	"xiaos-go/system/model"
+	"xiaos-go/system/model/base_info"
+)
+
+type {{ $Table.UpUpName }}PageVo struct{
+	base_info.PageResult
+	{{ $Table.UpUpName }}List []*model.{{ $Table.UpUpName }} `json:"data"`
+}
+
