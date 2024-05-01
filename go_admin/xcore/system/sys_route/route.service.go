@@ -12,6 +12,10 @@ import (
 type IRouteService interface {
 	GetUserRouters(c *gin.Context) (getUserRoutersVo GetUserRoutersVo, err error)
 	GetConstantRoutes(c *gin.Context) (getUserRoutersVo []UserRouter, err error)
+	GetAllPages(c *gin.Context, roles []string) (allPages []string, err error)
+	GetMenuTreeSimple(c *gin.Context) (routerTreeSimpleResp []RouterTreeSimpleResp, err error)
+	GetALLApis(c *gin.Context) (allApisResp []AllApisResp, err error)
+	GetAllRoles(c *gin.Context) (allRoles []AllRolesResp, err error)
 }
 
 func NewRouteService(db *gorm.DB) IRouteService {
@@ -22,18 +26,69 @@ type RouteService struct {
 	db *gorm.DB
 }
 
+func (r RouteService) GetAllRoles(c *gin.Context) (allRoles []AllRolesResp, err error) {
+	roleQuery := query.Use(r.db).SysRole
+	findInSql, err := roleQuery.Find()
+	if err != nil {
+		return []AllRolesResp{}, err
+	}
+	for _, role := range findInSql {
+		allRoles = append(allRoles, AllRolesResp{
+			Id:       fmt.Sprintf("%d", role.ID),
+			RoleName: role.Name,
+			RoleCode: role.Code,
+		})
+	}
+	return
+}
+
+func (r RouteService) GetALLApis(c *gin.Context) (allApisResp []AllApisResp, err error) {
+	apiQuery := query.Use(r.db).SysAPI
+	findApisInSql, err := apiQuery.Find()
+	if err != nil {
+		return []AllApisResp{}, err
+	}
+	for _, api := range findApisInSql {
+		allApisResp = append(allApisResp, AllApisResp{
+			Code: api.APICode,
+			Name: api.APICode,
+		})
+	}
+	return
+}
+
+func (r RouteService) GetMenuTreeSimple(c *gin.Context) (routerTreeSimpleResp []RouterTreeSimpleResp, err error) {
+	menuQuery := query.Use(r.db).WithContext(c).SysMenu
+	find, err := menuQuery.Find()
+	if err != nil {
+		return []RouterTreeSimpleResp{}, err
+	}
+	result := sysMenuToSimpleRouterTree(find)
+	return result, nil
+}
+
+func (r RouteService) GetAllPages(c *gin.Context, roles []string) (allPages []string, err error) {
+	menuQuery := query.Use(r.db).WithContext(c).SysMenu
+	menusInSql, err := menuQuery.Find()
+	if err != nil {
+		return []string{}, err
+	}
+	for _, menu := range menusInSql {
+		allPages = append(allPages, menu.Path)
+	}
+	return
+}
+
 func (r RouteService) GetUserRouters(c *gin.Context) (getUserRoutersVo GetUserRoutersVo, err error) {
 	menuQuery := query.Use(r.db).WithContext(c).SysMenu
-
 	find, err := menuQuery.Find()
 	if err != nil {
 		return GetUserRoutersVo{}, err
 	}
 	result := GetUserRoutersVo{
-		Home:   "/",
-		Routes: SysMenuToRouterVoTree(find),
+		Home:   "home",
+		Routes: sysMenuToRouterVoTree(find),
 	}
-
 	return result, nil
 }
 func (r RouteService) GetConstantRoutes(c *gin.Context) (getUserRoutersVo []UserRouter, err error) {
@@ -52,12 +107,12 @@ func (r RouteService) GetConstantRoutes(c *gin.Context) (getUserRoutersVo []User
 	}, nil
 }
 
-func SysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRouter) {
+func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRouter) {
 	for _, menu := range sysMenuList {
 		m := UserRouter{
 			ID:        fmt.Sprintf("%d", menu.ID),
 			PID:       menu.ParentID,
-			Name:      menu.Name,
+			Name:      menu.RouterName,
 			Path:      menu.Path,
 			Component: menu.Component,
 			RouterMeta: UserRouterMeta{
@@ -81,16 +136,40 @@ func SysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRoute
 		}
 		menuVoList = append(menuVoList, m)
 	}
-	menuVoList = listToTree(menuVoList, 0)
+	menuVoList = userRouterListToTree(menuVoList, 0)
 	return
 }
-
-func listToTree(list []UserRouter, Pid int32) (tree []UserRouter) {
+func userRouterListToTree(list []UserRouter, Pid int32) (tree []UserRouter) {
 	res := make([]UserRouter, 0)
 	for _, v := range list {
 		if v.PID == Pid {
 			num, _ := strconv.Atoi(v.ID)
-			v.Children = listToTree(list, int32(num))
+			v.Children = userRouterListToTree(list, int32(num))
+			res = append(res, v)
+		}
+	}
+	tree = res
+	return
+}
+
+func sysMenuToSimpleRouterTree(sysMenuList []*model.SysMenu) (routerTreeSimpleResp []RouterTreeSimpleResp) {
+	for _, menu := range sysMenuList {
+		routerTreeSimpleResp = append(routerTreeSimpleResp, RouterTreeSimpleResp{
+			ID:       fmt.Sprintf("%d", menu.ID),
+			Label:    menu.MetaI18nKey,
+			PID:      fmt.Sprintf("%d", menu.ParentID),
+			Children: nil,
+		})
+	}
+	routerTreeSimpleResp = routerSimpleToTree(routerTreeSimpleResp, "0")
+	return
+}
+func routerSimpleToTree(list []RouterTreeSimpleResp, Pid string) (tree []RouterTreeSimpleResp) {
+	res := make([]RouterTreeSimpleResp, 0)
+	for _, v := range list {
+		if v.PID == Pid {
+			num, _ := strconv.Atoi(v.ID)
+			v.Children = routerSimpleToTree(list, strconv.Itoa(num))
 			res = append(res, v)
 		}
 	}

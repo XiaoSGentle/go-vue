@@ -8,8 +8,8 @@ import (
 
 func GetSoybeanAdminRouter() *xcore.GinCore {
 	core := xcore.NewGinCore()
-	core.RegisterOneRegFunction(xgorm.GetMysqlConnection)
-	core.RegisterRouterGroupArray(system.Routers)
-	core.RegisterRegFunctionArray(system.Function)
+	core.RegisterRegFunction(xgorm.GetMysqlConnection)
+	core.RegisterRegFunctions(system.Function)
+	core.RegisterRouterGroups(system.Routers)
 	return core
 }

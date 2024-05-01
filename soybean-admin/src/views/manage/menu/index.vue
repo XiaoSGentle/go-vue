@@ -80,13 +80,13 @@ const { columns, columnChecks, data, loading, pagination, getData } = useTable({
     {
       key: 'routeName',
       title: $t('page.manage.menu.routeName'),
-      align: 'center',
+      align: 'left',
       minWidth: 120
     },
     {
       key: 'routePath',
       title: $t('page.manage.menu.routePath'),
-      align: 'center',
+      align: 'left',
       minWidth: 120
     },
     {

@@ -29,12 +29,14 @@ func newSysMenu(db *gorm.DB, opts ...gen.DOOption) sysMenu {
 	_sysMenu.ALL = field.NewAsterisk(tableName)
 	_sysMenu.ID = field.NewInt32(tableName, "id")
 	_sysMenu.Name = field.NewString(tableName, "name")
+	_sysMenu.RouterName = field.NewString(tableName, "router_name")
 	_sysMenu.Path = field.NewString(tableName, "path")
 	_sysMenu.Redirect = field.NewString(tableName, "redirect")
 	_sysMenu.ParentID = field.NewInt32(tableName, "parent_id")
 	_sysMenu.Component = field.NewString(tableName, "component")
 	_sysMenu.Props = field.NewInt32(tableName, "props")
-	_sysMenu.Status = field.NewInt32(tableName, "status")
+	_sysMenu.Status = field.NewString(tableName, "status")
+	_sysMenu.Type = field.NewString(tableName, "type")
 	_sysMenu.MetaIconType = field.NewString(tableName, "meta_icon_type")
 	_sysMenu.MetaOrder = field.NewInt32(tableName, "meta_order")
 	_sysMenu.MetaConstant = field.NewInt32(tableName, "meta_constant")
@@ -64,19 +66,20 @@ func newSysMenu(db *gorm.DB, opts ...gen.DOOption) sysMenu {
 	return _sysMenu
 }
 
-// sysMenu 系统菜单
 type sysMenu struct {
-	sysMenuDo sysMenuDo
+	sysMenuDo
 
 	ALL              field.Asterisk
 	ID               field.Int32  // 主键
 	Name             field.String // 菜单项名称
+	RouterName       field.String
 	Path             field.String // 路径
 	Redirect         field.String // 重定向地址
 	ParentID         field.Int32  // 父菜单uuid
 	Component        field.String // 组件名称
 	Props            field.Int32  // 地址参数 u/:id
-	Status           field.Int32  // 是否启用
+	Status           field.String // 是否启用
+	Type             field.String // 目录类型 "1": "目录", "2": "菜单"
 	MetaIconType     field.String // icon类型 0本地 1iconify
 	MetaOrder        field.Int32  // 排序
 	MetaConstant     field.Int32  // 常量路由
@@ -118,12 +121,14 @@ func (s *sysMenu) updateTableName(table string) *sysMenu {
 	s.ALL = field.NewAsterisk(table)
 	s.ID = field.NewInt32(table, "id")
 	s.Name = field.NewString(table, "name")
+	s.RouterName = field.NewString(table, "router_name")
 	s.Path = field.NewString(table, "path")
 	s.Redirect = field.NewString(table, "redirect")
 	s.ParentID = field.NewInt32(table, "parent_id")
 	s.Component = field.NewString(table, "component")
 	s.Props = field.NewInt32(table, "props")
-	s.Status = field.NewInt32(table, "status")
+	s.Status = field.NewString(table, "status")
+	s.Type = field.NewString(table, "type")
 	s.MetaIconType = field.NewString(table, "meta_icon_type")
 	s.MetaOrder = field.NewInt32(table, "meta_order")
 	s.MetaConstant = field.NewInt32(table, "meta_constant")
@@ -153,14 +158,6 @@ func (s *sysMenu) updateTableName(table string) *sysMenu {
 	return s
 }
 
-func (s *sysMenu) WithContext(ctx context.Context) *sysMenuDo { return s.sysMenuDo.WithContext(ctx) }
-
-func (s sysMenu) TableName() string { return s.sysMenuDo.TableName() }
-
-func (s sysMenu) Alias() string { return s.sysMenuDo.Alias() }
-
-func (s sysMenu) Columns(cols ...field.Expr) gen.Columns { return s.sysMenuDo.Columns(cols...) }
-
 func (s *sysMenu) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -171,15 +168,17 @@ func (s *sysMenu) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysMenu) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 31)
+	s.fieldMap = make(map[string]field.Expr, 33)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
+	s.fieldMap["router_name"] = s.RouterName
 	s.fieldMap["path"] = s.Path
 	s.fieldMap["redirect"] = s.Redirect
 	s.fieldMap["parent_id"] = s.ParentID
 	s.fieldMap["component"] = s.Component
 	s.fieldMap["props"] = s.Props
 	s.fieldMap["status"] = s.Status
+	s.fieldMap["type"] = s.Type
 	s.fieldMap["meta_icon_type"] = s.MetaIconType
 	s.fieldMap["meta_order"] = s.MetaOrder
 	s.fieldMap["meta_constant"] = s.MetaConstant
@@ -217,95 +216,156 @@ func (s sysMenu) replaceDB(db *gorm.DB) sysMenu {
 
 type sysMenuDo struct{ gen.DO }
 
-func (s sysMenuDo) Debug() *sysMenuDo {
+type ISysMenuDo interface {
+	gen.SubQuery
+	Debug() ISysMenuDo
+	WithContext(ctx context.Context) ISysMenuDo
+	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
+	ReplaceDB(db *gorm.DB)
+	ReadDB() ISysMenuDo
+	WriteDB() ISysMenuDo
+	As(alias string) gen.Dao
+	Session(config *gorm.Session) ISysMenuDo
+	Columns(cols ...field.Expr) gen.Columns
+	Clauses(conds ...clause.Expression) ISysMenuDo
+	Not(conds ...gen.Condition) ISysMenuDo
+	Or(conds ...gen.Condition) ISysMenuDo
+	Select(conds ...field.Expr) ISysMenuDo
+	Where(conds ...gen.Condition) ISysMenuDo
+	Order(conds ...field.Expr) ISysMenuDo
+	Distinct(cols ...field.Expr) ISysMenuDo
+	Omit(cols ...field.Expr) ISysMenuDo
+	Join(table schema.Tabler, on ...field.Expr) ISysMenuDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) ISysMenuDo
+	RightJoin(table schema.Tabler, on ...field.Expr) ISysMenuDo
+	Group(cols ...field.Expr) ISysMenuDo
+	Having(conds ...gen.Condition) ISysMenuDo
+	Limit(limit int) ISysMenuDo
+	Offset(offset int) ISysMenuDo
+	Count() (count int64, err error)
+	Scopes(funcs ...func(gen.Dao) gen.Dao) ISysMenuDo
+	Unscoped() ISysMenuDo
+	Create(values ...*model.SysMenu) error
+	CreateInBatches(values []*model.SysMenu, batchSize int) error
+	Save(values ...*model.SysMenu) error
+	First() (*model.SysMenu, error)
+	Take() (*model.SysMenu, error)
+	Last() (*model.SysMenu, error)
+	Find() ([]*model.SysMenu, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.SysMenu, err error)
+	FindInBatches(result *[]*model.SysMenu, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Pluck(column field.Expr, dest interface{}) error
+	Delete(...*model.SysMenu) (info gen.ResultInfo, err error)
+	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
+	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
+	Updates(value interface{}) (info gen.ResultInfo, err error)
+	UpdateColumn(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
+	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
+	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
+	UpdateFrom(q gen.SubQuery) gen.Dao
+	Attrs(attrs ...field.AssignExpr) ISysMenuDo
+	Assign(attrs ...field.AssignExpr) ISysMenuDo
+	Joins(fields ...field.RelationField) ISysMenuDo
+	Preload(fields ...field.RelationField) ISysMenuDo
+	FirstOrInit() (*model.SysMenu, error)
+	FirstOrCreate() (*model.SysMenu, error)
+	FindByPage(offset int, limit int) (result []*model.SysMenu, count int64, err error)
+	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
+	Scan(result interface{}) (err error)
+	Returning(value interface{}, columns ...string) ISysMenuDo
+	UnderlyingDB() *gorm.DB
+	schema.Tabler
+}
+
+func (s sysMenuDo) Debug() ISysMenuDo {
 	return s.withDO(s.DO.Debug())
 }
 
-func (s sysMenuDo) WithContext(ctx context.Context) *sysMenuDo {
+func (s sysMenuDo) WithContext(ctx context.Context) ISysMenuDo {
 	return s.withDO(s.DO.WithContext(ctx))
 }
 
-func (s sysMenuDo) ReadDB() *sysMenuDo {
+func (s sysMenuDo) ReadDB() ISysMenuDo {
 	return s.Clauses(dbresolver.Read)
 }
 
-func (s sysMenuDo) WriteDB() *sysMenuDo {
+func (s sysMenuDo) WriteDB() ISysMenuDo {
 	return s.Clauses(dbresolver.Write)
 }
 
-func (s sysMenuDo) Session(config *gorm.Session) *sysMenuDo {
+func (s sysMenuDo) Session(config *gorm.Session) ISysMenuDo {
 	return s.withDO(s.DO.Session(config))
 }
 
-func (s sysMenuDo) Clauses(conds ...clause.Expression) *sysMenuDo {
+func (s sysMenuDo) Clauses(conds ...clause.Expression) ISysMenuDo {
 	return s.withDO(s.DO.Clauses(conds...))
 }
 
-func (s sysMenuDo) Returning(value interface{}, columns ...string) *sysMenuDo {
+func (s sysMenuDo) Returning(value interface{}, columns ...string) ISysMenuDo {
 	return s.withDO(s.DO.Returning(value, columns...))
 }
 
-func (s sysMenuDo) Not(conds ...gen.Condition) *sysMenuDo {
+func (s sysMenuDo) Not(conds ...gen.Condition) ISysMenuDo {
 	return s.withDO(s.DO.Not(conds...))
 }
 
-func (s sysMenuDo) Or(conds ...gen.Condition) *sysMenuDo {
+func (s sysMenuDo) Or(conds ...gen.Condition) ISysMenuDo {
 	return s.withDO(s.DO.Or(conds...))
 }
 
-func (s sysMenuDo) Select(conds ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) Select(conds ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.Select(conds...))
 }
 
-func (s sysMenuDo) Where(conds ...gen.Condition) *sysMenuDo {
+func (s sysMenuDo) Where(conds ...gen.Condition) ISysMenuDo {
 	return s.withDO(s.DO.Where(conds...))
 }
 
-func (s sysMenuDo) Order(conds ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) Order(conds ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.Order(conds...))
 }
 
-func (s sysMenuDo) Distinct(cols ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) Distinct(cols ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.Distinct(cols...))
 }
 
-func (s sysMenuDo) Omit(cols ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) Omit(cols ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.Omit(cols...))
 }
 
-func (s sysMenuDo) Join(table schema.Tabler, on ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) Join(table schema.Tabler, on ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.Join(table, on...))
 }
 
-func (s sysMenuDo) LeftJoin(table schema.Tabler, on ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) LeftJoin(table schema.Tabler, on ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.LeftJoin(table, on...))
 }
 
-func (s sysMenuDo) RightJoin(table schema.Tabler, on ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) RightJoin(table schema.Tabler, on ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.RightJoin(table, on...))
 }
 
-func (s sysMenuDo) Group(cols ...field.Expr) *sysMenuDo {
+func (s sysMenuDo) Group(cols ...field.Expr) ISysMenuDo {
 	return s.withDO(s.DO.Group(cols...))
 }
 
-func (s sysMenuDo) Having(conds ...gen.Condition) *sysMenuDo {
+func (s sysMenuDo) Having(conds ...gen.Condition) ISysMenuDo {
 	return s.withDO(s.DO.Having(conds...))
 }
 
-func (s sysMenuDo) Limit(limit int) *sysMenuDo {
+func (s sysMenuDo) Limit(limit int) ISysMenuDo {
 	return s.withDO(s.DO.Limit(limit))
 }
 
-func (s sysMenuDo) Offset(offset int) *sysMenuDo {
+func (s sysMenuDo) Offset(offset int) ISysMenuDo {
 	return s.withDO(s.DO.Offset(offset))
 }
 
-func (s sysMenuDo) Scopes(funcs ...func(gen.Dao) gen.Dao) *sysMenuDo {
+func (s sysMenuDo) Scopes(funcs ...func(gen.Dao) gen.Dao) ISysMenuDo {
 	return s.withDO(s.DO.Scopes(funcs...))
 }
 
-func (s sysMenuDo) Unscoped() *sysMenuDo {
+func (s sysMenuDo) Unscoped() ISysMenuDo {
 	return s.withDO(s.DO.Unscoped())
 }
 
@@ -371,22 +431,22 @@ func (s sysMenuDo) FindInBatches(result *[]*model.SysMenu, batchSize int, fc fun
 	return s.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (s sysMenuDo) Attrs(attrs ...field.AssignExpr) *sysMenuDo {
+func (s sysMenuDo) Attrs(attrs ...field.AssignExpr) ISysMenuDo {
 	return s.withDO(s.DO.Attrs(attrs...))
 }
 
-func (s sysMenuDo) Assign(attrs ...field.AssignExpr) *sysMenuDo {
+func (s sysMenuDo) Assign(attrs ...field.AssignExpr) ISysMenuDo {
 	return s.withDO(s.DO.Assign(attrs...))
 }
 
-func (s sysMenuDo) Joins(fields ...field.RelationField) *sysMenuDo {
+func (s sysMenuDo) Joins(fields ...field.RelationField) ISysMenuDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Joins(_f))
 	}
 	return &s
 }
 
-func (s sysMenuDo) Preload(fields ...field.RelationField) *sysMenuDo {
+func (s sysMenuDo) Preload(fields ...field.RelationField) ISysMenuDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Preload(_f))
 	}

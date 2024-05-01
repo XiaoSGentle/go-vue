@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import dayjs from 'dayjs';
 import { fetchGetRoleList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -48,7 +49,16 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     {
       key: 'roleDesc',
       title: $t('page.manage.role.roleDesc'),
-      minWidth: 120
+      minWidth: 200
+    },
+    {
+      key: 'createTime',
+      title: $t('page.manage.updateTime'),
+      align: 'center',
+
+      render: row => {
+        return row.updateTime !== null ? <span>{dayjs(row.updateTime).format('YYYY-MM-DD HH:mm:ss')}</span> : null;
+      }
     },
     {
       key: 'status',

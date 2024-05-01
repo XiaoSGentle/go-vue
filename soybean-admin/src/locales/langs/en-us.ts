@@ -296,6 +296,10 @@ const local: App.I18n.Schema = {
       }
     },
     manage: {
+      createBy: 'Created By',
+      createTime: 'Created Time',
+      updateBy: 'Updated By',
+      updateTime: 'Updated Time',
       common: {
         status: {
           enable: 'Enable',
@@ -309,7 +313,7 @@ const local: App.I18n.Schema = {
         roleStatus: 'Role Status',
         roleDesc: 'Role Description',
         menuAuth: 'Menu Auth',
-        buttonAuth: 'Button Auth',
+        apiAuth: 'Button Auth',
         form: {
           roleName: 'Please enter role name',
           roleCode: 'Please enter role code',
@@ -317,7 +321,11 @@ const local: App.I18n.Schema = {
           roleDesc: 'Please enter role description'
         },
         addRole: 'Add Role',
-        editRole: 'Edit Role'
+        editRole: 'Edit Role',
+        apiEdit: {
+          selectAll: 'Select All',
+          selectNone: 'Select None'
+        }
       },
       user: {
         title: 'User List',
@@ -325,6 +333,7 @@ const local: App.I18n.Schema = {
         userGender: 'Gender',
         nickName: 'Nick Name',
         userPhone: 'Phone Number',
+        userLastOnLine: 'Last Online Time',
         userEmail: 'Email',
         userStatus: 'User Status',
         userRole: 'User Role',

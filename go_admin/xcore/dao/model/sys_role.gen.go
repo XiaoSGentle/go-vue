@@ -10,24 +10,24 @@ import (
 
 const TableNameSysRole = "sys_role"
 
-// SysRole 系统角色
+// SysRole mapped from table <sys_role>
 type SysRole struct {
-	ID            int32     `gorm:"column:id;primaryKey;autoIncrement:true;comment:主键" json:"id"` // 主键
-	Name          string    `gorm:"column:name;not null;comment:名称" json:"name"`                  // 名称
-	RoleCode      string    `gorm:"column:role_code;not null;comment:权限标识" json:"role_code"`      // 权限标识
-	ParentID      int32     `gorm:"column:parent_id;not null;comment:父权限ID" json:"parent_id"`     // 父权限ID
-	Description   string    `gorm:"column:description;not null;comment:描述" json:"description"`    // 描述
-	Status        int32     `gorm:"column:status;not null;comment:角色状态" json:"status"`            // 角色状态
-	MenuIds       string    `gorm:"column:menu_ids;not null" json:"menu_ids"`
-	ApisIds       string    `gorm:"column:apis_ids;not null" json:"apis_ids"`
-	Version       int32     `gorm:"column:version;not null;comment:乐观锁" json:"version"`                   // 乐观锁
-	SoftDeleteTag int32     `gorm:"column:soft_delete_tag;not null;comment:软删除标记" json:"soft_delete_tag"` // 软删除标记
-	UpdateTime    time.Time `gorm:"column:update_time;not null;comment:更新时间" json:"update_time"`          // 更新时间
-	UpdateUID     int32     `gorm:"column:update_uid;not null;comment:更新者uuid" json:"update_uid"`         // 更新者uuid
-	CreateUID     int32     `gorm:"column:create_uid;not null;comment:创建者uuid" json:"create_uid"`         // 创建者uuid
-	CreateBy      string    `gorm:"column:create_by;not null;comment:创建者" json:"create_by"`               // 创建者
-	CreateTime    time.Time `gorm:"column:create_time;not null;comment:创建时间" json:"create_time"`          // 创建时间
-	UpdateBy      string    `gorm:"column:update_by;not null;comment:更新者名称" json:"update_by"`             // 更新者名称
+	ID            int32     `gorm:"column:id;type:int(11);primaryKey;autoIncrement:true;comment:主键" json:"id"`     // 主键
+	Name          string    `gorm:"column:name;type:varchar(255);not null;comment:名称" json:"name"`                 // 名称
+	Code          string    `gorm:"column:code;type:varchar(255);not null;comment:权限标识" json:"code"`               // 权限标识
+	ParentID      int32     `gorm:"column:parent_id;type:int(11) unsigned;not null;comment:父权限ID" json:"parentId"` // 父权限ID
+	Description   string    `gorm:"column:description;type:varchar(255);not null;comment:描述" json:"description"`   // 描述
+	Status        int32     `gorm:"column:status;type:int(1);default:1;comment:角色状态" json:"status"`                // 角色状态
+	MenuIds       string    `gorm:"column:menu_ids;type:longtext;not null" json:"menuIds"`
+	ApisIds       string    `gorm:"column:apis_ids;type:longtext;not null" json:"apisIds"`
+	Version       int32     `gorm:"column:version;type:int(11) unsigned;not null;comment:乐观锁" json:"version"`                      // 乐观锁
+	SoftDeleteTag int32     `gorm:"column:soft_delete_tag;type:int(1) unsigned;not null;comment:软删除标记" json:"softDeleteTag"`       // 软删除标记
+	UpdateTime    time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"`          // 更新时间
+	UpdateUID     int32     `gorm:"column:update_uid;type:int(11);comment:更新者uuid" json:"updateUid"`                               // 更新者uuid
+	CreateUID     int32     `gorm:"column:create_uid;type:int(11);comment:创建者uuid" json:"createUid"`                               // 创建者uuid
+	CreateBy      string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                                // 创建者
+	CreateTime    time.Time `gorm:"column:create_time;type:datetime;not null;autoCreateTime:milli;comment:创建时间" json:"createTime"` // 创建时间
+	UpdateBy      string    `gorm:"column:update_by;type:varchar(255);not null;comment:更新者名称" json:"updateBy"`                     // 更新者名称
 }
 
 // TableName SysRole's table name

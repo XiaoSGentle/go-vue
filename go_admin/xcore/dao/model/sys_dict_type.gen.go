@@ -10,19 +10,19 @@ import (
 
 const TableNameSysDictType = "sys_dict_type"
 
-// SysDictType 字段类型表
+// SysDictType mapped from table <sys_dict_type>
 type SysDictType struct {
-	ID        int32     `gorm:"column:id;primaryKey;comment:主键" json:"id"`          // 主键
-	DictName  string    `gorm:"column:dict_name;comment:字典名称" json:"dict_name"`     // 字典名称
-	DictType  string    `gorm:"column:dict_type;comment:字典类型" json:"dict_type"`     // 字典类型
-	Status    int32     `gorm:"column:status;comment:启用状态" json:"status"`           // 启用状态
-	Version   int32     `gorm:"column:version;comment:乐观锁" json:"version"`          // 乐观锁
-	CreateUID int32     `gorm:"column:create_uid;comment:创建者uid" json:"create_uid"` // 创建者uid
-	CreateBy  string    `gorm:"column:create_by;comment:创建者" json:"create_by"`      // 创建者
-	CreateAt  time.Time `gorm:"column:create_at;comment:创建时间" json:"create_at"`     // 创建时间
-	UpdateAt  time.Time `gorm:"column:update_at;comment:更新时间" json:"update_at"`     // 更新时间
-	UpdateBy  string    `gorm:"column:update_by;comment:更新者" json:"update_by"`      // 更新者
-	UpdateUID int32     `gorm:"column:update_uid;comment:更新者uid" json:"update_uid"` // 更新者uid
+	ID         int32     `gorm:"column:id;type:int(11);primaryKey;comment:主键" json:"id"`                               // 主键
+	DictName   string    `gorm:"column:dict_name;type:varchar(255);comment:字典名称" json:"dictName"`                      // 字典名称
+	DictType   string    `gorm:"column:dict_type;type:varchar(255);comment:字典类型" json:"dictType"`                      // 字典类型
+	Status     int32     `gorm:"column:status;type:int(1);comment:启用状态" json:"status"`                                 // 启用状态
+	Version    int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"`                               // 乐观锁
+	CreateUID  int32     `gorm:"column:create_uid;type:int(11);comment:创建者uid" json:"createUid"`                       // 创建者uid
+	CreateBy   string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                       // 创建者
+	CreateTime time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"` // 创建时间
+	UpdateTime time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"` // 更新时间
+	UpdateBy   string    `gorm:"column:update_by;type:varchar(255);comment:更新者" json:"updateBy"`                       // 更新者
+	UpdateUID  int32     `gorm:"column:update_uid;type:int(11);comment:更新者uid" json:"updateUid"`                       // 更新者uid
 }
 
 // TableName SysDictType's table name

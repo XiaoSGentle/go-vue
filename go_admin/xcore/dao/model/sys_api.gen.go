@@ -12,15 +12,15 @@ const TableNameSysAPI = "sys_api"
 
 // SysAPI mapped from table <sys_api>
 type SysAPI struct {
-	APICode       string    `gorm:"column:api_code;comment:标记GET::/api" json:"api_code"`                  // 标记GET::/api
-	Version       int32     `gorm:"column:version;not null;comment:乐观锁" json:"version"`                   // 乐观锁
-	SoftDeleteTag int32     `gorm:"column:soft_delete_tag;not null;comment:软删除标记" json:"soft_delete_tag"` // 软删除标记
-	UpdateTime    time.Time `gorm:"column:update_time;not null;comment:更新时间" json:"update_time"`          // 更新时间
-	UpdateUID     int32     `gorm:"column:update_uid;not null;comment:更新者uuid" json:"update_uid"`         // 更新者uuid
-	CreateUID     int32     `gorm:"column:create_uid;not null;comment:创建者uuid" json:"create_uid"`         // 创建者uuid
-	CreateBy      string    `gorm:"column:create_by;not null;comment:创建者" json:"create_by"`               // 创建者
-	CreateTime    time.Time `gorm:"column:create_time;not null;comment:创建时间" json:"create_time"`          // 创建时间
-	UpdateBy      string    `gorm:"column:update_by;not null;comment:更新者名称" json:"update_by"`             // 更新者名称
+	APICode       string    `gorm:"column:api_code;type:varchar(255);not null;comment:标记GET::/api" json:"apiCode"`            // 标记GET::/api
+	Version       int32     `gorm:"column:version;type:int(11) unsigned;comment:乐观锁" json:"version"`                          // 乐观锁
+	SoftDeleteTag int32     `gorm:"column:soft_delete_tag;type:int(1) unsigned;default:1;comment:软删除标记" json:"softDeleteTag"` // 软删除标记
+	UpdateTime    time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"`     // 更新时间
+	UpdateUID     int32     `gorm:"column:update_uid;type:int(11);comment:更新者uuid" json:"updateUid"`                          // 更新者uuid
+	CreateUID     int32     `gorm:"column:create_uid;type:int(11);comment:创建者uuid" json:"createUid"`                          // 创建者uuid
+	CreateBy      string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                           // 创建者
+	CreateTime    time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"`     // 创建时间
+	UpdateBy      string    `gorm:"column:update_by;type:varchar(255);comment:更新者名称" json:"updateBy"`                         // 更新者名称
 }
 
 // TableName SysAPI's table name

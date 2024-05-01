@@ -32,3 +32,21 @@ type UserRouterMeta struct {
 	FixedInTab   int32  `json:"fixedInTab"`
 	Query        string `json:"query"`
 }
+
+type RouterTreeSimpleResp struct {
+	ID       string                 `json:"id"`
+	Label    string                 `json:"label"`
+	PID      string                 `json:"pId"`
+	Children []RouterTreeSimpleResp `json:"children"`
+}
+
+type AllApisResp struct {
+	Code string `json:"code"`
+	Name string `json:"name"`
+}
+
+type AllRolesResp struct {
+	Id       string `json:"id"`
+	RoleName string `json:"roleName"`
+	RoleCode string `json:"roleCode"`
+}

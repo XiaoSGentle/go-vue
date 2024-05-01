@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import dayjs from 'dayjs';
 import { fetchGetUserList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -79,6 +80,15 @@ const { columns, columnChecks, data, getData, loading, mobilePagination, searchP
       title: $t('page.manage.user.userEmail'),
       align: 'center',
       minWidth: 200
+    },
+    {
+      key: 'lastOnLine',
+      title: $t('page.manage.user.userLastOnLine'),
+      align: 'center',
+      minWidth: 200,
+      render: row => {
+        return row.lastOnLine ? dayjs(row.lastOnLine).format('YYYY-MM-DD HH:mm:ss') : null;
+      }
     },
     {
       key: 'status',

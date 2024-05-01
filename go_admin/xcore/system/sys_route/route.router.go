@@ -4,11 +4,23 @@ import (
 	"github.com/gin-gonic/gin"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
+	xtoken "xcore/common/xtoken/jwt"
 	"xcore/core/xcore"
+	"xcore/core/xvariable"
 )
 
 var RouteGroup = xcore.Group("/route", newRouteHandler, regRoute, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize)
 var NoAuthRouteGroup = xcore.Group("/route", newRouteHandler, regNoAuthRoute, xmiddlewares.LogMiddleHandler)
+var SysMangerRoute = xcore.Group("/systemManage", newRouteHandler, regSysMangerRoute, xmiddlewares.LogMiddleHandler)
+
+func regSysMangerRoute(rg *gin.RouterGroup, group *xcore.GroupBase) error {
+	return group.Reg(func(handle *routeHandler) {
+		rg.GET("/getAllPages", handle.GetAllPages)
+		rg.GET("/getAllApis", handle.GetAllApis)
+		rg.GET("/getMenuTree", handle.GetMenuTree)
+		rg.GET("/getAllRoles", handle.GetAllRoles)
+	})
+}
 
 func regRoute(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 	return group.Reg(func(handle *routeHandler) {
@@ -46,6 +58,49 @@ func (a routeHandler) GetConstantRoutes(c *gin.Context) {
 	xresponse.SuccessCtx(c, routers)
 
 }
+func (a routeHandler) GetAllPages(c *gin.Context) {
+	jwtTokenSignKey := xvariable.GlobalYmlConfig.GetString("Token.JwtTokenSignKey")
+	customClaim, err := xtoken.GetClaimsByRequest(c, jwtTokenSignKey)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	pages, err := a.authService.GetAllPages(c, customClaim.Roles)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	xresponse.SuccessCtx(c, pages)
+}
+
 func (a routeHandler) IsRouteExist(c *gin.Context) {
 
+}
+
+func (a routeHandler) GetMenuTree(c *gin.Context) {
+	pages, err := a.authService.GetMenuTreeSimple(c)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	xresponse.SuccessCtx(c, pages)
+}
+
+func (a routeHandler) GetAllApis(c *gin.Context) {
+	apis, err := a.authService.GetALLApis(c)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	xresponse.SuccessCtx(c, apis)
+	return
+}
+
+func (a routeHandler) GetAllRoles(c *gin.Context) {
+	apis, err := a.authService.GetAllRoles(c)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	xresponse.SuccessCtx(c, apis)
 }

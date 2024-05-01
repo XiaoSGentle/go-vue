@@ -81,6 +81,7 @@ export const request = createFlatRequest<App.Service.Response, InstanceState>(
       // when the backend response code is in `expiredTokenCodes`, it means the token is expired, and refresh token
       // the api `refreshToken` can not return error code in `expiredTokenCodes`, otherwise it will be a dead loop, should return `logoutCodes` or `modalLogoutCodes`
       const expiredTokenCodes = import.meta.env.VITE_SERVICE_EXPIRED_TOKEN_CODES?.split(',') || [];
+
       if (expiredTokenCodes.includes(response.data.code.toString()) && !request.state.isRefreshingToken) {
         request.state.isRefreshingToken = true;
 

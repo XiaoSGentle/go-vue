@@ -101,12 +101,13 @@ watch(visible, val => {
 <template>
   <NModal v-model:show="visible" :title="title" preset="card" class="w-480px">
     <div class="flex-y-center gap-16px pb-12px">
-      <div>{{ $t('page.manage.menu.home') }}</div>
-      <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-160px" @update:value="updateHome" />
+      <div class="w-40px">{{ $t('page.manage.menu.home') }}</div>
+      <NSelect :value="home" :options="pageSelectOptions" size="small" class="w-full" @update:value="updateHome" />
     </div>
     <NTree
       v-model:checked-keys="checks"
       :data="tree"
+      :render-label="row => $t(row.option.label)"
       key-field="id"
       checkable
       expand-on-click
@@ -115,7 +116,7 @@ watch(visible, val => {
       class="h-280px"
     />
     <template #footer>
-      <NSpace justify="end">
+      <NSpace justify="center">
         <NButton size="small" class="mt-16px" @click="closeModal">
           {{ $t('common.cancel') }}
         </NButton>

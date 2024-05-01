@@ -37,7 +37,7 @@ func newSysOauth2Bind(db *gorm.DB, opts ...gen.DOOption) sysOauth2Bind {
 }
 
 type sysOauth2Bind struct {
-	sysOauth2BindDo sysOauth2BindDo
+	sysOauth2BindDo
 
 	ALL          field.Asterisk
 	UserUID      field.String // 本系统用户的ID
@@ -68,18 +68,6 @@ func (s *sysOauth2Bind) updateTableName(table string) *sysOauth2Bind {
 	return s
 }
 
-func (s *sysOauth2Bind) WithContext(ctx context.Context) *sysOauth2BindDo {
-	return s.sysOauth2BindDo.WithContext(ctx)
-}
-
-func (s sysOauth2Bind) TableName() string { return s.sysOauth2BindDo.TableName() }
-
-func (s sysOauth2Bind) Alias() string { return s.sysOauth2BindDo.Alias() }
-
-func (s sysOauth2Bind) Columns(cols ...field.Expr) gen.Columns {
-	return s.sysOauth2BindDo.Columns(cols...)
-}
-
 func (s *sysOauth2Bind) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
 	if !ok || _f == nil {
@@ -108,95 +96,156 @@ func (s sysOauth2Bind) replaceDB(db *gorm.DB) sysOauth2Bind {
 
 type sysOauth2BindDo struct{ gen.DO }
 
-func (s sysOauth2BindDo) Debug() *sysOauth2BindDo {
+type ISysOauth2BindDo interface {
+	gen.SubQuery
+	Debug() ISysOauth2BindDo
+	WithContext(ctx context.Context) ISysOauth2BindDo
+	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
+	ReplaceDB(db *gorm.DB)
+	ReadDB() ISysOauth2BindDo
+	WriteDB() ISysOauth2BindDo
+	As(alias string) gen.Dao
+	Session(config *gorm.Session) ISysOauth2BindDo
+	Columns(cols ...field.Expr) gen.Columns
+	Clauses(conds ...clause.Expression) ISysOauth2BindDo
+	Not(conds ...gen.Condition) ISysOauth2BindDo
+	Or(conds ...gen.Condition) ISysOauth2BindDo
+	Select(conds ...field.Expr) ISysOauth2BindDo
+	Where(conds ...gen.Condition) ISysOauth2BindDo
+	Order(conds ...field.Expr) ISysOauth2BindDo
+	Distinct(cols ...field.Expr) ISysOauth2BindDo
+	Omit(cols ...field.Expr) ISysOauth2BindDo
+	Join(table schema.Tabler, on ...field.Expr) ISysOauth2BindDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) ISysOauth2BindDo
+	RightJoin(table schema.Tabler, on ...field.Expr) ISysOauth2BindDo
+	Group(cols ...field.Expr) ISysOauth2BindDo
+	Having(conds ...gen.Condition) ISysOauth2BindDo
+	Limit(limit int) ISysOauth2BindDo
+	Offset(offset int) ISysOauth2BindDo
+	Count() (count int64, err error)
+	Scopes(funcs ...func(gen.Dao) gen.Dao) ISysOauth2BindDo
+	Unscoped() ISysOauth2BindDo
+	Create(values ...*model.SysOauth2Bind) error
+	CreateInBatches(values []*model.SysOauth2Bind, batchSize int) error
+	Save(values ...*model.SysOauth2Bind) error
+	First() (*model.SysOauth2Bind, error)
+	Take() (*model.SysOauth2Bind, error)
+	Last() (*model.SysOauth2Bind, error)
+	Find() ([]*model.SysOauth2Bind, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.SysOauth2Bind, err error)
+	FindInBatches(result *[]*model.SysOauth2Bind, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Pluck(column field.Expr, dest interface{}) error
+	Delete(...*model.SysOauth2Bind) (info gen.ResultInfo, err error)
+	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
+	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
+	Updates(value interface{}) (info gen.ResultInfo, err error)
+	UpdateColumn(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
+	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
+	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
+	UpdateFrom(q gen.SubQuery) gen.Dao
+	Attrs(attrs ...field.AssignExpr) ISysOauth2BindDo
+	Assign(attrs ...field.AssignExpr) ISysOauth2BindDo
+	Joins(fields ...field.RelationField) ISysOauth2BindDo
+	Preload(fields ...field.RelationField) ISysOauth2BindDo
+	FirstOrInit() (*model.SysOauth2Bind, error)
+	FirstOrCreate() (*model.SysOauth2Bind, error)
+	FindByPage(offset int, limit int) (result []*model.SysOauth2Bind, count int64, err error)
+	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
+	Scan(result interface{}) (err error)
+	Returning(value interface{}, columns ...string) ISysOauth2BindDo
+	UnderlyingDB() *gorm.DB
+	schema.Tabler
+}
+
+func (s sysOauth2BindDo) Debug() ISysOauth2BindDo {
 	return s.withDO(s.DO.Debug())
 }
 
-func (s sysOauth2BindDo) WithContext(ctx context.Context) *sysOauth2BindDo {
+func (s sysOauth2BindDo) WithContext(ctx context.Context) ISysOauth2BindDo {
 	return s.withDO(s.DO.WithContext(ctx))
 }
 
-func (s sysOauth2BindDo) ReadDB() *sysOauth2BindDo {
+func (s sysOauth2BindDo) ReadDB() ISysOauth2BindDo {
 	return s.Clauses(dbresolver.Read)
 }
 
-func (s sysOauth2BindDo) WriteDB() *sysOauth2BindDo {
+func (s sysOauth2BindDo) WriteDB() ISysOauth2BindDo {
 	return s.Clauses(dbresolver.Write)
 }
 
-func (s sysOauth2BindDo) Session(config *gorm.Session) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Session(config *gorm.Session) ISysOauth2BindDo {
 	return s.withDO(s.DO.Session(config))
 }
 
-func (s sysOauth2BindDo) Clauses(conds ...clause.Expression) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Clauses(conds ...clause.Expression) ISysOauth2BindDo {
 	return s.withDO(s.DO.Clauses(conds...))
 }
 
-func (s sysOauth2BindDo) Returning(value interface{}, columns ...string) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Returning(value interface{}, columns ...string) ISysOauth2BindDo {
 	return s.withDO(s.DO.Returning(value, columns...))
 }
 
-func (s sysOauth2BindDo) Not(conds ...gen.Condition) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Not(conds ...gen.Condition) ISysOauth2BindDo {
 	return s.withDO(s.DO.Not(conds...))
 }
 
-func (s sysOauth2BindDo) Or(conds ...gen.Condition) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Or(conds ...gen.Condition) ISysOauth2BindDo {
 	return s.withDO(s.DO.Or(conds...))
 }
 
-func (s sysOauth2BindDo) Select(conds ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Select(conds ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Select(conds...))
 }
 
-func (s sysOauth2BindDo) Where(conds ...gen.Condition) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Where(conds ...gen.Condition) ISysOauth2BindDo {
 	return s.withDO(s.DO.Where(conds...))
 }
 
-func (s sysOauth2BindDo) Order(conds ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Order(conds ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Order(conds...))
 }
 
-func (s sysOauth2BindDo) Distinct(cols ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Distinct(cols ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Distinct(cols...))
 }
 
-func (s sysOauth2BindDo) Omit(cols ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Omit(cols ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Omit(cols...))
 }
 
-func (s sysOauth2BindDo) Join(table schema.Tabler, on ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Join(table schema.Tabler, on ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Join(table, on...))
 }
 
-func (s sysOauth2BindDo) LeftJoin(table schema.Tabler, on ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) LeftJoin(table schema.Tabler, on ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.LeftJoin(table, on...))
 }
 
-func (s sysOauth2BindDo) RightJoin(table schema.Tabler, on ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) RightJoin(table schema.Tabler, on ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.RightJoin(table, on...))
 }
 
-func (s sysOauth2BindDo) Group(cols ...field.Expr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Group(cols ...field.Expr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Group(cols...))
 }
 
-func (s sysOauth2BindDo) Having(conds ...gen.Condition) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Having(conds ...gen.Condition) ISysOauth2BindDo {
 	return s.withDO(s.DO.Having(conds...))
 }
 
-func (s sysOauth2BindDo) Limit(limit int) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Limit(limit int) ISysOauth2BindDo {
 	return s.withDO(s.DO.Limit(limit))
 }
 
-func (s sysOauth2BindDo) Offset(offset int) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Offset(offset int) ISysOauth2BindDo {
 	return s.withDO(s.DO.Offset(offset))
 }
 
-func (s sysOauth2BindDo) Scopes(funcs ...func(gen.Dao) gen.Dao) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Scopes(funcs ...func(gen.Dao) gen.Dao) ISysOauth2BindDo {
 	return s.withDO(s.DO.Scopes(funcs...))
 }
 
-func (s sysOauth2BindDo) Unscoped() *sysOauth2BindDo {
+func (s sysOauth2BindDo) Unscoped() ISysOauth2BindDo {
 	return s.withDO(s.DO.Unscoped())
 }
 
@@ -262,22 +311,22 @@ func (s sysOauth2BindDo) FindInBatches(result *[]*model.SysOauth2Bind, batchSize
 	return s.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (s sysOauth2BindDo) Attrs(attrs ...field.AssignExpr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Attrs(attrs ...field.AssignExpr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Attrs(attrs...))
 }
 
-func (s sysOauth2BindDo) Assign(attrs ...field.AssignExpr) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Assign(attrs ...field.AssignExpr) ISysOauth2BindDo {
 	return s.withDO(s.DO.Assign(attrs...))
 }
 
-func (s sysOauth2BindDo) Joins(fields ...field.RelationField) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Joins(fields ...field.RelationField) ISysOauth2BindDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Joins(_f))
 	}
 	return &s
 }
 
-func (s sysOauth2BindDo) Preload(fields ...field.RelationField) *sysOauth2BindDo {
+func (s sysOauth2BindDo) Preload(fields ...field.RelationField) ISysOauth2BindDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Preload(_f))
 	}

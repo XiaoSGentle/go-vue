@@ -32,7 +32,7 @@ func GetMysqlConnection() *gorm.DB {
 
 	gormDb, err := gorm.Open(mysqlDialectic, &gorm.Config{})
 	if err != nil {
-		xvariable.Logger.Error(context.Background(), "gorm 初始化出错:"+err.Error())
+		xvariable.Logger.ErrorContext(context.Background(), "gorm 初始化出错:"+err.Error())
 		// >
 		panic(err.Error())
 	}
@@ -42,7 +42,7 @@ func GetMysqlConnection() *gorm.DB {
 	}
 	err = gormDb.Use(dbresolver.Register(resolverConf).SetConnMaxIdleTime(time.Second * 30).SetConnMaxLifetime(SetConnMaxLifetime * time.Second).SetMaxIdleConns(SetMaxIdleConn).SetMaxOpenConns(SetMaxOpenConn))
 	if err != nil {
-		xvariable.Logger.Error(context.Background(), "gorm dbResolver 出错:"+err.Error())
+		xvariable.Logger.ErrorContext(context.Background(), "gorm dbResolver 出错:"+err.Error())
 	}
 	return gormDb
 }

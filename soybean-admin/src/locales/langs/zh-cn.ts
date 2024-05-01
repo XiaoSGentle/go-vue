@@ -189,7 +189,7 @@ const local: App.I18n.Schema = {
         back: '返回',
         validateSuccess: '验证成功',
         loginSuccess: '登录成功',
-        welcomeBack: '欢迎回来，{userName} ！'
+        welcomeBack: '欢迎回来，{userName} !'
       },
       pwdLogin: {
         title: '密码登录',
@@ -255,7 +255,7 @@ const local: App.I18n.Schema = {
         title: '项目动态',
         moreNews: '更多动态',
         desc1: 'Soybean 在2021年5月28日创建了开源项目 soybean-admin!',
-        desc2: 'Yanbowe 向 soybean-admin 提交了一个bug，多标签栏不会自适应。',
+        desc2: 'Soybean 向 soybean-admin 提交了一个bug，多标签栏不会自适应。',
         desc3: 'Soybean 准备为 soybean-admin 的发布做充分的准备工作!',
         desc4: 'Soybean 正在忙于为soybean-admin写项目说明文档！',
         desc5: 'Soybean 刚才把工作台页面随便写了一些，凑合能看了！'
@@ -296,6 +296,10 @@ const local: App.I18n.Schema = {
       }
     },
     manage: {
+      createBy: '创建人',
+      createTime: '创建时间',
+      updateBy: '更新人',
+      updateTime: '更新时间',
       common: {
         status: {
           enable: '启用',
@@ -309,7 +313,7 @@ const local: App.I18n.Schema = {
         roleStatus: '角色状态',
         roleDesc: '角色描述',
         menuAuth: '菜单权限',
-        buttonAuth: '按钮权限',
+        apiAuth: '接口权限',
         form: {
           roleName: '请输入角色名称',
           roleCode: '请输入角色编码',
@@ -317,7 +321,11 @@ const local: App.I18n.Schema = {
           roleDesc: '请输入角色描述'
         },
         addRole: '新增角色',
-        editRole: '编辑角色'
+        editRole: '编辑角色',
+        apiEdit: {
+          selectAll: '全选',
+          selectNone: '取消全选'
+        }
       },
       user: {
         title: '用户列表',
@@ -326,6 +334,7 @@ const local: App.I18n.Schema = {
         nickName: '昵称',
         userPhone: '手机号',
         userEmail: '邮箱',
+        userLastOnLine: '最后登录时间',
         userStatus: '用户状态',
         userRole: '用户角色',
         form: {

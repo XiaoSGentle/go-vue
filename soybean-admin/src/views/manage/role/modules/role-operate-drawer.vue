@@ -5,7 +5,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
 import MenuAuthModal from './menu-auth-modal.vue';
-import ButtonAuthModal from './button-auth-modal.vue';
+import ApiAuthModal from './api-auth-modal.vue';
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -33,7 +33,7 @@ const visible = defineModel<boolean>('visible', {
 const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
 const { bool: menuAuthVisible, setTrue: openMenuAuthModal } = useBoolean();
-const { bool: buttonAuthVisible, setTrue: openButtonAuthModal } = useBoolean();
+const { bool: apiAuthVisible, setTrue: apiButtonAuthModal } = useBoolean();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -121,11 +121,11 @@ watch(visible, () => {
       <NSpace v-if="isEdit">
         <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
         <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
-        <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
-        <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
+        <NButton @click="apiButtonAuthModal">{{ $t('page.manage.role.apiAuth') }}</NButton>
+        <ApiAuthModal v-model:visible="apiAuthVisible" :role-code="roleId.toString()" />
       </NSpace>
       <template #footer>
-        <NSpace :size="16">
+        <NSpace :size="16" align="center">
           <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
           <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
         </NSpace>

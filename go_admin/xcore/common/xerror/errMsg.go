@@ -16,6 +16,9 @@ func init() {
 	message[DB_ERROR] = "数据库繁忙,请稍后再试"
 	message[DB_UPDATE_AFFECTED_ZERO_ERROR] = "更新数据影响行数为0"
 
+	message[CAPTCHA_KEY_NOT_FOUND_ERROR] = "请完成验证码"
+	message[CAPTCHA_VERIFY_ERROR] = "验证码验证失败"
+
 }
 
 func MapErrMsg(errcode uint32) string {

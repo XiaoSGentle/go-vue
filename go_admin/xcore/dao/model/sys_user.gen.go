@@ -10,29 +10,30 @@ import (
 
 const TableNameSysUser = "sys_user"
 
-// SysUser 系统用户
+// SysUser mapped from table <sys_user>
 type SysUser struct {
-	ID             int32     `gorm:"column:id;primaryKey;comment:主键" json:"id"`                               // 主键
-	Nickname       string    `gorm:"column:nickname;not null;comment:昵称" json:"nickname"`                     // 昵称
-	Username       string    `gorm:"column:username;not null;comment:用户名" json:"username"`                    // 用户名
-	Password       string    `gorm:"column:password;not null;comment:密码" json:"password"`                     // 密码
-	LoginAttempts  string    `gorm:"column:login_attempts;not null;comment:尝试登录次数" json:"login_attempts"`     // 尝试登录次数
-	Phone          string    `gorm:"column:phone;not null;comment:手机" json:"phone"`                           // 手机
-	Avatar         string    `gorm:"column:avatar;not null;comment:头像" json:"avatar"`                         // 头像
-	Email          string    `gorm:"column:email;not null;comment:邮箱" json:"email"`                           // 邮箱
-	NeedChangePwd  string    `gorm:"column:need_change_pwd;not null;comment:是否需要修改密码" json:"need_change_pwd"` // 是否需要修改密码
-	Gender         string    `gorm:"column:gender;not null;default:1;comment:性别;1男，0女" json:"gender"`         // 性别;1男，0女
-	LastOnlineTime time.Time `gorm:"column:last_online_time;not null;comment:上次登录时间" json:"last_online_time"` // 上次登录时间
-	LastCpwdTime   time.Time `gorm:"column:last_cpwd_time;not null;comment:上次改密码时间" json:"last_cpwd_time"`    // 上次改密码时间
-	UserStatus     string    `gorm:"column:user_status;not null;comment:用户状态" json:"user_status"`             // 用户状态
-	Version        int32     `gorm:"column:version;not null;comment:乐观锁" json:"version"`                      // 乐观锁
-	SoftDeleteTag  int32     `gorm:"column:soft_delete_tag;not null;comment:软删除标记" json:"soft_delete_tag"`    // 软删除标记
-	UpdateTime     time.Time `gorm:"column:update_time;not null;comment:更新时间" json:"update_time"`             // 更新时间
-	UpdateUID      int32     `gorm:"column:update_uid;not null;comment:更新者uuid" json:"update_uid"`            // 更新者uuid
-	CreateUID      int32     `gorm:"column:create_uid;not null;comment:创建者uuid" json:"create_uid"`            // 创建者uuid
-	CreateBy       string    `gorm:"column:create_by;not null;comment:创建者" json:"create_by"`                  // 创建者
-	CreateTime     time.Time `gorm:"column:create_time;not null;comment:创建时间" json:"create_time"`             // 创建时间
-	UpdateBy       string    `gorm:"column:update_by;not null;comment:更新者名称" json:"update_by"`                // 更新者名称
+	ID             int32     `gorm:"column:id;type:int(11);primaryKey;comment:主键" json:"id"`                                        // 主键
+	Nickname       string    `gorm:"column:nickname;type:varchar(32);not null;comment:昵称" json:"nickname"`                          // 昵称
+	Username       string    `gorm:"column:username;type:varchar(255);not null;comment:用户名" json:"username"`                        // 用户名
+	Roles          string    `gorm:"column:roles;type:varchar(800);comment:角色" json:"roles"`                                        // 角色
+	Password       string    `gorm:"column:password;type:varchar(255);not null;comment:密码" json:"password"`                         // 密码
+	LoginAttempts  string    `gorm:"column:login_attempts;type:varchar(255);not null;comment:尝试登录次数" json:"loginAttempts"`          // 尝试登录次数
+	Phone          string    `gorm:"column:phone;type:varchar(32);not null;comment:手机" json:"phone"`                                // 手机
+	Avatar         string    `gorm:"column:avatar;type:varchar(255);not null;comment:头像" json:"avatar"`                             // 头像
+	Email          string    `gorm:"column:email;type:varchar(255);not null;comment:邮箱" json:"email"`                               // 邮箱
+	NeedChangePwd  int32     `gorm:"column:need_change_pwd;type:int(11);not null;comment:是否需要修改密码" json:"needChangePwd"`            // 是否需要修改密码
+	Gender         string    `gorm:"column:gender;type:varchar(1);not null;default:1;comment:性别;1男，0女" json:"gender"`               // 性别;1男，0女
+	LastOnlineTime time.Time `gorm:"column:last_online_time;type:datetime;comment:上次登录时间" json:"lastOnlineTime"`                    // 上次登录时间
+	LastCpwdTime   time.Time `gorm:"column:last_cpwd_time;type:datetime;comment:上次改密码时间" json:"lastCpwdTime"`                       // 上次改密码时间
+	UserStatus     string    `gorm:"column:user_status;type:varchar(255);not null;comment:用户状态" json:"userStatus"`                  // 用户状态
+	Version        int32     `gorm:"column:version;type:int(11) unsigned;not null;comment:乐观锁" json:"version"`                      // 乐观锁
+	SoftDeleteTag  int32     `gorm:"column:soft_delete_tag;type:int(1) unsigned;not null;comment:软删除标记" json:"softDeleteTag"`       // 软删除标记
+	UpdateTime     time.Time `gorm:"column:update_time;type:datetime;not null;autoUpdateTime:milli;comment:更新时间" json:"updateTime"` // 更新时间
+	UpdateUID      int32     `gorm:"column:update_uid;type:int(11);not null;comment:更新者uuid" json:"updateUid"`                      // 更新者uuid
+	CreateUID      int32     `gorm:"column:create_uid;type:int(11);not null;comment:创建者uuid" json:"createUid"`                      // 创建者uuid
+	CreateBy       string    `gorm:"column:create_by;type:varchar(255);not null;comment:创建者" json:"createBy"`                       // 创建者
+	CreateTime     time.Time `gorm:"column:create_time;type:datetime;not null;autoCreateTime:milli;comment:创建时间" json:"createTime"` // 创建时间
+	UpdateBy       string    `gorm:"column:update_by;type:varchar(255);not null;comment:更新者名称" json:"updateBy"`                     // 更新者名称
 }
 
 // TableName SysUser's table name

@@ -7,7 +7,7 @@ Gorm: # 只针对 gorm  操作数据库有效
     Port: 3306
     User: "xiaos_core_new"
     Pass: "5SJPJXbMFbyJEKp5"  # 修改为你自己的数据库密码
-    Charset: "utf8"
+    Charset: "utf8mb4"
     SetMaxIdleConn: 10
     SetMaxOpenConn: 128
     SetConnMaxLifetime: 60    # 连接不活动时的最大生存时间(秒)

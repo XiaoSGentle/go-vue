@@ -127,6 +127,10 @@ declare namespace Api {
       userGender: UserGender | null;
       /** user nick name */
       nickName: string;
+      /* user lastOnLine */
+      lastOnLine: string;
+      /* user lastCpWd */
+      lastCpWd: string;
       /** user phone */
       userPhone: string;
       /** user email */
@@ -229,6 +233,11 @@ declare namespace Api {
       label: string;
       pId: number;
       children?: MenuTree[];
+    };
+
+    type BackApi = {
+      code: string;
+      name: string;
     };
   }
 }

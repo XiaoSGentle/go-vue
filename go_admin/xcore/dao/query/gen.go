@@ -15,6 +15,34 @@ import (
 	"gorm.io/plugin/dbresolver"
 )
 
+var (
+	Q                 = new(Query)
+	SysAPI            *sysAPI
+	SysDepartment     *sysDepartment
+	SysDictDatum      *sysDictDatum
+	SysDictType       *sysDictType
+	SysGenTable       *sysGenTable
+	SysGenTableColumn *sysGenTableColumn
+	SysMenu           *sysMenu
+	SysOauth2Bind     *sysOauth2Bind
+	SysRole           *sysRole
+	SysUser           *sysUser
+)
+
+func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
+	*Q = *Use(db, opts...)
+	SysAPI = &Q.SysAPI
+	SysDepartment = &Q.SysDepartment
+	SysDictDatum = &Q.SysDictDatum
+	SysDictType = &Q.SysDictType
+	SysGenTable = &Q.SysGenTable
+	SysGenTableColumn = &Q.SysGenTableColumn
+	SysMenu = &Q.SysMenu
+	SysOauth2Bind = &Q.SysOauth2Bind
+	SysRole = &Q.SysRole
+	SysUser = &Q.SysUser
+}
+
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                db,
@@ -89,16 +117,16 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 }
 
 type queryCtx struct {
-	SysAPI            *sysAPIDo
-	SysDepartment     *sysDepartmentDo
-	SysDictDatum      *sysDictDatumDo
-	SysDictType       *sysDictTypeDo
-	SysGenTable       *sysGenTableDo
-	SysGenTableColumn *sysGenTableColumnDo
-	SysMenu           *sysMenuDo
-	SysOauth2Bind     *sysOauth2BindDo
-	SysRole           *sysRoleDo
-	SysUser           *sysUserDo
+	SysAPI            ISysAPIDo
+	SysDepartment     ISysDepartmentDo
+	SysDictDatum      ISysDictDatumDo
+	SysDictType       ISysDictTypeDo
+	SysGenTable       ISysGenTableDo
+	SysGenTableColumn ISysGenTableColumnDo
+	SysMenu           ISysMenuDo
+	SysOauth2Bind     ISysOauth2BindDo
+	SysRole           ISysRoleDo
+	SysUser           ISysUserDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {

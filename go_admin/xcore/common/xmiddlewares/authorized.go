@@ -12,7 +12,7 @@ import (
 
 func Authorize(c *gin.Context) {
 	jwtTokenSignKey := xvariable.GlobalYmlConfig.GetString("Token.JwtTokenSignKey")
-	//jwtTokenCreatedExpireAt := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenCreatedExpireAt")
+
 	jwtTokenRefreshAllowSec := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenRefreshAllowSec")
 	claims, err := xtoken.GetClaimsByRequest(c, jwtTokenSignKey)
 	if err != nil {
@@ -22,7 +22,7 @@ func Authorize(c *gin.Context) {
 				c.Abort()
 			}
 		} else {
-			xresponse.ErrorCtx(c, xerror.NewErrCode(xerror.TOKEN_EXPIRE_ERROR))
+			xresponse.ErrorCtx(c, xerror.NewErrCode(xerror.TOKEN_ERROR))
 			c.Abort()
 		}
 	}

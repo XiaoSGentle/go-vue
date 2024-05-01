@@ -14,14 +14,6 @@ func SuccessCtx(c *gin.Context, v any) {
 	c.Abort()
 }
 
-func ErrorBindParam(c *gin.Context, err error) {
-	errCode := xerror.SERVER_COMMON_ERROR
-	errMsg := "服务器开小差啦，稍后再来试一试"
-	xvariable.Logger.Error(c, "参数绑定失败"+err.Error())
-	ReturnJson(c, http.StatusBadRequest, createError(errCode, errMsg))
-	c.Abort()
-}
-
 func ErrorCtx(c *gin.Context, err error) {
 	errCode := xerror.SERVER_COMMON_ERROR
 	errMsg := "服务器开小差啦，稍后再来试一试"
@@ -35,10 +27,11 @@ func ErrorCtx(c *gin.Context, err error) {
 		// 不是的话就是系统错误
 		// todo: 这里有条件再进行优化
 		// 写入日志
-		xvariable.Logger.Error(c, "响应失败错错误信息"+err.Error())
+		xvariable.Logger.ErrorContext(c, "响应失败错错误信息"+err.Error())
 	}
-	ReturnJson(c, http.StatusBadRequest, createError(errCode, errMsg))
+	ReturnJson(c, http.StatusOK, createError(errCode, errMsg))
 	c.Abort()
+	return
 }
 
 func createSuccess(v any) *ResponseSuccess {

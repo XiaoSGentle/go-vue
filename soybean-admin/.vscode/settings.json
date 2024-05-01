@@ -15,5 +15,9 @@
   "prettier.enable": false,
   "unocss.root": ["./"],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "vue.server.hybridMode": true
+  "vue.server.hybridMode": true,
+  "cSpell.words": [
+    "Popconfirm",
+    "typecheck"
+  ]
 }

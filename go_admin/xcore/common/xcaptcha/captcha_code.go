@@ -6,9 +6,9 @@ import (
 	"encoding/gob"
 	"encoding/json"
 	"github.com/allegro/bigcache/v3"
-	"net/http"
-
+	"github.com/gin-gonic/gin"
 	"time"
+	"xcore/common/xerror"
 
 	"github.com/eko/gocache/lib/v4/cache"
 	bigcacheStore "github.com/eko/gocache/store/bigcache/v4"
@@ -17,8 +17,6 @@ import (
 	"os"
 	"sort"
 )
-
-var CaptchaManger *Captcha
 
 type CaptchaFontDots struct {
 	X     int `json:"x"`
@@ -43,7 +41,7 @@ type CaptchaCodeResp struct {
 	CaptchaKey  string `json:"captcha_key"`
 }
 
-func InitCaptcha() {
+func InitCaptcha() *Captcha {
 	var ctx = context.Background()
 	bigCacheClient, _ := bigcache.New(ctx, bigcache.DefaultConfig(5*time.Minute))
 	bigCacheStore := bigcacheStore.NewBigcache(bigCacheClient)
@@ -147,7 +145,7 @@ func InitCaptcha() {
 	// Desc:设置验证码字体的扭曲程度
 	// ====================================================
 	capt.SetImageFontDistort(captcha.DistortLevel2)
-	CaptchaManger = &Captcha{captcha: capt, catchManger: cacheManager, ctx: ctx}
+	return &Captcha{captcha: capt, catchManger: cacheManager, ctx: ctx}
 }
 
 func (receiver Captcha) GenerateCaptureCode() (c *CaptchaCodeResp, err error) {
@@ -189,11 +187,18 @@ func (receiver Captcha) setDotCatch(dotInfos map[int]captcha.CharDot, dotsKey st
 }
 
 // VerifyCaptcha  中间件使用该函数去验证是否正确
-func (receiver Captcha) VerifyCaptcha(r *http.Request) (result bool, err error) {
-	captureCode := r.Header.Get("CaptureCode")
-	captureDots := r.Header.Get("CaptureDots")
+func (receiver Captcha) VerifyCaptcha(g *gin.Context) (result bool, err error) {
+
+	captureCode := g.Request.Header.Get("CaptureCode")
+	captureDots := g.Request.Header.Get("CaptureDots")
+	if captureCode == "" || captureDots == "" {
+		return false, xerror.NewErrCode(xerror.CAPTCHA_KEY_NOT_FOUND_ERROR)
+	}
 	var dots []CaptchaFontDots
-	err = json.Unmarshal([]byte(captureDots), &dots)
+	_err := json.Unmarshal([]byte(captureDots), &dots)
+	if _err != nil {
+		return false, xerror.NewErrCode(xerror.CAPTCHA_VERIFY_ERROR)
+	}
 	param := VerifyCaptchaCodeParam{dots, captureCode}
 	result = receiver._checkCaptchaDots(param)
 	return

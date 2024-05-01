@@ -10,19 +10,19 @@ import (
 
 const TableNameSysDepartment = "sys_department"
 
-// SysDepartment 系统部门
+// SysDepartment mapped from table <sys_department>
 type SysDepartment struct {
-	ID            int32     `gorm:"column:id;primaryKey;comment:主键" json:"id"`                   // 主键
-	Name          string    `gorm:"column:name;comment:部门名称" json:"name"`                        // 部门名称
-	ParentID      int32     `gorm:"column:parent_id;comment:父id" json:"parent_id"`               // 父id
-	CreateBy      string    `gorm:"column:create_by;comment:创建者" json:"create_by"`               // 创建者
-	CreateTime    time.Time `gorm:"column:create_time;comment:创建时间" json:"create_time"`          // 创建时间
-	CreateUID     int32     `gorm:"column:create_uid;comment:创建者uid" json:"create_uid"`          // 创建者uid
-	UpdateTime    time.Time `gorm:"column:update_time;comment:更新时间" json:"update_time"`          // 更新时间
-	UpdateUID     int32     `gorm:"column:update_uid;comment:更新者uid" json:"update_uid"`          // 更新者uid
-	UpdateBy      string    `gorm:"column:update_by;comment:更新者名称" json:"update_by"`             // 更新者名称
-	SoftDeleteTag int32     `gorm:"column:soft_delete_tag;comment:软删除标记" json:"soft_delete_tag"` // 软删除标记
-	Version       int32     `gorm:"column:version;comment:乐观锁" json:"version"`                   // 乐观锁
+	ID            int32     `gorm:"column:id;type:int(11);primaryKey;comment:主键" json:"id"`                               // 主键
+	Name          string    `gorm:"column:name;type:varchar(255);comment:部门名称" json:"name"`                               // 部门名称
+	ParentID      int32     `gorm:"column:parent_id;type:int(11);comment:父id" json:"parentId"`                            // 父id
+	CreateBy      string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                       // 创建者
+	CreateTime    time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"` // 创建时间
+	CreateUID     int32     `gorm:"column:create_uid;type:int(11);comment:创建者uid" json:"createUid"`                       // 创建者uid
+	UpdateTime    time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"` // 更新时间
+	UpdateUID     int32     `gorm:"column:update_uid;type:int(11);comment:更新者uid" json:"updateUid"`                       // 更新者uid
+	UpdateBy      string    `gorm:"column:update_by;type:varchar(255);comment:更新者名称" json:"updateBy"`                     // 更新者名称
+	SoftDeleteTag int32     `gorm:"column:soft_delete_tag;type:int(11);comment:软删除标记" json:"softDeleteTag"`               // 软删除标记
+	Version       int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"`                               // 乐观锁
 }
 
 // TableName SysDepartment's table name

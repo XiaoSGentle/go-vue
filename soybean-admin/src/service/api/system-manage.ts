@@ -3,7 +3,7 @@ import { request } from '../request';
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
   return request<Api.SystemManage.RoleList>({
-    url: '/systemManage/getRoleList',
+    url: '/systemManage/role/list',
     method: 'get',
     params
   });
@@ -24,28 +24,16 @@ export function fetchGetAllRoles() {
 /** get user list */
 export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
   return request<Api.SystemManage.UserList>({
-    url: '/systemManage/getUserList',
+    url: '/systemManage/user/list',
     method: 'get',
     params
-  });
-}
-
-/**
- * get menu list
- *
- * @deprecated this will removed in next version 1.1.0
- */
-export function fetchGetMenuListV1() {
-  return request<Api.SystemManage.Menu[]>({
-    url: '/systemManage/getMenuList',
-    method: 'get'
   });
 }
 
 /** get menu list */
 export function fetchGetMenuList() {
   return request<Api.SystemManage.MenuList>({
-    url: '/systemManage/getMenuList/v2',
+    url: '/systemManage/getMenuList',
     method: 'get'
   });
 }
@@ -62,6 +50,13 @@ export function fetchGetAllPages() {
 export function fetchGetMenuTree() {
   return request<Api.SystemManage.MenuTree[]>({
     url: '/systemManage/getMenuTree',
+    method: 'get'
+  });
+}
+/** get button list */
+export function fetchGetAllApis() {
+  return request<Api.SystemManage.BackApi[]>({
+    url: '/systemManage/getAllApis',
     method: 'get'
   });
 }

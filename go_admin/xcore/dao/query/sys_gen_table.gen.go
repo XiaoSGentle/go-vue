@@ -41,8 +41,8 @@ func newSysGenTable(db *gorm.DB, opts ...gen.DOOption) sysGenTable {
 	_sysGenTable.Version = field.NewInt32(tableName, "version")
 	_sysGenTable.CreateUID = field.NewInt32(tableName, "create_uid")
 	_sysGenTable.CreateBy = field.NewString(tableName, "create_by")
-	_sysGenTable.CreateAt = field.NewTime(tableName, "create_at")
-	_sysGenTable.UpdateAt = field.NewTime(tableName, "update_at")
+	_sysGenTable.CreateTime = field.NewTime(tableName, "create_time")
+	_sysGenTable.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysGenTable.UpdateUID = field.NewInt32(tableName, "update_uid")
 	_sysGenTable.SoftDeleteTag = field.NewInt32(tableName, "soft_delete_tag")
 	_sysGenTable.UpdateBy = field.NewString(tableName, "update_by")
@@ -52,9 +52,8 @@ func newSysGenTable(db *gorm.DB, opts ...gen.DOOption) sysGenTable {
 	return _sysGenTable
 }
 
-// sysGenTable 代码生成业务表
 type sysGenTable struct {
-	sysGenTableDo sysGenTableDo
+	sysGenTableDo
 
 	ALL           field.Asterisk
 	UID           field.String // 主键
@@ -71,8 +70,8 @@ type sysGenTable struct {
 	Version       field.Int32  // 乐观锁
 	CreateUID     field.Int32  // 创建者uid
 	CreateBy      field.String // 创建者
-	CreateAt      field.Time   // 创建时间
-	UpdateAt      field.Time   // 更新时间
+	CreateTime    field.Time   // 创建时间
+	UpdateTime    field.Time   // 更新时间
 	UpdateUID     field.Int32  // 更新者uid
 	SoftDeleteTag field.Int32  // 软删除标记
 	UpdateBy      field.String // 更新者
@@ -106,8 +105,8 @@ func (s *sysGenTable) updateTableName(table string) *sysGenTable {
 	s.Version = field.NewInt32(table, "version")
 	s.CreateUID = field.NewInt32(table, "create_uid")
 	s.CreateBy = field.NewString(table, "create_by")
-	s.CreateAt = field.NewTime(table, "create_at")
-	s.UpdateAt = field.NewTime(table, "update_at")
+	s.CreateTime = field.NewTime(table, "create_time")
+	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
 	s.SoftDeleteTag = field.NewInt32(table, "soft_delete_tag")
 	s.UpdateBy = field.NewString(table, "update_by")
@@ -116,16 +115,6 @@ func (s *sysGenTable) updateTableName(table string) *sysGenTable {
 
 	return s
 }
-
-func (s *sysGenTable) WithContext(ctx context.Context) *sysGenTableDo {
-	return s.sysGenTableDo.WithContext(ctx)
-}
-
-func (s sysGenTable) TableName() string { return s.sysGenTableDo.TableName() }
-
-func (s sysGenTable) Alias() string { return s.sysGenTableDo.Alias() }
-
-func (s sysGenTable) Columns(cols ...field.Expr) gen.Columns { return s.sysGenTableDo.Columns(cols...) }
 
 func (s *sysGenTable) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := s.fieldMap[fieldName]
@@ -152,8 +141,8 @@ func (s *sysGenTable) fillFieldMap() {
 	s.fieldMap["version"] = s.Version
 	s.fieldMap["create_uid"] = s.CreateUID
 	s.fieldMap["create_by"] = s.CreateBy
-	s.fieldMap["create_at"] = s.CreateAt
-	s.fieldMap["update_at"] = s.UpdateAt
+	s.fieldMap["create_time"] = s.CreateTime
+	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_uid"] = s.UpdateUID
 	s.fieldMap["soft_delete_tag"] = s.SoftDeleteTag
 	s.fieldMap["update_by"] = s.UpdateBy
@@ -171,95 +160,156 @@ func (s sysGenTable) replaceDB(db *gorm.DB) sysGenTable {
 
 type sysGenTableDo struct{ gen.DO }
 
-func (s sysGenTableDo) Debug() *sysGenTableDo {
+type ISysGenTableDo interface {
+	gen.SubQuery
+	Debug() ISysGenTableDo
+	WithContext(ctx context.Context) ISysGenTableDo
+	WithResult(fc func(tx gen.Dao)) gen.ResultInfo
+	ReplaceDB(db *gorm.DB)
+	ReadDB() ISysGenTableDo
+	WriteDB() ISysGenTableDo
+	As(alias string) gen.Dao
+	Session(config *gorm.Session) ISysGenTableDo
+	Columns(cols ...field.Expr) gen.Columns
+	Clauses(conds ...clause.Expression) ISysGenTableDo
+	Not(conds ...gen.Condition) ISysGenTableDo
+	Or(conds ...gen.Condition) ISysGenTableDo
+	Select(conds ...field.Expr) ISysGenTableDo
+	Where(conds ...gen.Condition) ISysGenTableDo
+	Order(conds ...field.Expr) ISysGenTableDo
+	Distinct(cols ...field.Expr) ISysGenTableDo
+	Omit(cols ...field.Expr) ISysGenTableDo
+	Join(table schema.Tabler, on ...field.Expr) ISysGenTableDo
+	LeftJoin(table schema.Tabler, on ...field.Expr) ISysGenTableDo
+	RightJoin(table schema.Tabler, on ...field.Expr) ISysGenTableDo
+	Group(cols ...field.Expr) ISysGenTableDo
+	Having(conds ...gen.Condition) ISysGenTableDo
+	Limit(limit int) ISysGenTableDo
+	Offset(offset int) ISysGenTableDo
+	Count() (count int64, err error)
+	Scopes(funcs ...func(gen.Dao) gen.Dao) ISysGenTableDo
+	Unscoped() ISysGenTableDo
+	Create(values ...*model.SysGenTable) error
+	CreateInBatches(values []*model.SysGenTable, batchSize int) error
+	Save(values ...*model.SysGenTable) error
+	First() (*model.SysGenTable, error)
+	Take() (*model.SysGenTable, error)
+	Last() (*model.SysGenTable, error)
+	Find() ([]*model.SysGenTable, error)
+	FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.SysGenTable, err error)
+	FindInBatches(result *[]*model.SysGenTable, batchSize int, fc func(tx gen.Dao, batch int) error) error
+	Pluck(column field.Expr, dest interface{}) error
+	Delete(...*model.SysGenTable) (info gen.ResultInfo, err error)
+	Update(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
+	UpdateSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
+	Updates(value interface{}) (info gen.ResultInfo, err error)
+	UpdateColumn(column field.Expr, value interface{}) (info gen.ResultInfo, err error)
+	UpdateColumnSimple(columns ...field.AssignExpr) (info gen.ResultInfo, err error)
+	UpdateColumns(value interface{}) (info gen.ResultInfo, err error)
+	UpdateFrom(q gen.SubQuery) gen.Dao
+	Attrs(attrs ...field.AssignExpr) ISysGenTableDo
+	Assign(attrs ...field.AssignExpr) ISysGenTableDo
+	Joins(fields ...field.RelationField) ISysGenTableDo
+	Preload(fields ...field.RelationField) ISysGenTableDo
+	FirstOrInit() (*model.SysGenTable, error)
+	FirstOrCreate() (*model.SysGenTable, error)
+	FindByPage(offset int, limit int) (result []*model.SysGenTable, count int64, err error)
+	ScanByPage(result interface{}, offset int, limit int) (count int64, err error)
+	Scan(result interface{}) (err error)
+	Returning(value interface{}, columns ...string) ISysGenTableDo
+	UnderlyingDB() *gorm.DB
+	schema.Tabler
+}
+
+func (s sysGenTableDo) Debug() ISysGenTableDo {
 	return s.withDO(s.DO.Debug())
 }
 
-func (s sysGenTableDo) WithContext(ctx context.Context) *sysGenTableDo {
+func (s sysGenTableDo) WithContext(ctx context.Context) ISysGenTableDo {
 	return s.withDO(s.DO.WithContext(ctx))
 }
 
-func (s sysGenTableDo) ReadDB() *sysGenTableDo {
+func (s sysGenTableDo) ReadDB() ISysGenTableDo {
 	return s.Clauses(dbresolver.Read)
 }
 
-func (s sysGenTableDo) WriteDB() *sysGenTableDo {
+func (s sysGenTableDo) WriteDB() ISysGenTableDo {
 	return s.Clauses(dbresolver.Write)
 }
 
-func (s sysGenTableDo) Session(config *gorm.Session) *sysGenTableDo {
+func (s sysGenTableDo) Session(config *gorm.Session) ISysGenTableDo {
 	return s.withDO(s.DO.Session(config))
 }
 
-func (s sysGenTableDo) Clauses(conds ...clause.Expression) *sysGenTableDo {
+func (s sysGenTableDo) Clauses(conds ...clause.Expression) ISysGenTableDo {
 	return s.withDO(s.DO.Clauses(conds...))
 }
 
-func (s sysGenTableDo) Returning(value interface{}, columns ...string) *sysGenTableDo {
+func (s sysGenTableDo) Returning(value interface{}, columns ...string) ISysGenTableDo {
 	return s.withDO(s.DO.Returning(value, columns...))
 }
 
-func (s sysGenTableDo) Not(conds ...gen.Condition) *sysGenTableDo {
+func (s sysGenTableDo) Not(conds ...gen.Condition) ISysGenTableDo {
 	return s.withDO(s.DO.Not(conds...))
 }
 
-func (s sysGenTableDo) Or(conds ...gen.Condition) *sysGenTableDo {
+func (s sysGenTableDo) Or(conds ...gen.Condition) ISysGenTableDo {
 	return s.withDO(s.DO.Or(conds...))
 }
 
-func (s sysGenTableDo) Select(conds ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) Select(conds ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.Select(conds...))
 }
 
-func (s sysGenTableDo) Where(conds ...gen.Condition) *sysGenTableDo {
+func (s sysGenTableDo) Where(conds ...gen.Condition) ISysGenTableDo {
 	return s.withDO(s.DO.Where(conds...))
 }
 
-func (s sysGenTableDo) Order(conds ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) Order(conds ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.Order(conds...))
 }
 
-func (s sysGenTableDo) Distinct(cols ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) Distinct(cols ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.Distinct(cols...))
 }
 
-func (s sysGenTableDo) Omit(cols ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) Omit(cols ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.Omit(cols...))
 }
 
-func (s sysGenTableDo) Join(table schema.Tabler, on ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) Join(table schema.Tabler, on ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.Join(table, on...))
 }
 
-func (s sysGenTableDo) LeftJoin(table schema.Tabler, on ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) LeftJoin(table schema.Tabler, on ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.LeftJoin(table, on...))
 }
 
-func (s sysGenTableDo) RightJoin(table schema.Tabler, on ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) RightJoin(table schema.Tabler, on ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.RightJoin(table, on...))
 }
 
-func (s sysGenTableDo) Group(cols ...field.Expr) *sysGenTableDo {
+func (s sysGenTableDo) Group(cols ...field.Expr) ISysGenTableDo {
 	return s.withDO(s.DO.Group(cols...))
 }
 
-func (s sysGenTableDo) Having(conds ...gen.Condition) *sysGenTableDo {
+func (s sysGenTableDo) Having(conds ...gen.Condition) ISysGenTableDo {
 	return s.withDO(s.DO.Having(conds...))
 }
 
-func (s sysGenTableDo) Limit(limit int) *sysGenTableDo {
+func (s sysGenTableDo) Limit(limit int) ISysGenTableDo {
 	return s.withDO(s.DO.Limit(limit))
 }
 
-func (s sysGenTableDo) Offset(offset int) *sysGenTableDo {
+func (s sysGenTableDo) Offset(offset int) ISysGenTableDo {
 	return s.withDO(s.DO.Offset(offset))
 }
 
-func (s sysGenTableDo) Scopes(funcs ...func(gen.Dao) gen.Dao) *sysGenTableDo {
+func (s sysGenTableDo) Scopes(funcs ...func(gen.Dao) gen.Dao) ISysGenTableDo {
 	return s.withDO(s.DO.Scopes(funcs...))
 }
 
-func (s sysGenTableDo) Unscoped() *sysGenTableDo {
+func (s sysGenTableDo) Unscoped() ISysGenTableDo {
 	return s.withDO(s.DO.Unscoped())
 }
 
@@ -325,22 +375,22 @@ func (s sysGenTableDo) FindInBatches(result *[]*model.SysGenTable, batchSize int
 	return s.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (s sysGenTableDo) Attrs(attrs ...field.AssignExpr) *sysGenTableDo {
+func (s sysGenTableDo) Attrs(attrs ...field.AssignExpr) ISysGenTableDo {
 	return s.withDO(s.DO.Attrs(attrs...))
 }
 
-func (s sysGenTableDo) Assign(attrs ...field.AssignExpr) *sysGenTableDo {
+func (s sysGenTableDo) Assign(attrs ...field.AssignExpr) ISysGenTableDo {
 	return s.withDO(s.DO.Assign(attrs...))
 }
 
-func (s sysGenTableDo) Joins(fields ...field.RelationField) *sysGenTableDo {
+func (s sysGenTableDo) Joins(fields ...field.RelationField) ISysGenTableDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Joins(_f))
 	}
 	return &s
 }
 
-func (s sysGenTableDo) Preload(fields ...field.RelationField) *sysGenTableDo {
+func (s sysGenTableDo) Preload(fields ...field.RelationField) ISysGenTableDo {
 	for _, _f := range fields {
 		s = *s.withDO(s.DO.Preload(_f))
 	}

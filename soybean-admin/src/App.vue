@@ -5,6 +5,7 @@ import { useAppStore } from './store/modules/app';
 import { useThemeStore } from './store/modules/theme';
 import { naiveDateLocales, naiveLocales } from './locales/naive';
 
+
 defineOptions({
   name: 'App'
 });
@@ -12,7 +13,7 @@ defineOptions({
 const appStore = useAppStore();
 const themeStore = useThemeStore();
 
-const naiveDarkTheme = computed(() => (themeStore.darkMode ? darkTheme : undefined));
+const naiveDarkTheme = computed(() => (themeStore.darkMode ? darkTheme : null));
 
 const naiveLocale = computed(() => {
   return naiveLocales[appStore.locale];

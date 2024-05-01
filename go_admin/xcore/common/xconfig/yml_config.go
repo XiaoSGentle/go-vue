@@ -40,7 +40,7 @@ func CreateYamlFactory(fileName ...string) interf.YmlConfigInterf {
 	yamlConfig.SetConfigType("yml")
 
 	if err := yamlConfig.ReadInConfig(); err != nil {
-		xvariable.Logger.Error(context.Background(), "读取配置文件失败"+err.Error())
+		xvariable.Logger.ErrorContext(context.Background(), "读取配置文件失败"+err.Error())
 	}
 
 	return &ymlConfig{
@@ -96,7 +96,7 @@ func (y *ymlConfig) getValueFromCache(keyName string) interface{} {
 func (y *ymlConfig) clearCache() {
 	err := ymlCacheStore.Clear()
 	if err != nil {
-		xvariable.Logger.Error(context.Background(), "配置清理失败")
+		xvariable.Logger.ErrorContext(context.Background(), "配置清理失败")
 	}
 }
 
@@ -109,7 +109,7 @@ func (y *ymlConfig) Clone(fileName string) interf.YmlConfigInterf {
 
 	(&ymlC).viper.SetConfigName(fileName)
 	if err := (&ymlC).viper.ReadInConfig(); err != nil {
-		xvariable.Logger.Error(context.Background(), "配置清理失败")
+		xvariable.Logger.ErrorContext(context.Background(), "配置清理失败")
 	}
 	return &ymlC
 }

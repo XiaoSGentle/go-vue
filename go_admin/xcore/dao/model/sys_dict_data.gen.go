@@ -10,18 +10,18 @@ import (
 
 const TableNameSysDictDatum = "sys_dict_data"
 
-// SysDictDatum 字段内容表
+// SysDictDatum mapped from table <sys_dict_data>
 type SysDictDatum struct {
-	ID        int32     `gorm:"column:id;primaryKey;comment:主键" json:"id"` // 主键
-	DictLabel string    `gorm:"column:dict_label;not null" json:"dict_label"`
-	DictValue string    `gorm:"column:dict_value;not null" json:"dict_value"`
-	DictSort  int32     `gorm:"column:dict_sort;not null" json:"dict_sort"`
-	Version   int32     `gorm:"column:version;comment:乐观锁" json:"version"`          // 乐观锁
-	CreateUID int32     `gorm:"column:create_uid;comment:创建者uid" json:"create_uid"` // 创建者uid
-	CreateBy  string    `gorm:"column:create_by;comment:创建者" json:"create_by"`      // 创建者
-	CreateAt  time.Time `gorm:"column:create_at;comment:创建时间" json:"create_at"`     // 创建时间
-	UpdateAt  time.Time `gorm:"column:update_at;comment:更新时间" json:"update_at"`     // 更新时间
-	UpdateUID int32     `gorm:"column:update_uid;comment:更新者uid" json:"update_uid"` // 更新者uid
+	ID         int32     `gorm:"column:id;type:int(11);primaryKey;comment:主键" json:"id"` // 主键
+	DictLabel  string    `gorm:"column:dict_label;type:varchar(255);not null" json:"dictLabel"`
+	DictValue  string    `gorm:"column:dict_value;type:varchar(255);not null" json:"dictValue"`
+	DictSort   int32     `gorm:"column:dict_sort;type:int(11);not null" json:"dictSort"`
+	Version    int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"`                               // 乐观锁
+	CreateUID  int32     `gorm:"column:create_uid;type:int(11);comment:创建者uid" json:"createUid"`                       // 创建者uid
+	CreateBy   string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                       // 创建者
+	CreateTime time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"` // 创建时间
+	UpdateTime time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"` // 更新时间
+	UpdateUID  int32     `gorm:"column:update_uid;type:int(11);comment:更新者uid" json:"updateUid"`                       // 更新者uid
 }
 
 // TableName SysDictDatum's table name

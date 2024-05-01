@@ -9,13 +9,17 @@ import (
 	"golang.org/x/xerrors"
 	"io/ioutil"
 	"os"
+	"strings"
 	"time"
+	"xcore/common/xcaptcha"
 	"xcore/common/xconfig"
 	"xcore/common/xgorm"
 	"xcore/common/xlogger"
 	"xcore/common/xvalidate"
 	"xcore/core/xdig"
 	"xcore/core/xvariable"
+	"xcore/dao/model"
+	"xcore/dao/query"
 )
 
 type GinCore struct {
@@ -71,19 +75,19 @@ func NewGinCore() *GinCore {
 	return core
 }
 
-func (receiver *GinCore) RegisterRouterGroupArray(router []*GroupBase) {
+func (receiver *GinCore) RegisterRouterGroups(router []*GroupBase) {
 	receiver.routerGroup = append(receiver.routerGroup, router...)
 }
 
-func (receiver *GinCore) RegisterOneRouterGroup(router *GroupBase) {
+func (receiver *GinCore) RegisterRouterGroup(router *GroupBase) {
 	receiver.routerGroup = append(receiver.routerGroup, router)
 }
 
-func (receiver *GinCore) RegisterRegFunctionArray(functions []interface{}) {
+func (receiver *GinCore) RegisterRegFunctions(functions []interface{}) {
 	receiver.regFunctions = append(receiver.regFunctions, functions...)
 }
 
-func (receiver *GinCore) RegisterOneRegFunction(function interface{}) {
+func (receiver *GinCore) RegisterRegFunction(function interface{}) {
 	receiver.regFunctions = append(receiver.regFunctions, function)
 }
 
@@ -96,7 +100,7 @@ func (receiver *GinCore) Run(port string) {
 	for _, regFunction := range receiver.regFunctions {
 		err := xdig.ProvideForDI(regFunction)
 		if err != nil {
-			xvariable.Logger.Error(context.Background(), "注册DIG出错:"+err.Error())
+			xvariable.Logger.ErrorContext(context.Background(), "注册DIG出错:"+err.Error())
 		}
 	}
 	mainRouter := receiver.router.Group("/api")
@@ -104,10 +108,40 @@ func (receiver *GinCore) Run(port string) {
 		RegisterGroup(mainRouter, groupBase)
 	}
 
+	if xvariable.GlobalYmlConfig.GetBool("AppDebug") == true {
+		InitSqlInfo(receiver.router.Routes())
+	}
+
 	err := receiver.router.Run(port)
 	if err != nil {
-		xvariable.Logger.Error(context.Background(), "启动失败！"+err.Error())
+		xvariable.Logger.ErrorContext(context.Background(), "启动失败！"+err.Error())
 	}
+}
+
+func InitSqlInfo(routers []gin.RouteInfo) {
+	apiQuery := query.Use(xvariable.GormDB).SysAPI
+
+	// 清除所欲路由
+	_, _ = apiQuery.Where(apiQuery.APICode.IsNotNull()).Delete()
+
+	for _, router := range routers {
+		if !strings.HasPrefix(router.Path, "/debug/") {
+			_ = apiQuery.Create(&model.SysAPI{
+				APICode:       fmt.Sprintf("%s::%s", router.Method, router.Path),
+				Version:       0,
+				SoftDeleteTag: 0,
+				UpdateTime:    time.Now(),
+				UpdateUID:     0,
+				CreateUID:     0,
+				CreateBy:      "",
+				CreateTime:    time.Now(),
+				UpdateBy:      "",
+			})
+
+		}
+
+	}
+
 }
 
 func InitializeGlobalVariables() {
@@ -123,6 +157,8 @@ func InitializeGlobalVariables() {
 	xvalidate.InitTransValidator(xvariable.GlobalYmlConfig.GetString("HttpServer.ValidateLang"))
 	// 全局GORM链接
 	xvariable.GormDB = xgorm.GetMysqlConnection()
+	// 全局验证码
+	xvariable.Captcha = xcaptcha.InitCaptcha()
 }
 
 func CheckRequiredFolds(paths []string) {
@@ -157,7 +193,7 @@ func CustomRecovery() gin.HandlerFunc {
 	return gin.RecoveryWithWriter(DefaultErrorWriter, func(c *gin.Context, err interface{}) {
 		// 这里针对发生的panic等异常进行统一响应即可
 		// 这里的 err 数据类型为 ：runtime.boundsError  ，需要转为普通数据类型才可以输出
-		xvariable.Logger.Error(c, fmt.Sprintf("%s", err))
+		xvariable.Logger.ErrorContext(c, fmt.Sprintf("%s", err))
 	})
 }
 
@@ -167,6 +203,6 @@ type PanicExceptionRecord struct{}
 func (p *PanicExceptionRecord) Write(b []byte) (n int, err error) {
 	errStr := string(b)
 	err = xerrors.New(errStr)
-	xvariable.Logger.Error(context.Background(), "系统出错！")
+	xvariable.Logger.ErrorContext(context.Background(), "系统出错！")
 	return len(errStr), err
 }

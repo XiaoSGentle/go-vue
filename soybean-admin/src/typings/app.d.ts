@@ -467,6 +467,10 @@ declare namespace App {
           };
         };
         manage: {
+          createBy: string;
+          createTime: string;
+          updateBy: string;
+          updateTime: string;
           common: {
             status: {
               enable: string;
@@ -488,7 +492,11 @@ declare namespace App {
             addRole: string;
             editRole: string;
             menuAuth: string;
-            buttonAuth: string;
+            apiAuth: string;
+            apiEdit: {
+              selectAll: string;
+              selectNone: string;
+            };
           };
           user: {
             title: string;
@@ -498,6 +506,7 @@ declare namespace App {
             userPhone: string;
             userEmail: string;
             userStatus: string;
+            userLastOnLine: string;
             userRole: string;
             form: {
               userName: string;
@@ -615,6 +624,7 @@ declare namespace App {
     type TranslateOptions<Locales extends string> = import('vue-i18n').TranslateOptions<Locales>;
 
     interface $T {
+      (key: string | undefined): string;
       (key: I18nKey): string;
       (key: I18nKey, plural: number, options?: TranslateOptions<LangType>): string;
       (key: I18nKey, defaultMsg: string, options?: TranslateOptions<I18nKey>): string;
