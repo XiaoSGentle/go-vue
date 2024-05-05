@@ -57,6 +57,9 @@ declare module "@elegant-router/types" {
     "multi-menu_second": "/multi-menu/second";
     "multi-menu_second_child": "/multi-menu/second/child";
     "multi-menu_second_child_home": "/multi-menu/second/child/home";
+    "test-page": "/test-page";
+    "test-page_page-one": "/test-page/page-one";
+    "test-page_page-two": "/test-page/page-two";
     "user-center": "/user-center";
   };
 
@@ -111,6 +114,7 @@ declare module "@elegant-router/types" {
     | "login"
     | "manage"
     | "multi-menu"
+    | "test-page"
     | "user-center"
   >;
 
@@ -151,6 +155,8 @@ declare module "@elegant-router/types" {
     | "manage_user"
     | "multi-menu_first_child"
     | "multi-menu_second_child_home"
+    | "test-page_page-one"
+    | "test-page_page-two"
     | "user-center"
   >;
 

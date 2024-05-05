@@ -4,6 +4,7 @@ import { useBoolean } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
+import { addRole, updateRoleById } from '@/service/api';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ApiAuthModal from './api-auth-modal.vue';
 
@@ -43,7 +44,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
+type Model = Api.SystemManage.AddOrUpdateRoleParams;
 
 const model: Model = reactive(createDefaultModel());
 
@@ -52,11 +53,13 @@ function createDefaultModel(): Model {
     roleName: '',
     roleCode: '',
     roleDesc: '',
-    status: null
+    status: null,
+    apiCodes: [],
+    menuIds: []
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'roleDesc'>;
+type RuleKey = Exclude<Exclude<Exclude<keyof Model, 'roleDesc'>, 'apiCodes'>, 'menuIds'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
@@ -64,7 +67,13 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   status: defaultRequiredRule
 };
 
-const roleId = computed(() => props.rowData?.id || -1);
+const roleCode = computed(() => props.rowData?.roleCode);
+const roleHome = computed(() => {
+  if (props.rowData?.roleHome) {
+    return props.rowData?.roleHome;
+  }
+  return 'home';
+});
 
 const isEdit = computed(() => props.operateType === 'edit');
 
@@ -85,10 +94,22 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  // request
-  window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  if (props.operateType === 'add') {
+    const { error } = await addRole(model);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
+  }
+  if (props.operateType === 'edit') {
+    const { error } = await updateRoleById(props.rowData?.id, model);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
+  }
 }
 
 watch(visible, () => {
@@ -120,9 +141,9 @@ watch(visible, () => {
       </NForm>
       <NSpace v-if="isEdit">
         <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
-        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
+        <MenuAuthModal v-model:visible="menuAuthVisible" :role-code="roleCode" :role-home="roleHome" />
         <NButton @click="apiButtonAuthModal">{{ $t('page.manage.role.apiAuth') }}</NButton>
-        <ApiAuthModal v-model:visible="apiAuthVisible" :role-code="roleId.toString()" />
+        <ApiAuthModal v-model:visible="apiAuthVisible" :role-code="roleCode" />
       </NSpace>
       <template #footer>
         <NSpace :size="16" align="center">

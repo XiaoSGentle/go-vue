@@ -60,7 +60,7 @@ declare namespace Api {
       userId: string;
       userName: string;
       roles: string[];
-      buttons: string[];
+      apis: string[];
     }
   }
 
@@ -82,6 +82,10 @@ declare namespace Api {
     }
   }
 
+  namespace BaseCurd {
+    type SuccessNodataResponse = string;
+  }
+
   /**
    * namespace SystemManage
    *
@@ -89,6 +93,11 @@ declare namespace Api {
    */
   namespace SystemManage {
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+
+    type RolePermit = {
+      menuIds: string[];
+      apiCodes: string[];
+    };
 
     /** role */
     type Role = Common.CommonRecord<{
@@ -98,8 +107,16 @@ declare namespace Api {
       roleCode: string;
       /** role description */
       roleDesc: string;
+
+      roleHome: string;
+      menuIds: string[];
+      apiCodes: string[];
     }>;
 
+    type AddOrUpdateRoleParams = Pick<
+      Api.SystemManage.Role,
+      'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'apiCodes' | 'menuIds'
+    >;
     /** role search params */
     type RoleSearchParams = CommonType.RecordNullable<
       Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'status'> & CommonSearchParams
@@ -118,6 +135,11 @@ declare namespace Api {
      * - "2": "female"
      */
     type UserGender = '1' | '2';
+
+    type AddOrUpdateUserParams = Pick<
+      Api.SystemManage.User,
+      'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
+    >;
 
     /** user */
     type User = Common.CommonRecord<{
@@ -174,6 +196,25 @@ declare namespace Api {
      * - "2": local icon
      */
     type IconType = '1' | '2';
+
+    type AddOrUpdateMenuParams = Pick<
+      Api.SystemManage.Menu,
+      | 'menuType'
+      | 'menuName'
+      | 'icon'
+      | 'iconType'
+      | 'routeName'
+      | 'routePath'
+      | 'component'
+      | 'status'
+      | 'hideInMenu'
+      | 'order'
+      | 'parentId'
+      | 'i18nKey'
+    > & {
+      layout: string;
+      page: string;
+    };
 
     type Menu = Common.CommonRecord<{
       /** parent menu id */

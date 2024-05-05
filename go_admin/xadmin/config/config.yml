@@ -2,22 +2,22 @@ AppDebug: true # 设置程序所处的模式，debug=true 调试模式，日志�
 
 HttpServer:
   Api:
-    Port: ":8200" #门户网站类端口,注意前面有冒号
+    Port: ":9000" #门户网站类端口,注意前面有冒号
   ValidateLang: "chinese" # "chinese" | "english"
   AllowCrossDomain: true #是否允许跨域，默认 允许，更多关于跨域的介绍从参考：https://www.yuque.com/xiaofensinixidaouxiang/bkfhct/kxddzd
 Token:
   JwtTokenSignKey: "reacool_mpt_*%*/).d" #设置token生成时加密的签名
   JwtTokenOnlineUsers: 10 #一个账号密码允许最大获取几个有效的token，当超过这个值，第一次获取的token的账号、密码就会失效
-  JwtTokenCreatedExpireAt: 28800 #创建时token默认有效秒数（token生成时间加上该时间秒数，算做有效期）,3600*8=28800 等于8小时
+  JwtTokenCreatedExpireAt: 2800 #创建时token默认有效秒数（token生成时间加上该时间秒数，算做有效期）,3600*8=28800 等于8小时
+  JwtTokenRefreshSignKey: "" #刷新token的key
   JwtTokenRefreshAllowSec: 86400 #对于过期的token，允许在多少小时之内刷新，超过此时间则不允许刷新换取新token，86400=3600*24，即token过期24小时之内允许换新token
   JwtTokenRefreshExpireAt: 36000 #对于过期的token，支持从相关接口刷新获取新的token，它有效期为10个小时，3600*10=36000 等于10小时
   BindContextKeyName: "this_sys_context_user" #用户在 header 头部提交的token绑定到上下文时的键名，方便直接从上下文(gin.context)直接获取每个用户的id等信息
   IsCacheToRedis: 0 #用户token是否缓存到redis, 如果已经正确配置了redis,建议设置为1, 开启redis缓存token，（1=用户token缓存到redis; 0=token只存在于mysql）
 
 LoginPolicy: #账号登陆策略，建议开发者配置redis，开启此功能
-  IsOpenPolicy: 1 #该功能依赖于redis，当开启此功能必须保证redis配置正确，0=不限制；1=启用登陆安全策略
   MaxLoginFailTimes: 5 #登陆连续失败的最大次数
-  LoginFailCountDown: 86400 #连续登陆失败超限后限制120秒(请自行修改)内禁止登陆
+
 
 Redis:
   Host: "www.xiaos.cool"

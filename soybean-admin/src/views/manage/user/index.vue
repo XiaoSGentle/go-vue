@@ -1,7 +1,8 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
-import { fetchGetUserList } from '@/service/api';
+
+import { deleteUserByIds, fetchGetUserList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { enableStatusRecord, userGenderRecord } from '@/constants/business';
@@ -149,17 +150,19 @@ const {
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await deleteUserByIds(checkedRowKeys.value);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    onBatchDeleted();
+  }
 }
 
-function handleDelete(id: number) {
-  // request
-  console.log(id);
-
-  onDeleted();
+async function handleDelete(id: number) {
+  const { error } = await deleteUserByIds([id]);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    onDeleted();
+  }
 }
 
 function edit(id: number) {

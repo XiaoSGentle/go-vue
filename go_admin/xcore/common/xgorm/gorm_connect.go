@@ -23,8 +23,6 @@ func GetMysqlConnection() *gorm.DB {
 	SetMaxOpenConn := xvariable.GormYmlConfig.GetInt("Gorm.Mysql.SetMaxOpenConn")
 	// ?
 	SetConnMaxLifetime := xvariable.GormYmlConfig.GetDuration("Gorm.Mysql.SetConnMaxLifetime")
-	// sql执行时间超过此时间单位（秒），就会触发系统日志记录
-	//SlowThreshold := xvariable.GormYmlConfig.GetInt("Gorm.Mysql.SlowThreshold")
 
 	connectUrl := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=true&loc=Local", User, Pass, Host, Port, DataBase, Charset)
 
@@ -32,7 +30,7 @@ func GetMysqlConnection() *gorm.DB {
 
 	gormDb, err := gorm.Open(mysqlDialectic, &gorm.Config{})
 	if err != nil {
-		xvariable.Logger.ErrorContext(context.Background(), "gorm 初始化出错:"+err.Error())
+		xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "gorm 初始化出错:"+err.Error())
 		// >
 		panic(err.Error())
 	}
@@ -42,7 +40,7 @@ func GetMysqlConnection() *gorm.DB {
 	}
 	err = gormDb.Use(dbresolver.Register(resolverConf).SetConnMaxIdleTime(time.Second * 30).SetConnMaxLifetime(SetConnMaxLifetime * time.Second).SetMaxIdleConns(SetMaxIdleConn).SetMaxOpenConns(SetMaxOpenConn))
 	if err != nil {
-		xvariable.Logger.ErrorContext(context.Background(), "gorm dbResolver 出错:"+err.Error())
+		xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "gorm dbResolver 出错:"+err.Error())
 	}
 	return gormDb
 }

@@ -1,7 +1,3 @@
 module xadmin
 
-go 1.21
-
-require (
-
-)
+go 1.22

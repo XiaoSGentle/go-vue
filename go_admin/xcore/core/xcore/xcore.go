@@ -9,7 +9,6 @@ import (
 	"golang.org/x/xerrors"
 	"io/ioutil"
 	"os"
-	"strings"
 	"time"
 	"xcore/common/xcaptcha"
 	"xcore/common/xconfig"
@@ -18,17 +17,18 @@ import (
 	"xcore/common/xvalidate"
 	"xcore/core/xdig"
 	"xcore/core/xvariable"
-	"xcore/dao/model"
-	"xcore/dao/query"
 )
 
 type GinCore struct {
 	regFunctions []interface{}
 	routerGroup  []*GroupBase
-	router       *gin.Engine
+	beforeRunFun []func()
+	Router       *gin.Engine
 }
 
-type RouterGroup struct {
+type RouterModel struct {
+	GroupBase    []*GroupBase
+	NewFunctions []interface{}
 }
 
 func NewGinCore() *GinCore {
@@ -70,13 +70,17 @@ func NewGinCore() *GinCore {
 	core := &GinCore{
 		regFunctions: make([]interface{}, 0),
 		routerGroup:  make([]*GroupBase, 0),
-		router:       router,
+		Router:       router,
 	}
 	return core
 }
 
 func (receiver *GinCore) RegisterRouterGroups(router []*GroupBase) {
 	receiver.routerGroup = append(receiver.routerGroup, router...)
+}
+
+func (receiver *GinCore) AddRunBeforeFunctions(f []func()) {
+	receiver.beforeRunFun = append(receiver.beforeRunFun, f...)
 }
 
 func (receiver *GinCore) RegisterRouterGroup(router *GroupBase) {
@@ -92,7 +96,12 @@ func (receiver *GinCore) RegisterRegFunction(function interface{}) {
 }
 
 func (receiver *GinCore) RegisterGinRouter(relativePath string, handlers ...gin.HandlerFunc) {
-	receiver.router.Group(relativePath, handlers...)
+	receiver.Router.Group(relativePath, handlers...)
+}
+
+func (receiver *GinCore) RegisterRouterModel(model *RouterModel) {
+	receiver.RegisterRegFunctions(model.NewFunctions)
+	receiver.RegisterRouterGroups(model.GroupBase)
 }
 
 func (receiver *GinCore) Run(port string) {
@@ -100,48 +109,26 @@ func (receiver *GinCore) Run(port string) {
 	for _, regFunction := range receiver.regFunctions {
 		err := xdig.ProvideForDI(regFunction)
 		if err != nil {
-			xvariable.Logger.ErrorContext(context.Background(), "注册DIG出错:"+err.Error())
+			xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "注册DIG出错:"+err.Error())
 		}
 	}
-	mainRouter := receiver.router.Group("/api")
+	/// 注册所有的路由
+	mainRouter := receiver.Router.Group("/api")
 	for _, groupBase := range receiver.routerGroup {
 		RegisterGroup(mainRouter, groupBase)
 	}
 
-	if xvariable.GlobalYmlConfig.GetBool("AppDebug") == true {
-		InitSqlInfo(receiver.router.Routes())
+	// 运行之前调用的钩子
+	for _, f := range receiver.beforeRunFun {
+		f()
 	}
+	// 启动
+	println("router run at port" + port)
+	err := receiver.Router.Run(port)
 
-	err := receiver.router.Run(port)
 	if err != nil {
-		xvariable.Logger.ErrorContext(context.Background(), "启动失败！"+err.Error())
+		xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "启动失败！"+err.Error())
 	}
-}
-
-func InitSqlInfo(routers []gin.RouteInfo) {
-	apiQuery := query.Use(xvariable.GormDB).SysAPI
-
-	// 清除所欲路由
-	_, _ = apiQuery.Where(apiQuery.APICode.IsNotNull()).Delete()
-
-	for _, router := range routers {
-		if !strings.HasPrefix(router.Path, "/debug/") {
-			_ = apiQuery.Create(&model.SysAPI{
-				APICode:       fmt.Sprintf("%s::%s", router.Method, router.Path),
-				Version:       0,
-				SoftDeleteTag: 0,
-				UpdateTime:    time.Now(),
-				UpdateUID:     0,
-				CreateUID:     0,
-				CreateBy:      "",
-				CreateTime:    time.Now(),
-				UpdateBy:      "",
-			})
-
-		}
-
-	}
-
 }
 
 func InitializeGlobalVariables() {
@@ -159,6 +146,7 @@ func InitializeGlobalVariables() {
 	xvariable.GormDB = xgorm.GetMysqlConnection()
 	// 全局验证码
 	xvariable.Captcha = xcaptcha.InitCaptcha()
+
 }
 
 func CheckRequiredFolds(paths []string) {
@@ -168,7 +156,7 @@ func CheckRequiredFolds(paths []string) {
 	for _, path := range paths {
 		_, err := os.Stat(path)
 		if os.IsNotExist(err) {
-			fmt.Printf("文件夹 %s 不存在,请检查环境配置\n", path)
+			panic(fmt.Sprintf("文件夹 %s 不存在,请检查环境配置\n", path))
 		}
 	}
 }
@@ -193,7 +181,7 @@ func CustomRecovery() gin.HandlerFunc {
 	return gin.RecoveryWithWriter(DefaultErrorWriter, func(c *gin.Context, err interface{}) {
 		// 这里针对发生的panic等异常进行统一响应即可
 		// 这里的 err 数据类型为 ：runtime.boundsError  ，需要转为普通数据类型才可以输出
-		xvariable.Logger.ErrorContext(c, fmt.Sprintf("%s", err))
+		xvariable.Logger.ErrorLog.ErrorContext(c, fmt.Sprintf("%s", err))
 	})
 }
 
@@ -203,6 +191,6 @@ type PanicExceptionRecord struct{}
 func (p *PanicExceptionRecord) Write(b []byte) (n int, err error) {
 	errStr := string(b)
 	err = xerrors.New(errStr)
-	xvariable.Logger.ErrorContext(context.Background(), "系统出错！")
+	xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "系统出错！")
 	return len(errStr), err
 }

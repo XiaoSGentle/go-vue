@@ -6,6 +6,9 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
+import { addMenu, updateMenuById } from '@/service/api';
+
+import locales from '@/locales/locale';
 import { getLayoutAndPage, transformLayoutAndPageToComponent } from './shared';
 
 defineOptions({
@@ -47,23 +50,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<
-  Api.SystemManage.Menu,
-  | 'menuType'
-  | 'menuName'
-  | 'icon'
-  | 'iconType'
-  | 'routeName'
-  | 'routePath'
-  | 'component'
-  | 'status'
-  | 'hideInMenu'
-  | 'order'
-  | 'parentId'
-> & {
-  layout: string;
-  page: string;
-};
+type Model = Api.SystemManage.AddOrUpdateMenuParams;
 
 const model: Model = reactive(createDefaultModel());
 
@@ -79,18 +66,23 @@ function createDefaultModel(): Model {
     page: '',
     status: null,
     hideInMenu: false,
+    i18nKey: undefined,
     order: 0,
     parentId: 0
   };
 }
+type RuleKey = Extract<keyof Model, 'menuName' | 'status' | 'routeName' | 'routePath' | 'i18nKey'>;
 
-type RuleKey = Extract<keyof Model, 'menuName' | 'status' | 'routeName' | 'routePath'>;
+const i18nKeyMap = Object.entries(locales['zh-CN'].route).map(([key, _]) => {
+  return { label: key, value: `route.${key}` };
+});
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   menuName: defaultRequiredRule,
   status: defaultRequiredRule,
   routeName: defaultRequiredRule,
-  routePath: defaultRequiredRule
+  routePath: defaultRequiredRule,
+  i18nKey: defaultRequiredRule
 };
 
 const disabledMenuType = computed(() => props.operateType === 'edit');
@@ -112,7 +104,6 @@ const showPage = computed(() => model.menuType === '2');
 
 const pageOptions = computed(() => {
   const allPages = [...props.allPages];
-
   if (model.routeName && !allPages.includes(model.routeName)) {
     allPages.unshift(model.routeName);
   }
@@ -121,7 +112,6 @@ const pageOptions = computed(() => {
     label: page,
     value: page
   }));
-
   return opts;
 });
 
@@ -168,9 +158,23 @@ async function handleSubmit() {
   model.component = transformLayoutAndPageToComponent(model.layout, model.page);
 
   // request
-  window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  if (props.operateType === 'add' || props.operateType === 'addChild') {
+    const { error } = await addMenu(model);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
+  }
+
+  if (props.operateType === 'edit') {
+    const { error } = await updateMenuById(props.rowData?.id, model);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
+  }
 }
 
 watch(visible, () => {
@@ -219,6 +223,13 @@ watch(visible, () => {
         </NFormItem>
         <NFormItem :label="$t('page.manage.menu.routePath')" path="routePath">
           <NInput v-model:value="model.routePath" :placeholder="$t('page.manage.menu.form.routePath')" />
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.menu.i18nKey')" path="i18nKeyMap">
+          <NSelect
+            v-model:value="model.i18nKey"
+            :options="i18nKeyMap"
+            :placeholder="$t('page.manage.menu.form.i18nKey')"
+          />
         </NFormItem>
         <NFormItem v-if="showLayout" :label="$t('page.manage.menu.layout')" path="layout">
           <NSelect

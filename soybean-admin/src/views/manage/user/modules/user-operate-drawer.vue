@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchGetAllRoles } from '@/service/api';
+import { addUser, fetchGetAllRoles, updateUserById } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -39,10 +39,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<
-  Api.SystemManage.User,
-  'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
->;
+type Model = Api.SystemManage.AddOrUpdateUserParams;
 
 const model: Model = reactive(createDefaultModel());
 
@@ -97,9 +94,20 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   // request
-  window.$message?.success($t('common.updateSuccess'));
-  closeDrawer();
-  emit('submitted');
+  if (props.operateType === 'add') {
+    const { error } = await addUser(model);
+    if (error) return;
+    window.$message?.success($t('common.addSuccess'));
+    closeDrawer();
+    emit('submitted');
+  }
+  if (props.operateType === 'edit') {
+    const { error } = await updateUserById(props.rowData?.id, model);
+    if (error) return;
+    window.$message?.success($t('common.updateSuccess'));
+    closeDrawer();
+    emit('submitted');
+  }
 }
 
 watch(visible, () => {

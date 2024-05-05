@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import { fetchGetAllPages, fetchGetMenuList } from '@/service/api';
+import { deleteMenuByIds, fetchGetAllPages, fetchGetMenuList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -51,14 +51,7 @@ const { columns, columnChecks, data, loading, pagination, getData } = useTable({
       key: 'menuName',
       title: $t('page.manage.menu.menuName'),
       align: 'center',
-      minWidth: 120,
-      render: row => {
-        const { i18nKey, menuName } = row;
-
-        const label = i18nKey ? $t(i18nKey) : menuName;
-
-        return <span>{label}</span>;
-      }
+      minWidth: 120
     },
     {
       key: 'icon',
@@ -180,17 +173,19 @@ function handleAdd() {
 }
 
 async function handleBatchDelete() {
-  // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  const { error } = await deleteMenuByIds(checkedRowKeys.value);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    onBatchDeleted();
+  }
 }
 
-function handleDelete(id: number) {
-  // request
-  console.log(id);
-
-  onDeleted();
+async function handleDelete(id: number) {
+  const { error } = await deleteMenuByIds([id]);
+  if (!error) {
+    window.$message?.success($t('common.deleteSuccess'));
+    onDeleted();
+  }
 }
 
 /** the edit menu data or the parent menu data when adding a child menu */
@@ -199,7 +194,6 @@ const editingData: Ref<Api.SystemManage.Menu | null> = ref(null);
 function handleEdit(item: Api.SystemManage.Menu) {
   operateType.value = 'edit';
   editingData.value = { ...item };
-
   openDrawer();
 }
 

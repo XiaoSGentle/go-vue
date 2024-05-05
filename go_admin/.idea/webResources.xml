@@ -9,6 +9,9 @@
             <path value="file://$PROJECT_DIR$/xcore/font" />
             <path value="file://$PROJECT_DIR$/xcore/config" />
             <path value="file://$PROJECT_DIR$/xcore/public" />
+            <path value="file://$PROJECT_DIR$/xadmin/config" />
+            <path value="file://$PROJECT_DIR$/xadmin/public" />
+            <path value="file://$PROJECT_DIR$/xadmin/logs" />
           </resourceRoots>
         </entryData>
       </entry>

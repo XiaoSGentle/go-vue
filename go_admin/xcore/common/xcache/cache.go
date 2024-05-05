@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/gob"
+	"fmt"
 	"github.com/allegro/bigcache/v3"
 	"github.com/eko/gocache/lib/v4/cache"
 	bigcacheStore "github.com/eko/gocache/store/bigcache/v4"
+	"slices"
 	"time"
 )
 
@@ -16,9 +18,23 @@ type CacheStore[T interface{}] struct {
 	cacheManger *cache.Cache[[]byte]
 }
 
+var nilStringList = []string{
+	"%!s(<nil>)", "[]",
+}
+
 func NewCacheStore[T interface{}](invalidDuration time.Duration, prefixKey string) *CacheStore[T] {
 	var ctx = context.Background()
-	bigCacheClient, _ := bigcache.New(ctx, bigcache.DefaultConfig(invalidDuration))
+	bigCacheClient, _ := bigcache.New(ctx, bigcache.Config{
+		Shards:             1024,
+		LifeWindow:         1 * time.Minute,
+		CleanWindow:        invalidDuration,
+		MaxEntriesInWindow: 1000 * 10 * 60,
+		MaxEntrySize:       500,
+		StatsEnabled:       false,
+		Verbose:            true,
+		HardMaxCacheSize:   0,
+		Logger:             bigcache.DefaultLogger(),
+	})
 	bigCacheStore := bigcacheStore.NewBigcache(bigCacheClient)
 	cacheManager := cache.New[[]byte](bigCacheStore)
 	return &CacheStore[T]{context.Background(), prefixKey, cacheManager}
@@ -47,6 +63,6 @@ func (receiver CacheStore[T]) Clear() (err error) {
 	err = receiver.cacheManger.Clear(receiver.context)
 	return
 }
-func (receiver CacheStore[T]) Exist(key string) (exit bool) {
-	return true
+func (receiver CacheStore[T]) Exist(key string) (exist bool) {
+	return slices.Contains(nilStringList, fmt.Sprintf("%s", receiver.Get(receiver.prefix+key)))
 }

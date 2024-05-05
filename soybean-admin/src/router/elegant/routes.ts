@@ -331,6 +331,35 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'test-page',
+    path: '/test-page',
+    component: 'layout.base',
+    meta: {
+      title: 'test-page',
+      i18nKey: 'route.test-page'
+    },
+    children: [
+      {
+        name: 'test-page_page-one',
+        path: '/test-page/page-one',
+        component: 'view.test-page_page-one',
+        meta: {
+          title: 'test-page_page-one',
+          i18nKey: 'route.test-page_page-one'
+        }
+      },
+      {
+        name: 'test-page_page-two',
+        path: '/test-page/page-two',
+        component: 'view.test-page_page-two',
+        meta: {
+          title: 'test-page_page-two',
+          i18nKey: 'route.test-page_page-two'
+        }
+      }
+    ]
+  },
+  {
     name: 'user-center',
     path: '/user-center',
     component: 'layout.base$view.user-center',

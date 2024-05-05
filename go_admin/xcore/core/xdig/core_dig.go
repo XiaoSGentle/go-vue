@@ -11,6 +11,9 @@ var instanceList []interface{}
 
 // ProvideForDI 提供依赖
 func ProvideForDI(constructor interface{}, opts ...dig.ProvideOption) error {
+	if constructor == nil {
+		return nil
+	}
 	// 防止重复注册报错
 	for _, instance := range instanceList {
 		if reflect.ValueOf(instance).String() == reflect.ValueOf(constructor).String() {

@@ -11,13 +11,13 @@ export function getUserInfo() {
     userId: '',
     userName: '',
     roles: [],
-    buttons: []
+    apis: []
   };
   const userInfo = localStg.get('userInfo') || emptyInfo;
 
   // fix new property: buttons, this will be removed in the next version `1.1.0`
-  if (!userInfo.buttons) {
-    userInfo.buttons = [];
+  if (!userInfo.apis) {
+    userInfo.apis = [];
   }
 
   return userInfo;

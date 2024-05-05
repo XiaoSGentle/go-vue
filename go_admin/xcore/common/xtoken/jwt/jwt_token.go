@@ -11,10 +11,15 @@ import (
 
 var ContextKey string = "BIND_CONTEXT_CUSTOM_CLAIMS_KEY"
 
+type ClaimsPayload struct {
+	Uid      int32    `json:"uid"`
+	NickName string   `json:"nickName"`
+	Roles    []string `json:"roles"`
+}
+
 // CustomClaims 自定义jwt的声明字段信息+标准字段
 type CustomClaims struct {
-	Uid   int64    `json:"uid"`
-	Roles []string `json:"roles"`
+	ClaimsPayload
 	jwt.RegisteredClaims
 }
 
@@ -23,18 +28,16 @@ type CustomClaims struct {
 // @iat: 时间戳
 // @seconds: 过期时间，单位秒
 // @payload: 数据载体
-func GenerateJwtToken(secretKey string, seconds int64, uid int64, roles []string) (token string, err error) {
-	customClaims := CustomClaims{
-		uid,
-		roles,
-		jwt.RegisteredClaims{
-			Issuer:    "REACOOL_JWT_CLAIMS_ISSUER",
-			Subject:   "REACOOL_JWT_CLAIMS_SUBJECT",
-			ExpiresAt: jwt.NewNumericDate(time.Unix(time.Now().Unix()+seconds, 0)),
-			NotBefore: jwt.NewNumericDate(time.Now()),
-			ID:        uuid.New().String(),
-		},
+func GenerateJwtToken(secretKey string, seconds int64, claimsPayload *ClaimsPayload) (token string, err error) {
+	var customClaims CustomClaims
+	customClaims.RegisteredClaims = jwt.RegisteredClaims{
+		Issuer:    "REACOOL_JWT_CLAIMS_ISSUER",
+		Subject:   "REACOOL_JWT_CLAIMS_SUBJECT",
+		ExpiresAt: jwt.NewNumericDate(time.Unix(time.Now().Unix()+seconds, 0)),
+		NotBefore: jwt.NewNumericDate(time.Now()),
+		ID:        uuid.New().String(),
 	}
+	customClaims.ClaimsPayload = *claimsPayload
 	token, err = jwt.NewWithClaims(jwt.SigningMethodHS256, customClaims).SignedString([]byte(secretKey))
 	return
 }
@@ -52,21 +55,54 @@ func ParseJwtToken(secretKey string, tokenString string) (claims *CustomClaims, 
 	return nil, xerror.NewErrCode(xerror.TOKEN_FORMAT_ERROR)
 }
 
-func RefreshToken(refreshToken string, refreshTokenSecretKey string, refreshTokenSecretKeyExpire int64, tokenSecretKey string, tokenSecretKeyExpire int64, uid int64, roles []string) (tokenString string, refreshTokenString string, err error) {
+func RefreshToken(refreshToken string, refreshTokenSecretKey string, refreshTokenSecretKeyExpire int64, tokenSecretKey string, tokenSecretKeyExpire int64, payload *ClaimsPayload) (tokenString string, refreshTokenString string, err error) {
 	_, err = jwt.ParseWithClaims(refreshToken, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(refreshTokenSecretKey), nil
 	})
-	tokenString, err = GenerateJwtToken(tokenSecretKey, tokenSecretKeyExpire, uid, roles)
-	refreshTokenString, err = GenerateJwtToken(refreshTokenSecretKey, refreshTokenSecretKeyExpire, uid, roles)
+	tokenString, err = GenerateJwtToken(tokenSecretKey, tokenSecretKeyExpire, payload)
+	refreshTokenString, err = GenerateJwtToken(refreshTokenSecretKey, refreshTokenSecretKeyExpire, payload)
 	return
 }
 
-func GetClaimsByRequest(r *gin.Context, secretKey string) (customClaims *CustomClaims, err error) {
+func GetPayloadByRequest(r *gin.Context, secretKey string) (claimsPayload *ClaimsPayload, err error) {
 	authorizationHeader := r.GetHeader("Authorization")
 	split := strings.Split(authorizationHeader, " ")
 	if len(split) != 2 || split[0] != "Bearer" {
 		return nil, xerror.NewErrCode(xerror.TOKEN_FORMAT_ERROR)
 	}
-	customClaims, err = ParseJwtToken(secretKey, split[1])
-	return
+	customClaims, err := ParseJwtToken(secretKey, split[1])
+	if err != nil {
+		return &customClaims.ClaimsPayload, err
+	}
+	return &customClaims.ClaimsPayload, nil
+}
+func GetClaimsByRequest(r *gin.Context, secretKey string) (claimsPayload *CustomClaims, err error) {
+	authorizationHeader := r.GetHeader("Authorization")
+	split := strings.Split(authorizationHeader, " ")
+	if len(split) != 2 || split[0] != "Bearer" {
+		return nil, xerror.NewErrCode(xerror.TOKEN_FORMAT_ERROR)
+	}
+	customClaims, err := ParseJwtToken(secretKey, split[1])
+	if err != nil {
+		return customClaims, err
+	}
+	return customClaims, nil
+}
+
+func GetBindCustomPayload(c *gin.Context) *ClaimsPayload {
+	claimsPayload, exists := c.Get(ContextKey)
+	if exists {
+		payload := claimsPayload.(ClaimsPayload)
+		return &ClaimsPayload{
+			Uid:      payload.Uid,
+			NickName: payload.NickName,
+			Roles:    payload.Roles,
+		}
+	} else {
+		return &ClaimsPayload{
+			Uid:      -1,
+			NickName: "NoAuth",
+			Roles:    []string{},
+		}
+	}
 }

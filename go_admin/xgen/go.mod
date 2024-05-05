@@ -3,8 +3,6 @@ module xgen
 go 1.21.3
 
 require (
-	github.com/manifoldco/promptui v0.9.0
-	github.com/spf13/cobra v1.8.0
 	gorm.io/gen v0.3.26
 	gorm.io/gorm v1.25.10
 )

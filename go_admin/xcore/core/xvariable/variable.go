@@ -1,17 +1,18 @@
 package xvariable
 
 import (
-	"golang.org/x/exp/slog"
 	"gorm.io/gorm"
+	"xcore/common/xauth"
 	"xcore/common/xcaptcha"
 	"xcore/common/xconfig/interf"
+	"xcore/common/xlogger"
 )
 
 var (
 	// BasePath 项目运行路径
 	BasePath string = "./"
 
-	Logger *slog.Logger
+	Logger *xlogger.Logger
 
 	GlobalYmlConfig interf.YmlConfigInterf
 
@@ -20,4 +21,6 @@ var (
 	GormDB *gorm.DB
 
 	Captcha *xcaptcha.Captcha
+
+	Auth *xauth.Auth
 )

@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/exp/slog"
 	"time"
+	"xcore/core/xvariable"
 )
 
 type Resp struct {
-	Code int64  `json:"code"`
-	Msg  string `json:"msg"`
+	Code int64       `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
 // LogMiddleHandler  该函数前需要调用 tokenCheck 插件
@@ -24,14 +27,14 @@ func LogMiddleHandler(c *gin.Context) {
 	cosTime := time.Now().UnixMilli() - startTime
 
 	// 响应状态码
-	responseStatus := int64(c.Writer.Status())
+	//responseStatus := int64(c.Writer.Status())
 
 	respResult := (*respWriter.Body).String()
 
 	var resp Resp
-	json.Unmarshal([]byte(respResult), &resp)
-	fmt.Printf("[%s]【%s】 %s CosTime:%dms RespStatus:%d Resp:%s\n", time.Now().Format(time.DateTime), c.Request.Method, c.Request.URL.String(), cosTime, responseStatus, resp.Msg)
-
+	_ = json.Unmarshal([]byte(respResult), &resp)
+	//fmt.Printf("[%s]【%s】 %s CosTime:%dms RespStatus:%d Resp:%s\n", time.Now().Format(time.DateTime), c.Request.Method, c.Request.URL.String(), cosTime, responseStatus, resp.Data)
+	xvariable.Logger.InfoLog.InfoContext(c, resp.Msg, slog.Int64("cosTime", cosTime), slog.String("ip", c.RemoteIP()), slog.String("method", c.Request.Method), slog.Int64("code", resp.Code), slog.String("data", fmt.Sprintf("%s", resp.Data)))
 }
 
 type ResponseWriterWrapper struct {

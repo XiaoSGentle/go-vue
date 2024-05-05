@@ -13,6 +13,22 @@ func SuccessCtx(c *gin.Context, v any) {
 	ReturnJson(c, 200, success)
 	c.Abort()
 }
+func CreateSuccessCtx(c *gin.Context) {
+	success := createSuccess("创建成功")
+	ReturnJson(c, 200, success)
+	c.Abort()
+}
+
+func UpdateSuccessCtx(c *gin.Context) {
+	success := createSuccess("更新成功")
+	ReturnJson(c, 200, success)
+	c.Abort()
+}
+func DeleteSuccessCtx(c *gin.Context) {
+	success := createSuccess("删除成功")
+	ReturnJson(c, 200, success)
+	c.Abort()
+}
 
 func ErrorCtx(c *gin.Context, err error) {
 	errCode := xerror.SERVER_COMMON_ERROR
@@ -27,7 +43,7 @@ func ErrorCtx(c *gin.Context, err error) {
 		// 不是的话就是系统错误
 		// todo: 这里有条件再进行优化
 		// 写入日志
-		xvariable.Logger.ErrorContext(c, "响应失败错错误信息"+err.Error())
+		xvariable.Logger.ErrorLog.ErrorContext(c, "响应失败错错误信息"+err.Error())
 	}
 	ReturnJson(c, http.StatusOK, createError(errCode, errMsg))
 	c.Abort()

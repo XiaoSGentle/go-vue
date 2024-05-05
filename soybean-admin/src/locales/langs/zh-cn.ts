@@ -173,7 +173,10 @@ const local: App.I18n.Schema = {
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',
-    exception_500: '500'
+    exception_500: '500',
+    'test-page': '测试页',
+    'test-page_page-one': '页面1',
+    'test-page_page-two': '页面2'
   },
   page: {
     login: {
@@ -365,7 +368,7 @@ const local: App.I18n.Schema = {
         routeParams: '路由参数',
         layout: '布局',
         page: '页面组件',
-        i18nKey: '国际化key',
+        i18nKey: 'i18nKey',
         icon: '图标',
         localIcon: '本地图标',
         iconTypeTitle: '图标类型',

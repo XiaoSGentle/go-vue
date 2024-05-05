@@ -1,16 +1,15 @@
 <script setup lang="tsx">
 import { computed, ref, shallowRef } from 'vue';
-import { NButton, NCheckbox, NCheckboxGroup, NDivider, NGi, NGrid, NModal, NScrollbar, NSpace } from 'naive-ui';
+import { NButton, NCheckbox, NCheckboxGroup, NDivider, NGi, NGrid, NModal, NScrollbar, NSpace, NTag } from 'naive-ui';
 import { $t } from '@/locales';
-import { fetchGetAllApis } from '@/service/api';
+import { fetchGetAllApis, getRolePermitByCode, updateRoleApiCodesPermitByCode } from '@/service/api';
 
 defineOptions({
   name: 'ApiAuthModal'
 });
 
 interface Props {
-  /** the roleId */
-  roleCode: string;
+  roleCode: string | undefined;
 }
 
 const props = defineProps<Props>();
@@ -32,7 +31,7 @@ const title = computed(() => $t('common.edit') + $t('page.manage.role.apiAuth'))
 
 const tree = shallowRef<Api.SystemManage.BackApi[]>([]);
 
-async function getAllButtons() {
+async function getAllApis() {
   const { data } = await fetchGetAllApis();
   if (data) tree.value = data;
 }
@@ -40,14 +39,16 @@ async function getAllButtons() {
 const checks = ref<(string | number)[]>([]);
 
 async function getChecks() {
-  // request
+  const { data } = await getRolePermitByCode(props.roleCode);
+  if (data) checks.value = data?.apiCodes;
 }
 
-function handleSubmit() {
-  // request
-  console.log(props.roleCode);
-  window.$message?.success?.($t('common.modifySuccess'));
-  closeModal();
+async function handleSubmit() {
+  const { error } = await updateRoleApiCodesPermitByCode({ roleCode: props.roleCode, apiCodes: checks.value });
+  if (!error) {
+    window.$message?.success?.($t('common.modifySuccess'));
+    closeModal();
+  }
 }
 
 const apisGroups = computed(() => {
@@ -79,15 +80,20 @@ function checkIsSelectAll(param: Api.SystemManage.BackApi[]): boolean {
   return true;
 }
 function init() {
-  getAllButtons();
+  getAllApis();
   getChecks();
 }
 
 // init
 init();
-
+const tagMap: Record<string, NaiveUI.ThemeColor> = {
+  GET: 'success',
+  POST: 'warning',
+  PUT: 'info',
+  DELETE: 'error'
+};
 const Render = () => (
-  <NModal show={visible.value} title={title.value} preset="card" class="w-650px" onClose={closeModal}>
+  <NModal show={visible.value} title={title.value} preset="card" class="w-700px" onClose={closeModal}>
     {{
       default: () => (
         <NScrollbar class="h-450px">
@@ -100,6 +106,7 @@ const Render = () => (
                       <div class="flex">
                         <NButton
                           size="small"
+                          type="primary"
                           class="mr"
                           onClick={() => {
                             const selectedCodes = _group.apis.map(item => item.code);
@@ -124,7 +131,12 @@ const Render = () => (
                         return (
                           <NGi>
                             <NCheckbox key={api.code} value={api.name}>
-                              {api.name}
+                              <div class="flex">
+                                <div class="w-70px flex justify-center">
+                                  <NTag type={tagMap[api.name.split('::')[0]]}>{api.name.split('::')[0]}</NTag>
+                                </div>
+                                <span>{api.name.split('::')[1]}</span>
+                              </div>
                             </NCheckbox>
                           </NGi>
                         );

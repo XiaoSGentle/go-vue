@@ -20,7 +20,7 @@ var (
 func main() {
 
 	g := gen.NewGenerator(gen.Config{
-		OutPath:           "../xcore/dao/query",
+		OutPath:           "../xadmin/soybean/dao/query",
 		FieldNullable:     false,
 		FieldCoverable:    false,
 		FieldSignable:     false,
