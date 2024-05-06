@@ -427,18 +427,37 @@ const local: App.I18n.Schema = {
       }
     },
     dict: {
-      tableTitle: '字典管理',
-      name: '字典类型',
-      code: '字典标识',
-      desc: '字典描述',
-      status: '字典状态',
-      form: {
-        add: '新增字典类型',
-        edit: '编辑字典类型',
-        name: '请填写字典类型',
-        code: '请填写字典标识',
-        desc: '请填写字典描述',
-        status: '请选择字典状态'
+      type: {
+        tableTitle: '字典管理',
+        name: '字典类型',
+        code: '字典标识',
+        desc: '字典描述',
+        status: '字典状态',
+        form: {
+          add: '新增字典类型',
+          edit: '编辑字典类型',
+          name: '请填写字典类型',
+          code: '请填写字典标识',
+          desc: '请填写字典描述',
+          status: '请选择字典状态'
+        }
+      },
+      data: {
+        tableTitle: '字典内容',
+        label: '字典标签',
+        value: '字典值',
+        i18nKey: 'I18n键',
+        sort: '字典排序',
+        status: '字典状态',
+        form: {
+          add: '新增字典内容',
+          edit: '编辑字典内容',
+          label: '请填写字典内容标签',
+          value: '请填写字典内容',
+          i18nKey: '请选择字典I18n键',
+          sort: '请选择字典内容排序',
+          status: '请选择字典内容状态'
+        }
       }
     }
   },

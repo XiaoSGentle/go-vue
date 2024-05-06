@@ -4,11 +4,9 @@ import (
 	"bytes"
 	"context"
 	"encoding/gob"
-	"fmt"
 	"github.com/allegro/bigcache/v3"
 	"github.com/eko/gocache/lib/v4/cache"
 	bigcacheStore "github.com/eko/gocache/store/bigcache/v4"
-	"slices"
 	"time"
 )
 
@@ -16,10 +14,6 @@ type CacheStore[T interface{}] struct {
 	context     context.Context
 	prefix      string
 	cacheManger *cache.Cache[[]byte]
-}
-
-var nilStringList = []string{
-	"%!s(<nil>)", "[]",
 }
 
 func NewCacheStore[T interface{}](invalidDuration time.Duration, prefixKey string) *CacheStore[T] {
@@ -40,29 +34,36 @@ func NewCacheStore[T interface{}](invalidDuration time.Duration, prefixKey strin
 	return &CacheStore[T]{context.Background(), prefixKey, cacheManager}
 }
 
-func (receiver CacheStore[T]) Set(key string, value T) (ok bool) {
+func (receiver *CacheStore[T]) Set(key string, value T) (ok bool) {
 	var bufferByte = new(bytes.Buffer)
 	newEncoder := gob.NewEncoder(bufferByte)
 	err := newEncoder.Encode(value)
 	err = receiver.cacheManger.Set(receiver.context, receiver.prefix+key, bufferByte.Bytes())
+	if err != nil {
+		println(err.Error() + "Set")
+	}
 	return err == nil
 }
-func (receiver CacheStore[T]) Get(key string) (result T) {
+func (receiver *CacheStore[T]) Get(key string) (result T) {
 	byteInCatch, _ := receiver.cacheManger.Get(receiver.context, receiver.prefix+key)
 	decoder := gob.NewDecoder(bytes.NewReader(byteInCatch))
 	_ = decoder.Decode(&result)
 	return
 }
 
-func (receiver CacheStore[T]) Delete(key string) (err error) {
+func (receiver *CacheStore[T]) Delete(key string) (err error) {
 	err = receiver.cacheManger.Delete(receiver.context, receiver.prefix+key)
 	return
 }
 
-func (receiver CacheStore[T]) Clear() (err error) {
+func (receiver *CacheStore[T]) Clear() (err error) {
 	err = receiver.cacheManger.Clear(receiver.context)
 	return
 }
-func (receiver CacheStore[T]) Exist(key string) (exist bool) {
-	return slices.Contains(nilStringList, fmt.Sprintf("%s", receiver.Get(receiver.prefix+key)))
+func (receiver *CacheStore[T]) Exist(key string) (exist bool) {
+	_, err := receiver.cacheManger.Get(receiver.context, receiver.prefix+key)
+	if err != nil {
+		return false
+	}
+	return true
 }

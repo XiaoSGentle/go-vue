@@ -87,6 +87,7 @@
     "eslint-plugin-vue": "9.25.0",
     "lint-staged": "15.2.2",
     "sass": "1.75.0",
+    "simple-git-hooks": "2.11.1",
     "tsx": "4.7.3",
     "typescript": "5.4.5",
     "unplugin-icons": "0.18.5",
@@ -98,7 +99,6 @@
     "vue-eslint-parser": "9.4.2",
     "vue-tsc": "2.0.14"
   },
-
   "simple-git-hooks": {
     "commit-msg": "pnpm sa git-commit-verify",
     "pre-commit": "pnpm typecheck && pnpm lint-staged"

@@ -163,6 +163,9 @@ func (h sysDictHandler) AddDictData(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
+	for key, value := range h.DictInSql(c) {
+		DictCache.Set(key, value)
+	}
 	xresponse.CreateSuccessCtx(c)
 }
 
@@ -187,6 +190,9 @@ func (h sysDictHandler) UpdateDictData(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
+	for key, value := range h.DictInSql(c) {
+		DictCache.Set(key, value)
+	}
 	xresponse.UpdateSuccessCtx(c)
 }
 
@@ -203,14 +209,18 @@ func (h sysDictHandler) DeleteDictDataByIds(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
+	for key, value := range h.DictInSql(c) {
+		DictCache.Set(key, value)
+	}
 	xresponse.DeleteSuccessCtx(c)
 }
 
 func (h sysDictHandler) DictInfo(c *gin.Context) {
+
 	var typeCode struct {
-		TypeCode string `json:"typeCode" zh_comment:"字典KEY" en_comment:"dict key" validate:"required"`
+		TypeCode string `uri:"typeCode" zh_comment:"字典KEY" en_comment:"dict key" validate:"required"`
 	}
-	if err := c.ShouldBind(&typeCode); err != nil {
+	if err := c.ShouldBindUri(&typeCode); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
 	if !DictCache.Exist(typeCode.TypeCode) {
@@ -236,6 +246,7 @@ func (h sysDictHandler) DictInSql(c *gin.Context) (result map[string][]DictInfo)
 			Size:    1000,
 		},
 	})
+	var _result = map[string][]DictInfo{}
 	for _, record := range list.Records {
 		dataList, _ := h.dictDataService.GetDictDataList(c, &SysDictDataListParam{
 			PageParam: baseType.PageParam{
@@ -252,7 +263,8 @@ func (h sysDictHandler) DictInSql(c *gin.Context) (result map[string][]DictInfo)
 				Sort:  dictDataList.Sort,
 			})
 		}
-		result[record.Code] = dictInfo
+
+		_result[record.Code] = dictInfo
 	}
-	return result
+	return _result
 }

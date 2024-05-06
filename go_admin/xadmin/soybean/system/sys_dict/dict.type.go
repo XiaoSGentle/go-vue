@@ -13,7 +13,7 @@ type SysDictListResp struct {
 }
 type SysDictDataListParam struct {
 	baseType.PageParam
-	Code string `json:"code"`
+	Code string `json:"code" form:"code" zh_comment:"当前页数" en_comment:"current" validate:"required"`
 }
 type SysDictDataListResp struct {
 	baseType.PageResult

@@ -3,7 +3,7 @@ import { computed, reactive, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
-import { addDictType, updateDictTypeById } from '@/service/api';
+import { addDictData, updateDictDataById } from '@/service/api';
 
 defineOptions({
   name: 'DictTypeOperateDrawer'
@@ -33,29 +33,30 @@ const { defaultRequiredRule } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.dict.form.add'),
-    edit: $t('page.dict.form.edit')
+    add: $t('page.dict.data.form.add'),
+    edit: $t('page.dict.data.form.edit')
   };
   return titles[props.operateType];
 });
 
-type Model = Api.Dict.AddOrUpdateDictTypeParams;
+type Model = Api.Dict.AddOrUpdateDictDataParams;
 
 const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    name: '',
-    code: '',
-    description: '',
+    label: '',
+    value: '',
+    sort: 0,
+    i18nKey: '',
     status: '2'
   };
 }
 
-type RuleKey = keyof Model & ('name' | 'code');
+type RuleKey = keyof Model & ('label' | 'value');
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  name: defaultRequiredRule,
-  code: defaultRequiredRule
+  label: defaultRequiredRule,
+  value: defaultRequiredRule
 };
 
 function handleUpdateModelWhenEdit() {
@@ -76,7 +77,7 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   if (props.operateType === 'add') {
-    const { error } = await addDictType(model);
+    const { error } = await addDictData(model);
     if (!error) {
       window.$message?.success($t('common.addSuccess'));
       closeDrawer();
@@ -84,7 +85,7 @@ async function handleSubmit() {
     }
   }
   if (props.operateType === 'edit') {
-    const { error } = await updateDictTypeById(props.rowData?.id, model);
+    const { error } = await updateDictDataById(props.rowData?.id, model);
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
       closeDrawer();
@@ -105,16 +106,26 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" display-directive="show" :width="360">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.dict.name')" path="name">
-          <NInput v-model:value="model.name" :placeholder="$t('page.dict.form.name')" />
+        <NFormItem :label="$t('page.dict.data.label')" path="name">
+          <NInput v-model:value="model.label" :placeholder="$t('page.dict.data.form.label')" />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.code')" path="code">
-          <NInput v-model:value="model.code" :placeholder="$t('page.dict.form.code')" />
+        <NFormItem :label="$t('page.dict.data.value')" path="code">
+          <NInput v-model:value="model.value" :placeholder="$t('page.dict.data.form.value')" />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.desc')">
-          <NInput v-model:value="model.description" type="textarea" :placeholder="$t('page.dict.form.desc')" />
+        <!--
+ <NFormItem :label="$t('page.dict.data.i18nKey')">
+          <NInput v-model:value="model.i8nKey" :placeholder="$t('page.dict.data.form.i18nKey')" />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.status')">
+-->
+        <NFormItem :label="$t('page.dict.data.sort')">
+          <NInputNumber
+            v-model:value="model.sort"
+            button-placement="right"
+            class="w-full"
+            :placeholder="$t('page.dict.data.form.sort')"
+          />
+        </NFormItem>
+        <NFormItem :label="$t('page.dict.data.status')">
           <NRadioGroup v-model:value="model.status">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>

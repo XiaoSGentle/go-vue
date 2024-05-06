@@ -63,6 +63,7 @@ func (s SysDictDataService) AddDictData(c *gin.Context, param *AddOrUpDateSysDic
 		Label:      param.Label,
 		Value:      param.Value,
 		Sort:       param.Sort,
+		TypeCode:   param.TypeCode,
 		Status:     param.Status,
 		CreateUID:  payload.Uid,
 		CreateBy:   payload.NickName,

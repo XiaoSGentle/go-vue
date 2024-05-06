@@ -14,7 +14,7 @@ interface Props {
   id: string;
 }
 
-const { id } = defineProps<Props>();
+const { id: typeCode } = defineProps<Props>();
 
 const appStore = useAppStore();
 
@@ -23,7 +23,7 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
   apiParams: {
     current: 1,
     size: 10,
-    code: id
+    code: typeCode
   },
   columns: () => [
     {
@@ -33,20 +33,26 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
     },
     {
       key: 'label',
-      title: $t('page.dict.name'),
-      align: 'left'
+      title: $t('page.dict.data.label'),
+      align: 'center'
     },
     {
       key: 'value',
-      title: $t('page.dict.code')
+      title: $t('page.dict.data.value'),
+      align: 'center'
     },
+    // {
+    // key: 'i18nKey',
+    //  title: $t('page.dict.data.i18nKey')
+    // },
     {
       key: 'sort',
-      title: $t('page.dict.desc')
+      title: $t('page.dict.data.sort'),
+      align: 'center'
     },
     {
       key: 'status',
-      title: $t('page.dict.status'),
+      title: $t('page.dict.data.status'),
       align: 'center',
       width: 100,
       render: row => {
@@ -132,7 +138,12 @@ function edit(id: number) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <NCard :title="$t('page.dict.tableTitle')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard
+      :title="$t('page.dict.data.tableTitle')"
+      :bordered="false"
+      size="small"
+      class="sm:flex-1-hidden card-wrapper"
+    >
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"

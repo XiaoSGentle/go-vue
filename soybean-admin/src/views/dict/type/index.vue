@@ -27,12 +27,13 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
     },
     {
       key: 'name',
-      title: $t('page.dict.name'),
-      align: 'left'
+      title: $t('page.dict.type.name'),
+      align: 'center'
     },
     {
       key: 'code',
-      title: $t('page.dict.code'),
+      title: $t('page.dict.type.code'),
+      align: 'center',
       render: row => {
         return (
           <div
@@ -41,7 +42,6 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
             }}
           >
             <span class="cursor-pointer border-blue-6 p-1 color-blue hover:border-b-1.5 hover:color-blue-6">
-              {' '}
               {row.code}
             </span>
           </div>
@@ -50,13 +50,13 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
     },
     {
       key: 'description',
-      title: $t('page.dict.desc')
+      title: $t('page.dict.type.desc')
     },
     {
       key: 'status',
-      title: $t('page.dict.status'),
+      title: $t('page.dict.type.status'),
       align: 'center',
-      width: 100,
+
       render: row => {
         if (row.status === null) {
           return null;
@@ -191,7 +191,12 @@ function edit(id: number) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <NCard :title="$t('page.dict.tableTitle')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard
+      :title="$t('page.dict.type.tableTitle')"
+      :bordered="false"
+      size="small"
+      class="sm:flex-1-hidden card-wrapper"
+    >
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"

@@ -33,8 +33,8 @@ const { defaultRequiredRule } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.dict.form.add'),
-    edit: $t('page.dict.form.edit')
+    add: $t('page.dict.type.form.add'),
+    edit: $t('page.dict.type.form.edit')
   };
   return titles[props.operateType];
 });
@@ -105,16 +105,16 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" display-directive="show" :width="360">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.dict.name')" path="name">
-          <NInput v-model:value="model.name" :placeholder="$t('page.dict.form.name')" />
+        <NFormItem :label="$t('page.dict.type.name')" path="name">
+          <NInput v-model:value="model.name" :placeholder="$t('page.dict.type.form.name')" />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.code')" path="code">
-          <NInput v-model:value="model.code" :placeholder="$t('page.dict.form.code')" />
+        <NFormItem :label="$t('page.dict.type.code')" path="code">
+          <NInput v-model:value="model.code" :placeholder="$t('page.dict.type.form.code')" />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.desc')">
-          <NInput v-model:value="model.description" type="textarea" :placeholder="$t('page.dict.form.desc')" />
+        <NFormItem :label="$t('page.dict.type.desc')">
+          <NInput v-model:value="model.description" type="textarea" :placeholder="$t('page.dict.type.form.desc')" />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.status')">
+        <NFormItem :label="$t('page.dict.type.status')">
           <NRadioGroup v-model:value="model.status">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>

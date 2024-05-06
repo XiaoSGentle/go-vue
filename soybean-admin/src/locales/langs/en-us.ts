@@ -427,18 +427,37 @@ const local: App.I18n.Schema = {
       }
     },
     dict: {
-      tableTitle: 'Dict Manage',
-      name: 'Dict Name',
-      code: 'Dict Code',
-      desc: 'Description',
-      status: 'Dict Status',
-      form: {
-        add: 'Add dictionary',
-        edit: 'Edit dictionary',
-        name: 'Please enter dict name',
-        code: 'Please enter dict code',
-        desc: 'Please enter description',
-        status: 'Please choose dict status'
+      type: {
+        tableTitle: 'Dict Manage',
+        name: 'Dict Name',
+        code: 'Dict Code',
+        desc: 'Description',
+        status: 'Dict Status',
+        form: {
+          add: 'Add dictionary',
+          edit: 'Edit dictionary',
+          name: 'Please enter dict name',
+          code: 'Please enter dict code',
+          desc: 'Please enter description',
+          status: 'Please choose dict status'
+        }
+      },
+      data: {
+        tableTitle: 'Dictionary Content',
+        label: 'Dictionary Label',
+        value: 'Dictionary Value',
+        i18nKey: 'Dictionary I18n Key',
+        sort: 'Dictionary Sort',
+        status: 'Dictionary Status',
+        form: {
+          add: 'Add Dictionary Content',
+          edit: 'Edit Dictionary Content',
+          label: 'Please enter the dictionary content label',
+          value: 'Please enter the dictionary content',
+          i18nKey: 'Please select the dictionary I18n key',
+          sort: 'Please select the dictionary content sort',
+          status: 'Please select the dictionary content status'
+        }
       }
     }
   },
