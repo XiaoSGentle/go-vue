@@ -5,7 +5,6 @@ import { useAppStore } from './store/modules/app';
 import { useThemeStore } from './store/modules/theme';
 import { naiveDateLocales, naiveLocales } from './locales/naive';
 
-
 defineOptions({
   name: 'App'
 });

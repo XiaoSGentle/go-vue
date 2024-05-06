@@ -83,7 +83,7 @@ declare namespace Api {
   }
 
   namespace BaseCurd {
-    type SuccessNodataResponse = string;
+    type SuccessNoDataResponse = string;
   }
 
   /**
@@ -280,5 +280,50 @@ declare namespace Api {
       code: string;
       name: string;
     };
+  }
+
+  namespace Dict {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type DictType = Common.CommonRecord<{
+      name: string;
+      code: string;
+      description: string;
+    }>;
+    type DictTypeList = Common.PaginatingQueryRecord<DictType>;
+    type AddOrUpdateDictTypeParams = Pick<DictType, 'code' | 'name' | 'description' | 'status'>;
+
+    type DictTypeSearchParams = CommonType.RecordNullable<
+      Pick<Api.Dict.DictType, 'name' | 'description'> & CommonSearchParams
+    >;
+
+    type DictData = Common.CommonRecord<{
+      label: string;
+      i8nKey: string;
+      value: string;
+      sort: number;
+      code: string;
+    }>;
+    type DictDataSearchParams = CommonType.RecordNullable<Pick<Api.Dict.DictData, 'code'> & CommonSearchParams>;
+
+    type DictDataList = Common.PaginatingQueryRecord<DictData>;
+    type AddOrUpdateDictDataParams = Pick<DictData, 'label' | 'i8nKey' | 'value' | 'sort'>;
+
+    type DictTypeDataSearchParams = CommonType.RecordNullable<
+      Pick<Api.Dict.DictData, 'label' | 'i8nKey' | 'sort' | 'value'> & CommonSearchParams
+    >;
+  }
+  namespace Logger {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type Logger = Common.CommonRecord<{
+      name: string;
+      code: string;
+      description: string;
+    }>;
+    type LoggerList = Common.PaginatingQueryRecord<Logger>;
+    type AddOrUpdateLoggerParams = Pick<Logger, 'code' | 'name' | 'description'>;
+
+    type LoggerSearchParams = CommonType.RecordNullable<
+      Pick<Api.Dict.DictType, 'name' | 'description'> & CommonSearchParams
+    >;
   }
 }

@@ -1,9 +1,15 @@
 package sys_log
 
 import (
+	"bufio"
 	"github.com/gin-gonic/gin"
+	"log"
 	"os"
+	baseType "xadmin/soybean/dao/model/base"
+	"xcore/common/xerror"
 	"xcore/common/xmiddlewares"
+	"xcore/common/xresponse"
+	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 )
 
@@ -12,7 +18,8 @@ var LogGroup = xcore.Group("/system/log", newSysLogHandler, regLog, xmiddlewares
 func regLog(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 	return group.Reg(func(handle *logHandler) {
 		rg.GET("/list", handle.LogFileList)
-		rg.GET("/:fileName", handle.DownLogFile)
+		rg.GET("/:level", handle.LogContent)
+		rg.GET("/download/:fileName", handle.DownLogFile)
 	})
 }
 func newSysLogHandler() *logHandler {
@@ -37,6 +44,59 @@ func (h logHandler) LogFileList(c *gin.Context) {
 
 func (h logHandler) DownLogFile(c *gin.Context) {
 
+}
+
+func (h logHandler) LogContent(c *gin.Context) {
+	var level struct {
+		Level string `json:"level" uri:"level" form:"level" zh_comment:"日志等级" en_comment:"log level" validate:"oneof=info error"`
+	}
+	err := c.BindUri(&level)
+
+	if err != nil {
+		xresponse.ErrorCtx(c, xerror.NewErrCode(xerror.PARAM_BIND_ERROR))
+		return
+	}
+	var pageInfo baseType.PageParam
+	err = c.ShouldBind(&pageInfo)
+	if err != nil {
+		xresponse.ErrorCtx(c, xerror.NewErrCode(xerror.PARAM_BIND_ERROR))
+		return
+	}
+	err = xvalidate.ValidateStruct(&level)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	file, err := os.Open("./logs/" + level.Level + ".log")
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	defer func(file *os.File) {
+		_ = file.Close()
+	}(file)
+
+	reader := bufio.NewReader(file)
+	lines := make([]string, 0)
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			break
+		}
+		lines = append(lines, line)
+	}
+	var result SysLogListResp
+	for i := len(lines) - (pageInfo.Size)*(pageInfo.Current-1) - 1; i >= len(lines)-pageInfo.Size*pageInfo.Current-1 && i >= 0; i-- {
+		result.Records = append(result.Records, lines[i])
+	}
+	result.Size = pageInfo.Size
+	result.Current = pageInfo.Current
+	result.Total = int64(len(lines)/pageInfo.Size) + 1
+	xresponse.SuccessCtx(c, result)
+
+	if err := file.Close(); err != nil {
+		log.Fatal(err)
+	}
 }
 func GetFiles(folder string) (filesList []os.DirEntry) {
 	files, _ := os.ReadDir(folder)

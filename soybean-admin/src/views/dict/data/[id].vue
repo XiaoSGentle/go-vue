@@ -1,26 +1,29 @@
-<script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
+<script lang="tsx" setup>
+import { NButton, NCard, NDataTable, NPopconfirm, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
-import { deleteRoleByIds, fetchGetRoleList } from '@/service/api';
-import { useAppStore } from '@/store/modules/app';
+
 import { useTable, useTableOperate } from '@/hooks/common/table';
+import { deleteDictDataByIds, fetchGetDictDataList } from '@/service/api';
+import TableHeaderOperation from '@/components/advanced/table-header-operation.vue';
+import { useAppStore } from '@/store/modules/app';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
-import RoleOperateDrawer from './modules/role-operate-drawer.vue';
-import RoleSearch from './modules/role-search.vue';
+
+import DictDataOperateDrawer from './modules/dict-data-drawer.vue';
+interface Props {
+  id: string;
+}
+
+const { id } = defineProps<Props>();
 
 const appStore = useAppStore();
 
-const { columns, columnChecks, data, loading, getData, mobilePagination, searchParams, resetSearchParams } = useTable({
-  apiFn: fetchGetRoleList,
+const { loading, data, columns, getData, mobilePagination, columnChecks } = useTable({
+  apiFn: fetchGetDictDataList,
   apiParams: {
     current: 1,
     size: 10,
-    // if you want to use the searchParams in Form, you need to define the following properties, and the value is null
-    // the value can not be undefined, otherwise the property in Form will not be reactive
-    status: null,
-    roleName: null,
-    roleCode: null
+    code: id
   },
   columns: () => [
     {
@@ -29,39 +32,21 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
       width: 48
     },
     {
-      key: 'index',
-      title: $t('common.index'),
-      width: 64,
-      align: 'center'
+      key: 'label',
+      title: $t('page.dict.name'),
+      align: 'left'
     },
     {
-      key: 'roleName',
-      title: $t('page.manage.role.roleName'),
-      align: 'center',
-      minWidth: 120
+      key: 'value',
+      title: $t('page.dict.code')
     },
     {
-      key: 'roleCode',
-      title: $t('page.manage.role.roleCode'),
-      align: 'center',
-      minWidth: 120
-    },
-    {
-      key: 'roleDesc',
-      title: $t('page.manage.role.roleDesc'),
-      minWidth: 200
-    },
-    {
-      key: 'createTime',
-      title: $t('page.manage.updateTime'),
-      align: 'center',
-      render: row => {
-        return row.updateTime !== null ? <span>{dayjs(row.updateTime).format('YYYY-MM-DD HH:mm:ss')}</span> : null;
-      }
+      key: 'sort',
+      title: $t('page.dict.desc')
     },
     {
       key: 'status',
-      title: $t('page.manage.role.roleStatus'),
+      title: $t('page.dict.status'),
       align: 'center',
       width: 100,
       render: row => {
@@ -77,6 +62,14 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
         const label = $t(enableStatusRecord[row.status]);
 
         return <NTag type={tagMap[row.status]}>{label}</NTag>;
+      }
+    },
+    {
+      key: 'createTime',
+      title: $t('page.manage.updateTime'),
+      align: 'center',
+      render: row => {
+        return row.updateTime !== null ? <span>{dayjs(row.updateTime).format('YYYY-MM-DD HH:mm:ss')}</span> : null;
       }
     },
     {
@@ -104,7 +97,6 @@ const { columns, columnChecks, data, loading, getData, mobilePagination, searchP
     }
   ]
 });
-
 const {
   drawerVisible,
   operateType,
@@ -118,7 +110,7 @@ const {
 } = useTableOperate(data, getData);
 
 async function handleBatchDelete() {
-  const { error } = await deleteRoleByIds(checkedRowKeys.value);
+  const { error } = await deleteDictDataByIds(checkedRowKeys.value);
   if (!error) {
     window.$message?.success($t('common.deleteSuccess'));
     onBatchDeleted();
@@ -126,7 +118,7 @@ async function handleBatchDelete() {
 }
 
 async function handleDelete(id: number) {
-  const { error } = await deleteRoleByIds([id]);
+  const { error } = await deleteDictDataByIds([id]);
   if (!error) {
     window.$message?.success($t('common.deleteSuccess'));
     onDeleted();
@@ -140,8 +132,7 @@ function edit(id: number) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <RoleSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getData" />
-    <NCard :title="$t('page.manage.role.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard :title="$t('page.dict.tableTitle')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
@@ -164,8 +155,8 @@ function edit(id: number) {
         :row-key="row => row.id"
         :pagination="mobilePagination"
         class="sm:h-full"
-      />
-      <RoleOperateDrawer
+      ></NDataTable>
+      <DictDataOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"
         :row-data="editingData"
@@ -174,5 +165,3 @@ function edit(id: number) {
     </NCard>
   </div>
 </template>
-
-<style scoped></style>

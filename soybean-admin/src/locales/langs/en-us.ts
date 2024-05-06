@@ -176,7 +176,13 @@ const local: App.I18n.Schema = {
     exception_500: '500',
     'test-page': 'test-page',
     'test-page_page-one': 'page-one',
-    'test-page_page-two': 'page-two'
+    'test-page_page-two': 'page-two',
+    logger: 'Log Manage',
+    logger_info: 'Log Preview',
+    logger_file: 'Log Download',
+    dict: 'Dict Manage',
+    dict_type: 'Dict Type',
+    dict_data: 'Dict Data'
   },
   page: {
     login: {
@@ -418,6 +424,21 @@ const local: App.I18n.Schema = {
           iconify: 'Iconify Icon',
           local: 'Local Icon'
         }
+      }
+    },
+    dict: {
+      tableTitle: 'Dict Manage',
+      name: 'Dict Name',
+      code: 'Dict Code',
+      desc: 'Description',
+      status: 'Dict Status',
+      form: {
+        add: 'Add dictionary',
+        edit: 'Edit dictionary',
+        name: 'Please enter dict name',
+        code: 'Please enter dict code',
+        desc: 'Please enter description',
+        status: 'Please choose dict status'
       }
     }
   },

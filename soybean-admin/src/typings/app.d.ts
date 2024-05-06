@@ -588,6 +588,21 @@ declare namespace App {
             };
           };
         };
+        dict: {
+          tableTitle: string;
+          name: string;
+          code: string;
+          desc: string;
+          status: string;
+          form: {
+            add: string;
+            edit: string;
+            name: string;
+            code: string;
+            desc: string;
+            status: string;
+          };
+        };
       };
       form: {
         required: string;

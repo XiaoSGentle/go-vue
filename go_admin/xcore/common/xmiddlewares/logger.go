@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/exp/slog"
 	"time"
+	xtoken "xcore/common/xtoken/jwt"
 	"xcore/core/xvariable"
 )
 
@@ -25,7 +26,7 @@ func LogMiddleHandler(c *gin.Context) {
 
 	c.Next()
 	cosTime := time.Now().UnixMilli() - startTime
-
+	payload := xtoken.GetBindCustomPayload(c)
 	// 响应状态码
 	//responseStatus := int64(c.Writer.Status())
 
@@ -34,7 +35,7 @@ func LogMiddleHandler(c *gin.Context) {
 	var resp Resp
 	_ = json.Unmarshal([]byte(respResult), &resp)
 	//fmt.Printf("[%s]【%s】 %s CosTime:%dms RespStatus:%d Resp:%s\n", time.Now().Format(time.DateTime), c.Request.Method, c.Request.URL.String(), cosTime, responseStatus, resp.Data)
-	xvariable.Logger.InfoLog.InfoContext(c, resp.Msg, slog.Int64("cosTime", cosTime), slog.String("ip", c.RemoteIP()), slog.String("method", c.Request.Method), slog.Int64("code", resp.Code), slog.String("data", fmt.Sprintf("%s", resp.Data)))
+	xvariable.Logger.InfoLog.InfoContext(c, resp.Msg, slog.Int64("cosTime", cosTime), slog.String("ip", c.RemoteIP()), slog.String("operateBy", payload.NickName), slog.String("method", c.Request.Method), slog.Int64("code", resp.Code), slog.String("data", fmt.Sprintf("%s", resp.Data)))
 }
 
 type ResponseWriterWrapper struct {

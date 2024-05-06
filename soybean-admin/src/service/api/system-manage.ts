@@ -24,7 +24,7 @@ export function fetchGetAllRoles() {
 
 export function addRole(param: Api.SystemManage.AddOrUpdateRoleParams) {
   // 发送 POST 请求到 '/system/menu' 接口，携带参数 data
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: '/system/role',
     method: 'post',
     data: param
@@ -33,7 +33,7 @@ export function addRole(param: Api.SystemManage.AddOrUpdateRoleParams) {
 
 export function updateRoleById(id: string | number | undefined, param: Api.SystemManage.AddOrUpdateRoleParams) {
   // 使用PUT方法向'/system/menu/${id}'发送请求，将param作为请求体数据
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: `/system/role/${id}`,
     method: 'put',
     data: param
@@ -47,21 +47,21 @@ export function getRolePermitByCode(code: string | number | undefined) {
   });
 }
 export function updateRoleApiCodesPermitByCode(data: { roleCode: string | undefined; apiCodes: (string | number)[] }) {
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: `/system/role/apis`,
     method: 'put',
     data
   });
 }
 export function updateRoleMenuIdsPermitByCode(data: { roleCode: string | undefined; menuIds: string[] }) {
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: `/system/role/menus`,
     method: 'put',
     data
   });
 }
 export function updateRoleHomeByCode(data: { roleCode: string | undefined; home: string }) {
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: `/system/role/home`,
     method: 'put',
     data
@@ -70,7 +70,7 @@ export function updateRoleHomeByCode(data: { roleCode: string | undefined; home:
 
 export function deleteRoleByIds(param: (string | number)[]) {
   // 发送携带菜单ID的DELETE请求至'/system/menu'接口
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: '/system/role',
     method: 'delete',
     data: { ids: param }
@@ -95,7 +95,7 @@ export function fetchGetMenuList() {
  */
 export function addMenu(param: Api.SystemManage.AddOrUpdateMenuParams) {
   // 发送 POST 请求到 '/system/menu' 接口，携带参数 data
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: '/system/menu',
     method: 'post',
     data: param
@@ -111,7 +111,7 @@ export function addMenu(param: Api.SystemManage.AddOrUpdateMenuParams) {
  */
 export function updateMenuById(id: string | number | undefined, param: Api.SystemManage.AddOrUpdateMenuParams) {
   // 使用PUT方法向'/system/menu/${id}'发送请求，将param作为请求体数据
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: `/system/menu/${id}`,
     method: 'put',
     data: param
@@ -126,7 +126,7 @@ export function updateMenuById(id: string | number | undefined, param: Api.Syste
  */
 export function deleteMenuByIds(param: (string | number)[]) {
   // 发送携带菜单ID的DELETE请求至'/system/menu'接口
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: '/system/menu',
     method: 'delete',
     data: { ids: param }
@@ -167,7 +167,7 @@ export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
 }
 
 export function deleteUserByIds(param: (string | number)[]) {
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: '/api/system/user',
     method: 'delete',
     data: { ids: param }
@@ -175,7 +175,7 @@ export function deleteUserByIds(param: (string | number)[]) {
 }
 
 export function addUser(param: Api.SystemManage.AddOrUpdateUserParams) {
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: '/system/user',
     method: 'post',
     data: param
@@ -183,7 +183,7 @@ export function addUser(param: Api.SystemManage.AddOrUpdateUserParams) {
 }
 
 export function updateUserById(id: string | number | undefined, param: Api.SystemManage.AddOrUpdateUserParams) {
-  return request<Api.BaseCurd.SuccessNodataResponse>({
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
     url: `/system/user/${id}`,
     method: 'put',
     data: param

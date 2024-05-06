@@ -29,7 +29,7 @@ type AddOrUpDateSysDictDataParam struct {
 }
 
 type AddOrUpDateSysDictParam struct {
-	Name        string `json:"dictName"`
+	Name        string `json:"name"`
 	Code        string `json:"code"`
 	Description string `json:"description"`
 	Status      string `json:"status"`
@@ -37,15 +37,16 @@ type AddOrUpDateSysDictParam struct {
 
 type SysDictList struct {
 	baseType.BaseRecord
-	Name        string `json:"dictName"`
+	Name        string `json:"name"`
 	Code        string `json:"code"`
 	Description string `json:"description"`
 }
 type SysDictDataList struct {
 	baseType.BaseRecord
-	Label string `json:"label"`
-	Value string `json:"value"`
-	Sort  int32  `json:"sort"`
+	Label   string `json:"label"`
+	Value   string `json:"value"`
+	I18nKey string `json:"i18nKey"`
+	Sort    int32  `json:"sort"`
 }
 
 type DictInfo struct {

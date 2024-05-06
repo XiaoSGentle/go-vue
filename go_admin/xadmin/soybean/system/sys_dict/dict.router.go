@@ -9,7 +9,6 @@ import (
 	"xcore/common/xresponse"
 	"xcore/common/xvalidate"
 	"xcore/core/xcore"
-	"xcore/core/xvariable"
 )
 
 var SysDictGroup = xcore.Group("/system/dict", newSysMenuHandler, regSysDict, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize, xmiddlewares.Verify)
@@ -28,12 +27,6 @@ func regSysDict(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 func regNoAuthSysDict(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 	return group.Reg(func(handle *sysDictHandler) {
 		rg.GET("/:typeCode", handle.DictInfo)
-		rg.GET("", func(c *gin.Context) {
-			for i := range 10000 {
-				xvariable.Logger.InfoLog.Info("测试LOGGER打包" + string(rune(i)))
-			}
-			xvariable.Logger.InfoLog.Info("测试LOGGER打包")
-		})
 	})
 }
 
@@ -135,7 +128,7 @@ func (h sysDictHandler) DeleteDictByIds(c *gin.Context) {
 }
 
 func (h sysDictHandler) GetDictDataList(c *gin.Context) {
-	var param SysDictListParam
+	var param SysDictDataListParam
 	if err := c.ShouldBind(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
@@ -145,7 +138,7 @@ func (h sysDictHandler) GetDictDataList(c *gin.Context) {
 		return
 	}
 
-	list, err := h.dictService.GetDictList(c, &param)
+	list, err := h.dictDataService.GetDictDataList(c, &param)
 	if err != nil {
 		xresponse.ErrorCtx(c, err)
 		return

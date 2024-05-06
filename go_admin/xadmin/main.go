@@ -6,6 +6,5 @@ import (
 )
 
 func main() {
-
 	soybean.GetAdminRouter().Run(xvariable.GlobalYmlConfig.GetString("HttpServer.Api.Port"))
 }

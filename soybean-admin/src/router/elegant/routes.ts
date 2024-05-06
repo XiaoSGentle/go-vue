@@ -51,6 +51,35 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'dict',
+    path: '/dict',
+    component: 'layout.base',
+    meta: {
+      title: 'dict',
+      i18nKey: 'route.dict'
+    },
+    children: [
+      {
+        name: 'dict_data',
+        path: '/dict/data/:id',
+        component: 'view.dict_data',
+        meta: {
+          title: 'dict_data',
+          i18nKey: 'route.dict_data'
+        }
+      },
+      {
+        name: 'dict_type',
+        path: '/dict/type',
+        component: 'view.dict_type',
+        meta: {
+          title: 'dict_type',
+          i18nKey: 'route.dict_type'
+        }
+      }
+    ]
+  },
+  {
     name: 'function',
     path: '/function',
     component: 'layout.base',
@@ -191,6 +220,35 @@ export const generatedRoutes: GeneratedRoute[] = [
       hideInMenu: true,
       keepAlive: true
     }
+  },
+  {
+    name: 'logger',
+    path: '/logger',
+    component: 'layout.base',
+    meta: {
+      title: 'logger',
+      i18nKey: 'route.logger'
+    },
+    children: [
+      {
+        name: 'logger_file',
+        path: '/logger/file',
+        component: 'view.logger_file',
+        meta: {
+          title: 'logger_file',
+          i18nKey: 'route.logger_file'
+        }
+      },
+      {
+        name: 'logger_info',
+        path: '/logger/info',
+        component: 'view.logger_info',
+        meta: {
+          title: 'logger_info',
+          i18nKey: 'route.logger_info'
+        }
+      }
+    ]
   },
   {
     name: 'login',

@@ -45,8 +45,7 @@ func newRouteHandler(auth IRouteService) *routeHandler {
 }
 
 func (a routeHandler) GetUserRoutes(c *gin.Context) {
-	jwtTokenSignKey := xvariable.GlobalYmlConfig.GetString("Token.JwtTokenSignKey")
-	payload, _ := xtoken.GetPayloadByRequest(c, jwtTokenSignKey)
+	payload := xtoken.GetBindCustomPayload(c)
 	routers, err := a.authService.GetUserRouters(c, xslice.StringToInt32(xvariable.Auth.GetMenuIdsByRoles(payload.Roles)))
 	if err != nil {
 		xresponse.ErrorCtx(c, err)
@@ -63,13 +62,8 @@ func (a routeHandler) GetConstantRoutes(c *gin.Context) {
 
 }
 func (a routeHandler) GetAllPages(c *gin.Context) {
-	jwtTokenSignKey := xvariable.GlobalYmlConfig.GetString("Token.JwtTokenSignKey")
-	customClaim, err := xtoken.GetPayloadByRequest(c, jwtTokenSignKey)
-	if err != nil {
-		xresponse.ErrorCtx(c, err)
-		return
-	}
-	pages, err := a.authService.GetAllPages(c, customClaim.Roles)
+	payload := xtoken.GetBindCustomPayload(c)
+	pages, err := a.authService.GetAllPages(c, payload.Roles)
 	if err != nil {
 		xresponse.ErrorCtx(c, err)
 		return

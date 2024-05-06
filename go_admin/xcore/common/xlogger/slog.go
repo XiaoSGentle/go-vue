@@ -20,6 +20,9 @@ func NewSlog(logPath string) *Logger {
 		MaxBackups: 10,
 		Compress:   true,
 	}
+	defer func(errLumberjack *lumberjack.Logger) {
+		_ = errLumberjack.Close()
+	}(errLumberjack)
 
 	infoLumberjack := &lumberjack.Logger{
 		Filename:   logPath + "/info.log",
@@ -29,6 +32,9 @@ func NewSlog(logPath string) *Logger {
 		MaxBackups: 10,
 		Compress:   true,
 	}
+	defer func(errLumberjack *lumberjack.Logger) {
+		_ = infoLumberjack.Close()
+	}(errLumberjack)
 	//Error 打印
 	_errOptions := slog.HandlerOptions{
 		AddSource: true,

@@ -43,6 +43,10 @@ func (m SysMenuService) DeleteMenu(c *gin.Context, ids []int32) (err error) {
 
 func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateSysMenuParam) (err error) {
 	menuQuery := m.query.SysMenu
+	metaMenuHide := "2"
+	if param.HideInMenu {
+		metaMenuHide = "1"
+	}
 	updates, err := menuQuery.WithContext(c).Where(menuQuery.ID.Eq(id)).Updates(&model.SysMenu{
 		Name:       param.MenuName,
 		RouterName: param.RouteName,
@@ -55,7 +59,7 @@ func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateS
 		MetaIconType:     param.IconType,
 		MetaOrder:        param.Order,
 		MetaConstant:     2,
-		MetaHideInMenu:   2,
+		MetaHideInMenu:   metaMenuHide,
 		MetaRequiresAuth: 1,
 		MetaIcon:         param.Icon,
 		MetaLocalIcon:    "",
@@ -64,7 +68,7 @@ func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateS
 		//MetaKeepAlive:    0,
 		MetaTitle: param.RouteName,
 		//MetaActiveMenu: "",
-		MetaMultiTab: 0,
+
 		//MetaFixedInTab: 0,
 		MetaQuery:     "",
 		Version:       0,
@@ -99,7 +103,7 @@ func (m SysMenuService) AddMenu(c *gin.Context, param *AddOrUpDateSysMenuParam) 
 		MetaIconType:     param.IconType,
 		MetaOrder:        param.Order,
 		MetaConstant:     2,
-		MetaHideInMenu:   2,
+		MetaHideInMenu:   "2",
 		MetaRequiresAuth: 1,
 		MetaIcon:         param.Icon,
 		MetaLocalIcon:    "",
@@ -108,7 +112,7 @@ func (m SysMenuService) AddMenu(c *gin.Context, param *AddOrUpDateSysMenuParam) 
 		//MetaKeepAlive:    0,
 		MetaTitle: param.RouteName,
 		//MetaActiveMenu: "",
-		MetaMultiTab: 0,
+		MetaMultiTab: "0",
 		//MetaFixedInTab: 0,
 		MetaQuery:     "",
 		Version:       0,
@@ -155,17 +159,18 @@ func sysMenuToSysMenuListRespTree(sysMenuList []*model.SysMenu) (menuVoList []Sy
 				UpdateTime: menu.UpdateTime.String(),
 				Status:     menu.Status,
 			},
-			ParentId:  menu.ParentID,
-			MenuType:  menu.Type,
-			MenuName:  menu.Name,
-			RouteName: menu.RouterName,
-			RoutePath: menu.Path,
-			Component: menu.Component,
-			Order:     menu.MetaOrder,
-			I18NKey:   menu.MetaI18nKey,
-			Icon:      menu.MetaIcon,
-			IconType:  menu.MetaIconType,
-			Children:  nil,
+			ParentId:   menu.ParentID,
+			MenuType:   menu.Type,
+			MenuName:   menu.Name,
+			RouteName:  menu.RouterName,
+			HideInMenu: menu.MetaHideInMenu == "1",
+			RoutePath:  menu.Path,
+			Component:  menu.Component,
+			Order:      menu.MetaOrder,
+			I18NKey:    menu.MetaI18nKey,
+			Icon:       menu.MetaIcon,
+			IconType:   menu.MetaIconType,
+			Children:   nil,
 		}
 		menuVoList = append(menuVoList, m)
 	}

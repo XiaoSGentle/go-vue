@@ -51,7 +51,6 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
     },
     getColumnChecks: cols => {
       const checks: NaiveUI.TableColumnCheck[] = [];
-
       cols.forEach(column => {
         if (isTableColumnHasKey(column)) {
           checks.push({

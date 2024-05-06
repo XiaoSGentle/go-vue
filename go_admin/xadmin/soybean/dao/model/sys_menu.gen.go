@@ -25,16 +25,16 @@ type SysMenu struct {
 	MetaIconType     string    `gorm:"column:meta_icon_type;type:varchar(255);not null;default:1;comment:icon类型 0本地 1iconify" json:"metaIconType"` // icon类型 0本地 1iconify
 	MetaOrder        int32     `gorm:"column:meta_order;type:int(11) unsigned;not null;comment:排序" json:"metaOrder"`                               // 排序
 	MetaConstant     int32     `gorm:"column:meta_constant;type:int(1) unsigned;not null;comment:常量路由" json:"metaConstant"`                        // 常量路由
-	MetaHideInMenu   int32     `gorm:"column:meta_hide_in_menu;type:int(1) unsigned;not null;comment:菜单中隐藏" json:"metaHideInMenu"`                 // 菜单中隐藏
+	MetaHideInMenu   string    `gorm:"column:meta_hide_in_menu;type:varchar(1);not null;default:2;comment:菜单中隐藏" json:"metaHideInMenu"`            // 菜单中隐藏
 	MetaRequiresAuth int32     `gorm:"column:meta_requires_auth;type:int(11) unsigned;not null;default:1;comment:是否需要认证" json:"metaRequiresAuth"`  // 是否需要认证
 	MetaIcon         string    `gorm:"column:meta_icon;type:varchar(255);not null;comment:元图标" json:"metaIcon"`                                    // 元图标
 	MetaLocalIcon    string    `gorm:"column:meta_local_icon;type:varchar(255);not null;comment:本地元图标" json:"metaLocalIcon"`                       // 本地元图标
 	MetaI18nKey      string    `gorm:"column:meta_i18n_key;type:varchar(255);not null;comment:国际化标题" json:"metaI18nKey"`                           // 国际化标题
 	MetaHref         string    `gorm:"column:meta_href;type:varchar(255);not null;comment:外部连接" json:"metaHref"`                                   // 外部连接
-	MetaKeepAlive    int32     `gorm:"column:meta_keep_alive;type:int(1) unsigned;not null;default:1;comment:缓存该路由" json:"metaKeepAlive"`          // 缓存该路由
+	MetaKeepAlive    string    `gorm:"column:meta_keep_alive;type:varchar(1);not null;default:1;comment:缓存该路由" json:"metaKeepAlive"`               // 缓存该路由
 	MetaTitle        string    `gorm:"column:meta_title;type:varchar(255);not null;comment:元数据标题" json:"metaTitle"`                                // 元数据标题
 	MetaActiveMenu   string    `gorm:"column:meta_active_menu;type:varchar(255);not null;comment:激活的菜单键" json:"metaActiveMenu"`                    // 激活的菜单键
-	MetaMultiTab     int32     `gorm:"column:meta_multi_tab;type:int(1) unsigned;not null;comment:多个标签页" json:"metaMultiTab"`                      // 多个标签页
+	MetaMultiTab     string    `gorm:"column:meta_multi_tab;type:varchar(1);not null;default:1;comment:多个标签页" json:"metaMultiTab"`                 // 多个标签页
 	MetaFixedInTab   int32     `gorm:"column:meta_fixed_in_tab;type:int(1) unsigned;comment:标签固定位置" json:"metaFixedInTab"`                         // 标签固定位置
 	MetaQuery        string    `gorm:"column:meta_query;type:varchar(255);not null;comment:默认携带参数" json:"metaQuery"`                               // 默认携带参数
 	Version          int32     `gorm:"column:version;type:int(11) unsigned;not null;comment:乐观锁" json:"version"`                                   // 乐观锁

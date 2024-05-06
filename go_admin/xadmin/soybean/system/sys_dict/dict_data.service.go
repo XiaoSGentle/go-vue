@@ -30,7 +30,9 @@ type SysDictDataService struct {
 func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataListParam) (resp SysDictDataListResp, err error) {
 	dictDataQuery := s.query.SysDictDatum
 	resp.PageResult.PageParam = param.PageParam
-	queryResultList, totalCount, err := dictDataQuery.WithContext(c).FindByPage((param.Current-1)*param.Size, param.Size)
+	queryResultList, totalCount, err := dictDataQuery.WithContext(c).
+		Where(dictDataQuery.TypeCode.Eq(param.Code)).
+		FindByPage((param.Current-1)*param.Size, param.Size)
 	resp.Total = totalCount
 	if err != nil {
 		return SysDictDataListResp{}, err

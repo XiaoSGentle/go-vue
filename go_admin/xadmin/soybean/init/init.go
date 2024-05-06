@@ -14,16 +14,15 @@ import (
 )
 
 func InsertApisToSql(routers []gin.RouteInfo) {
-	xvariable.Logger.InfoLog.Info("insert apis to sql start...")
-	println("insert apis to sql start...")
+	xvariable.Logger.InfoLog.Info("insert apis to sql...")
+	println("insert apis to sql...")
 	apiQuery := query.Use(xvariable.GormDB).SysAPI
-
 	// 清除所欲路由
 	_, _ = apiQuery.Where(apiQuery.APICode.IsNotNull()).Delete()
-
+	var insertModels []*model.SysAPI
 	for _, router := range routers {
 		if !strings.HasPrefix(router.Path, "/debug/") {
-			_ = apiQuery.Create(&model.SysAPI{
+			insertModels = append(insertModels, &model.SysAPI{
 				APICode:       fmt.Sprintf("%s::%s", router.Method, router.Path),
 				Version:       0,
 				SoftDeleteTag: 0,
@@ -34,10 +33,9 @@ func InsertApisToSql(routers []gin.RouteInfo) {
 				CreateTime:    time.Now(),
 				UpdateBy:      "",
 			})
-
 		}
-
 	}
+	_ = apiQuery.Create(insertModels...)
 	xvariable.Logger.InfoLog.Info("insert apis to sql success!")
 	println("insert apis to sql success!")
 

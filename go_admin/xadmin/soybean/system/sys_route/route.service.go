@@ -109,6 +109,7 @@ func (r RouteService) GetConstantRoutes(c *gin.Context) (getUserRoutersVo []User
 }
 
 func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRouter) {
+
 	for _, menu := range sysMenuList {
 		m := UserRouter{
 			ID:        fmt.Sprintf("%d", menu.ID),
@@ -120,16 +121,16 @@ func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRoute
 				IconType:     menu.MetaIconType,
 				Order:        menu.MetaOrder,
 				Constant:     menu.MetaConstant == 1,
-				HideInMenu:   menu.MetaHideInMenu == 1,
+				HideInMenu:   menu.MetaHideInMenu == "1",
 				RequiresAuth: menu.MetaRequiresAuth == 1,
 				Icon:         menu.MetaIcon,
 				LocalIcon:    menu.MetaLocalIcon,
 				I18nKey:      menu.MetaI18nKey,
 				Href:         menu.MetaHref,
-				KeepAlive:    menu.MetaKeepAlive == 1,
+				KeepAlive:    menu.MetaKeepAlive == "1",
 				Title:        menu.MetaTitle,
 				ActiveMenu:   menu.MetaActiveMenu,
-				MultiTab:     menu.MetaMultiTab == 1,
+				MultiTab:     menu.MetaMultiTab == "1",
 				FixedInTab:   menu.MetaFixedInTab,
 				Query:        "",
 			},
@@ -141,6 +142,7 @@ func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRoute
 	return
 }
 func userRouterListToTree(list []UserRouter, Pid int32) (tree []UserRouter) {
+
 	res := make([]UserRouter, 0)
 	for _, v := range list {
 		if v.PID == Pid {

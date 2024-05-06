@@ -9,6 +9,7 @@ import { getLocalIcons } from '@/utils/icon';
 import { addMenu, updateMenuById } from '@/service/api';
 
 import locales from '@/locales/locale';
+import { views } from '@/router/elegant/imports';
 import { getLayoutAndPage, transformLayoutAndPageToComponent } from './shared';
 
 defineOptions({
@@ -152,6 +153,13 @@ function closeDrawer() {
   visible.value = false;
 }
 
+const viewsName = Object.keys(views).map(view => {
+  return {
+    label: view,
+    value: view
+  };
+});
+
 async function handleSubmit() {
   await validate();
 
@@ -219,7 +227,11 @@ watch(visible, () => {
           </template>
         </NFormItem>
         <NFormItem :label="$t('page.manage.menu.routeName')" path="routeName">
-          <NInput v-model:value="model.routeName" :placeholder="$t('page.manage.menu.form.routeName')" />
+          <NSelect
+            v-model:value="model.routeName"
+            :options="viewsName"
+            :placeholder="$t('page.manage.menu.form.routeName')"
+          />
         </NFormItem>
         <NFormItem :label="$t('page.manage.menu.routePath')" path="routePath">
           <NInput v-model:value="model.routePath" :placeholder="$t('page.manage.menu.form.routePath')" />
@@ -248,8 +260,14 @@ watch(visible, () => {
         </NFormItem>
         <NFormItem :label="$t('page.manage.menu.hideInMenu')" path="hideInMenu">
           <NRadioGroup v-model:value="model.hideInMenu">
-            <NRadio value :label="$t('common.yesOrNo.yes')" />
-            <NRadio :value="false" :label="$t('common.yesOrNo.no')" />
+            <NSwitch v-model:value="model.hideInMenu" size="large">
+              <template #checked-icon>
+                <div class="text-3">{{ $t('common.yesOrNo.yes') }}</div>
+              </template>
+              <template #unchecked-icon>
+                <div class="text-3">{{ $t('common.yesOrNo.no') }}</div>
+              </template>
+            </NSwitch>
           </NRadioGroup>
         </NFormItem>
         <NFormItem :label="$t('page.manage.menu.order')" path="order">

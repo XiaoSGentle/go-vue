@@ -176,7 +176,13 @@ const local: App.I18n.Schema = {
     exception_500: '500',
     'test-page': '测试页',
     'test-page_page-one': '页面1',
-    'test-page_page-two': '页面2'
+    'test-page_page-two': '页面2',
+    logger: '日志管理',
+    logger_info: '日志信息',
+    logger_file: '日志下载',
+    dict: '字典管理',
+    dict_type: '字典类型',
+    dict_data: '字典详情'
   },
   page: {
     login: {
@@ -418,6 +424,21 @@ const local: App.I18n.Schema = {
           iconify: 'iconify图标',
           local: '本地图标'
         }
+      }
+    },
+    dict: {
+      tableTitle: '字典管理',
+      name: '字典类型',
+      code: '字典标识',
+      desc: '字典描述',
+      status: '字典状态',
+      form: {
+        add: '新增字典类型',
+        edit: '编辑字典类型',
+        name: '请填写字典类型',
+        code: '请填写字典标识',
+        desc: '请填写字典描述',
+        status: '请选择字典状态'
       }
     }
   },

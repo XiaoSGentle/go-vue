@@ -40,16 +40,16 @@ func newSysMenu(db *gorm.DB, opts ...gen.DOOption) sysMenu {
 	_sysMenu.MetaIconType = field.NewString(tableName, "meta_icon_type")
 	_sysMenu.MetaOrder = field.NewInt32(tableName, "meta_order")
 	_sysMenu.MetaConstant = field.NewInt32(tableName, "meta_constant")
-	_sysMenu.MetaHideInMenu = field.NewInt32(tableName, "meta_hide_in_menu")
+	_sysMenu.MetaHideInMenu = field.NewString(tableName, "meta_hide_in_menu")
 	_sysMenu.MetaRequiresAuth = field.NewInt32(tableName, "meta_requires_auth")
 	_sysMenu.MetaIcon = field.NewString(tableName, "meta_icon")
 	_sysMenu.MetaLocalIcon = field.NewString(tableName, "meta_local_icon")
 	_sysMenu.MetaI18nKey = field.NewString(tableName, "meta_i18n_key")
 	_sysMenu.MetaHref = field.NewString(tableName, "meta_href")
-	_sysMenu.MetaKeepAlive = field.NewInt32(tableName, "meta_keep_alive")
+	_sysMenu.MetaKeepAlive = field.NewString(tableName, "meta_keep_alive")
 	_sysMenu.MetaTitle = field.NewString(tableName, "meta_title")
 	_sysMenu.MetaActiveMenu = field.NewString(tableName, "meta_active_menu")
-	_sysMenu.MetaMultiTab = field.NewInt32(tableName, "meta_multi_tab")
+	_sysMenu.MetaMultiTab = field.NewString(tableName, "meta_multi_tab")
 	_sysMenu.MetaFixedInTab = field.NewInt32(tableName, "meta_fixed_in_tab")
 	_sysMenu.MetaQuery = field.NewString(tableName, "meta_query")
 	_sysMenu.Version = field.NewInt32(tableName, "version")
@@ -83,16 +83,16 @@ type sysMenu struct {
 	MetaIconType     field.String // icon类型 0本地 1iconify
 	MetaOrder        field.Int32  // 排序
 	MetaConstant     field.Int32  // 常量路由
-	MetaHideInMenu   field.Int32  // 菜单中隐藏
+	MetaHideInMenu   field.String // 菜单中隐藏
 	MetaRequiresAuth field.Int32  // 是否需要认证
 	MetaIcon         field.String // 元图标
 	MetaLocalIcon    field.String // 本地元图标
 	MetaI18nKey      field.String // 国际化标题
 	MetaHref         field.String // 外部连接
-	MetaKeepAlive    field.Int32  // 缓存该路由
+	MetaKeepAlive    field.String // 缓存该路由
 	MetaTitle        field.String // 元数据标题
 	MetaActiveMenu   field.String // 激活的菜单键
-	MetaMultiTab     field.Int32  // 多个标签页
+	MetaMultiTab     field.String // 多个标签页
 	MetaFixedInTab   field.Int32  // 标签固定位置
 	MetaQuery        field.String // 默认携带参数
 	Version          field.Int32  // 乐观锁
@@ -132,16 +132,16 @@ func (s *sysMenu) updateTableName(table string) *sysMenu {
 	s.MetaIconType = field.NewString(table, "meta_icon_type")
 	s.MetaOrder = field.NewInt32(table, "meta_order")
 	s.MetaConstant = field.NewInt32(table, "meta_constant")
-	s.MetaHideInMenu = field.NewInt32(table, "meta_hide_in_menu")
+	s.MetaHideInMenu = field.NewString(table, "meta_hide_in_menu")
 	s.MetaRequiresAuth = field.NewInt32(table, "meta_requires_auth")
 	s.MetaIcon = field.NewString(table, "meta_icon")
 	s.MetaLocalIcon = field.NewString(table, "meta_local_icon")
 	s.MetaI18nKey = field.NewString(table, "meta_i18n_key")
 	s.MetaHref = field.NewString(table, "meta_href")
-	s.MetaKeepAlive = field.NewInt32(table, "meta_keep_alive")
+	s.MetaKeepAlive = field.NewString(table, "meta_keep_alive")
 	s.MetaTitle = field.NewString(table, "meta_title")
 	s.MetaActiveMenu = field.NewString(table, "meta_active_menu")
-	s.MetaMultiTab = field.NewInt32(table, "meta_multi_tab")
+	s.MetaMultiTab = field.NewString(table, "meta_multi_tab")
 	s.MetaFixedInTab = field.NewInt32(table, "meta_fixed_in_tab")
 	s.MetaQuery = field.NewString(table, "meta_query")
 	s.Version = field.NewInt32(table, "version")
