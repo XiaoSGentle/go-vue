@@ -2,6 +2,7 @@
 import { NButton, NCard, NDataTable, NPopconfirm, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
 
+import { computed } from 'vue';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { deleteDictDataByIds, fetchGetDictDataList } from '@/service/api';
 import TableHeaderOperation from '@/components/advanced/table-header-operation.vue';
@@ -15,7 +16,7 @@ interface Props {
 }
 
 const { id: typeCode } = defineProps<Props>();
-
+const thisDictTypeCode = computed(() => typeCode);
 const appStore = useAppStore();
 
 const { loading, data, columns, getData, mobilePagination, columnChecks } = useTable({
@@ -169,6 +170,7 @@ function edit(id: number) {
       ></NDataTable>
       <DictDataOperateDrawer
         v-model:visible="drawerVisible"
+        :type-code="thisDictTypeCode"
         :operate-type="operateType"
         :row-data="editingData"
         @submitted="getData"

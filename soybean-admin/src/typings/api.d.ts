@@ -196,24 +196,44 @@ declare namespace Api {
      * - "2": local icon
      */
     type IconType = '1' | '2';
-
+    type MenuPropsOfRoute = Pick<
+      import('vue-router').RouteMeta,
+      | 'i18nKey'
+      | 'keepAlive'
+      | 'constant'
+      | 'order'
+      | 'href'
+      | 'hideInMenu'
+      | 'activeMenu'
+      | 'multiTab'
+      | 'fixedIndexInTab'
+      | 'query'
+    >;
     type AddOrUpdateMenuParams = Pick<
       Api.SystemManage.Menu,
       | 'menuType'
       | 'menuName'
-      | 'icon'
-      | 'iconType'
       | 'routeName'
       | 'routePath'
       | 'component'
-      | 'status'
-      | 'hideInMenu'
       | 'order'
-      | 'parentId'
       | 'i18nKey'
+      | 'icon'
+      | 'iconType'
+      | 'status'
+      | 'parentId'
+      | 'keepAlive'
+      | 'constant'
+      | 'href'
+      | 'hideInMenu'
+      | 'activeMenu'
+      | 'multiTab'
+      | 'fixedIndexInTab'
     > & {
+      query: NonNullable<Api.SystemManage.Menu['query']>;
       layout: string;
       page: string;
+      pathParam: string;
     };
 
     type Menu = Common.CommonRecord<{
@@ -229,42 +249,16 @@ declare namespace Api {
       routePath: string;
       /** component */
       component?: string;
-      /**
-       * i18n key
-       *
-       * it is for internationalization
-       */
-      i18nKey?: App.I18n.I18nKey;
       /** iconify icon name or local icon name */
       icon: string;
       /** icon type */
       iconType: IconType;
-      /** menu order */
-      order: number;
-      /** whether to cache the route */
-      keepAlive?: boolean;
-      /** outer link */
-      href?: string;
-      /** whether to hide the route in the menu */
-      hideInMenu?: boolean;
-      /**
-       * The menu key will be activated when entering the route
-       *
-       * The route is not in the menu
-       *
-       * @example
-       *   the route is "user_detail", if it is set to "user_list", the menu "user_list" will be activated
-       */
-      activeMenu?: import('@elegant-router/types').LastLevelRouteKey;
-      /** By default, the same route path will use one tab, if set to true, it will use multiple tabs */
-      multiTab?: boolean;
-      /** If set, the route will be fixed in tabs, and the value is the order of fixed tabs */
-      fixedIndexInTab?: number;
-      /** menu buttons */
-      buttons?: MenuButton[];
+      /** buttons */
+      buttons?: MenuButton[] | null;
       /** children menu */
-      children?: Menu[];
-    }>;
+      children?: Menu[] | null;
+    }> &
+      MenuPropsOfRoute;
 
     /** menu list */
     type MenuList = Common.PaginatingQueryRecord<Menu>;
@@ -283,7 +277,10 @@ declare namespace Api {
   }
 
   namespace Dict {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type LoggerTypes = 'info' | 'error';
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'> & {
+      type: LoggerTypes;
+    };
     type DictType = Common.CommonRecord<{
       name: string;
       code: string;
@@ -306,21 +303,34 @@ declare namespace Api {
     type DictDataSearchParams = CommonType.RecordNullable<Pick<Api.Dict.DictData, 'code'> & CommonSearchParams>;
 
     type DictDataList = Common.PaginatingQueryRecord<DictData>;
-    type AddOrUpdateDictDataParams = Pick<DictData, 'label' | 'i18nKey' | 'value' | 'sort' | 'status'>;
+    type AddOrUpdateDictDataParams = Pick<DictData, 'label' | 'i18nKey' | 'value' | 'sort' | 'status' | 'code'>;
 
     type DictTypeDataSearchParams = CommonType.RecordNullable<
       Pick<Api.Dict.DictData, 'label' | 'i18nKey' | 'sort' | 'value'> & CommonSearchParams
     >;
+
+    type Dict = {
+      label: string;
+      value: string;
+      sort: number;
+    };
   }
   namespace Logger {
     type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
-    type Logger = Common.CommonRecord<{
-      name: string;
-      code: string;
-      description: string;
-    }>;
-    type LoggerList = Common.PaginatingQueryRecord<Logger>;
-    type AddOrUpdateLoggerParams = Pick<Logger, 'code' | 'name' | 'description'>;
+
+    type DecodeLoggerType = {
+      time: string;
+      level: string;
+      source: { function: string; file: string; line: number };
+      msg: string;
+      cosTime: number;
+      ip: string;
+      operateBy: string;
+      method: string;
+      code: number;
+      data: string;
+    };
+    type LoggerList = Common.PaginatingQueryRecord<string>;
 
     type LoggerSearchParams = CommonType.RecordNullable<
       Pick<Api.Dict.DictType, 'name' | 'description'> & CommonSearchParams

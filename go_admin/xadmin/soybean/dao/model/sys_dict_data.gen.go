@@ -12,7 +12,7 @@ const TableNameSysDictDatum = "sys_dict_data"
 
 // SysDictDatum mapped from table <sys_dict_data>
 type SysDictDatum struct {
-	ID         int32     `gorm:"column:id;type:int(11);primaryKey;comment:主键" json:"id"` // 主键
+	ID         int32     `gorm:"column:id;type:int(11);primaryKey;autoIncrement:true;comment:主键" json:"id"` // 主键
 	Label      string    `gorm:"column:label;type:varchar(255);not null" json:"label"`
 	Value      string    `gorm:"column:value;type:varchar(255);not null" json:"value"`
 	Sort       int32     `gorm:"column:sort;type:int(11);not null" json:"sort"`

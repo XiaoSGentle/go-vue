@@ -1,8 +1,8 @@
 import { request } from '../request';
 
 export function fetchLoggerList(params?: Api.Dict.CommonSearchParams) {
-  return request<Api.Dict.DictTypeList>({
-    url: '/system/role/list',
+  return request<Api.Logger.LoggerList>({
+    url: `/system/log/${params?.type}`,
     method: 'get',
     params
   });

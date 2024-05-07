@@ -10,7 +10,7 @@ import { addMenu, updateMenuById } from '@/service/api';
 
 import locales from '@/locales/locale';
 import { views } from '@/router/elegant/imports';
-import { getLayoutAndPage, transformLayoutAndPageToComponent } from './shared';
+import { getLayoutAndPage, getRoutePathByRouteName, transformLayoutAndPageToComponent } from './shared';
 
 defineOptions({
   name: 'MenuOperateDrawer'
@@ -59,17 +59,26 @@ function createDefaultModel(): Model {
   return {
     menuType: '1',
     menuName: '',
-    icon: '',
-    iconType: '1',
     routeName: '',
     routePath: '',
-    layout: '',
+    pathParam: '',
+    component: '',
     page: '',
-    status: null,
-    hideInMenu: false,
+    layout: 'base',
     i18nKey: undefined,
+    icon: '',
+    iconType: '1',
+    parentId: 0,
+    status: '1',
+    keepAlive: false,
+    constant: false,
     order: 0,
-    parentId: 0
+    href: undefined,
+    hideInMenu: false,
+    activeMenu: undefined,
+    multiTab: false,
+    fixedIndexInTab: null,
+    query: []
   };
 }
 type RuleKey = Extract<keyof Model, 'menuName' | 'status' | 'routeName' | 'routePath' | 'i18nKey'>;
@@ -185,47 +194,50 @@ async function handleSubmit() {
   }
 }
 
+function handleUpdateRoutePathByRouteName() {
+  if (model.routeName) {
+    model.routePath = getRoutePathByRouteName(model.routeName);
+  } else {
+    model.routePath = '';
+  }
+}
+
+function handleUpdateI18nKeyByRouteName() {
+  if (model.routeName) {
+    model.i18nKey = `route.${model.routeName}` as App.I18n.I18nKey;
+  } else {
+    model.i18nKey = null;
+  }
+}
 watch(visible, () => {
   if (visible.value) {
     handleUpdateModel();
     restoreValidation();
   }
 });
+watch(
+  () => model.routeName,
+  () => {
+    handleUpdateRoutePathByRouteName();
+    handleUpdateI18nKeyByRouteName();
+  }
+);
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="show" :width="360">
+  <NDrawer v-model:show="visible" display-directive="show" :width="500">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
-      <NForm ref="formRef" :model="model" :rules="rules" label-placement="left" :label-width="80">
+      <NForm ref="formRef" :model="model" :rules="rules" label-placement="top" :label-width="80">
         <NFormItem :label="$t('page.manage.menu.menuType')" path="menuType">
           <NRadioGroup v-model:value="model.menuType" :disabled="disabledMenuType">
             <NRadio v-for="item in menuTypeOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
+        <NDivider>{{ $t('page.manage.menu.form.mainConfig') }}</NDivider>
         <NFormItem :label="$t('page.manage.menu.menuName')" path="menuName">
           <NInput v-model:value="model.menuName" :placeholder="$t('page.manage.menu.form.menuName')" />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.menu.iconTypeTitle')" path="iconType">
-          <NRadioGroup v-model:value="model.iconType">
-            <NRadio v-for="item in menuIconTypeOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
-          </NRadioGroup>
-        </NFormItem>
-        <NFormItem :label="$t('page.manage.menu.icon')" path="icon">
-          <template v-if="model.iconType === '1'">
-            <NInput v-model:value="model.icon" :placeholder="$t('page.manage.menu.form.icon')" class="flex-1">
-              <template #suffix>
-                <SvgIcon v-if="model.icon" :icon="model.icon" class="text-icon" />
-              </template>
-            </NInput>
-          </template>
-          <template v-if="model.iconType === '2'">
-            <NSelect
-              v-model:value="model.icon"
-              :placeholder="$t('page.manage.menu.form.localIcon')"
-              :options="localIconOptions"
-            />
-          </template>
-        </NFormItem>
+
         <NFormItem :label="$t('page.manage.menu.routeName')" path="routeName">
           <NSelect
             v-model:value="model.routeName"
@@ -243,6 +255,17 @@ watch(visible, () => {
             :placeholder="$t('page.manage.menu.form.i18nKey')"
           />
         </NFormItem>
+
+        <NFormItem v-if="showPage" :label="$t('page.manage.menu.page')" path="page">
+          <NSelect v-model:value="model.page" :options="pageOptions" :placeholder="$t('page.manage.menu.form.page')" />
+        </NFormItem>
+        <NFormItem v-if="showPage" :label="$t('page.manage.menu.hideInMenu')" path="hideInMenu">
+          <NRadioGroup v-model:value="model.hideInMenu">
+            <!-- eslint-disable-next-line vue/prefer-true-attribute-shorthand -->
+            <NRadio :value="true" :label="$t('common.yesOrNo.yes')" />
+            <NRadio :value="false" :label="$t('common.yesOrNo.no')" />
+          </NRadioGroup>
+        </NFormItem>
         <NFormItem v-if="showLayout" :label="$t('page.manage.menu.layout')" path="layout">
           <NSelect
             v-model:value="model.layout"
@@ -250,28 +273,86 @@ watch(visible, () => {
             :placeholder="$t('page.manage.menu.form.layout')"
           />
         </NFormItem>
-        <NFormItem v-if="showPage" :label="$t('page.manage.menu.page')" path="page">
-          <NSelect v-model:value="model.page" :options="pageOptions" :placeholder="$t('page.manage.menu.form.page')" />
+        <NFormItem :label="$t('page.manage.menu.order')" path="order">
+          <NInputNumber v-model:value="model.order" class="w-full" :placeholder="$t('page.manage.menu.form.order')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.menu.menuStatus')" path="status">
           <NRadioGroup v-model:value="model.status">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
-        <NFormItem :label="$t('page.manage.menu.hideInMenu')" path="hideInMenu">
-          <NRadioGroup v-model:value="model.hideInMenu">
-            <NSwitch v-model:value="model.hideInMenu" size="large">
-              <template #checked-icon>
-                <div class="text-3">{{ $t('common.yesOrNo.yes') }}</div>
-              </template>
-              <template #unchecked-icon>
-                <div class="text-3">{{ $t('common.yesOrNo.no') }}</div>
-              </template>
-            </NSwitch>
+        <NDivider>{{ $t('page.manage.menu.icon') }}</NDivider>
+        <NFormItem :label="$t('page.manage.menu.iconTypeTitle')" path="iconType">
+          <NRadioGroup v-model:value="model.iconType">
+            <NRadio v-for="item in menuIconTypeOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
-        <NFormItem :label="$t('page.manage.menu.order')" path="order">
-          <NInputNumber v-model:value="model.order" :placeholder="$t('page.manage.menu.form.order')" />
+
+        <NFormItem :label="$t('page.manage.menu.icon')" path="icon">
+          <template v-if="model.iconType === '1'">
+            <NInput v-model:value="model.icon" :placeholder="$t('page.manage.menu.form.icon')" class="flex-1">
+              <template #suffix>
+                <SvgIcon v-if="model.icon" :icon="model.icon" class="text-icon" />
+              </template>
+            </NInput>
+          </template>
+          <template v-if="model.iconType === '2'">
+            <NSelect
+              v-model:value="model.icon"
+              :placeholder="$t('page.manage.menu.form.localIcon')"
+              :options="localIconOptions"
+            />
+          </template>
+        </NFormItem>
+        <NDivider>{{ $t('page.manage.menu.form.otherConfig') }}</NDivider>
+        <NFormItem :label="$t('page.manage.menu.keepAlive')" path="keepAlive">
+          <NRadioGroup v-model:value="model.keepAlive">
+            <NRadio value :label="$t('common.yesOrNo.yes')" />
+            <NRadio :value="false" :label="$t('common.yesOrNo.no')" />
+          </NRadioGroup>
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.menu.constant')" path="constant">
+          <NRadioGroup v-model:value="model.constant">
+            <!--eslint-disable-next-line vue/prefer-true-attribute-shorthand-->
+            <NRadio :value="true" :label="$t('common.yesOrNo.yes')" />
+            <NRadio :value="false" :label="$t('common.yesOrNo.no')" />
+          </NRadioGroup>
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.menu.multiTab')" path="multiTab">
+          <NRadioGroup v-model:value="model.multiTab">
+            <NRadio value :label="$t('common.yesOrNo.yes')" />
+            <NRadio :value="false" :label="$t('common.yesOrNo.no')" />
+          </NRadioGroup>
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.menu.fixedIndexInTab')" path="fixedIndexInTab">
+          <NInputNumber
+            v-model:value="model.fixedIndexInTab"
+            class="w-full"
+            clearable
+            :placeholder="$t('page.manage.menu.form.fixedIndexInTab')"
+          />
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.menu.query')">
+          <NDynamicInput
+            v-model:value="model.query"
+            preset="pair"
+            :key-placeholder="$t('page.manage.menu.form.queryKey')"
+            :value-placeholder="$t('page.manage.menu.form.queryValue')"
+          >
+            <template #action="{ index, create, remove }">
+              <NSpace class="ml-12px">
+                <NButton size="medium" @click="() => create(index)">
+                  <icon-ic:round-plus class="text-icon" />
+                </NButton>
+                <NButton size="medium" @click="() => remove(index)">
+                  <icon-ic-round-remove class="text-icon" />
+                </NButton>
+              </NSpace>
+            </template>
+          </NDynamicInput>
+        </NFormItem>
+        <NFormItem :label="$t('page.manage.menu.href')" path="href">
+          <NInput v-model:value="model.href" :placeholder="$t('page.manage.menu.form.href')" />
         </NFormItem>
       </NForm>
       <template #footer>

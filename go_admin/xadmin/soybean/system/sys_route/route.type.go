@@ -6,38 +6,41 @@ type GetUserRoutersVo struct {
 }
 
 type UserRouter struct {
-	ID         string         `json:"id"`
+	ID         string         `json:"id,omitempty"`
 	PID        int32          `json:"-"`
-	Name       string         `json:"name"`
-	Path       string         `json:"path"`
-	Component  string         `json:"component"`
-	RouterMeta UserRouterMeta `json:"meta"`
+	Name       string         `json:"name,omitempty"`
+	Path       string         `json:"path,omitempty"`
+	Props      bool           `json:"props,omitempty"`
+	Component  string         `json:"component,omitempty"`
+	RouterMeta UserRouterMeta `json:"meta,omitempty"`
 	Children   []UserRouter   `json:"children,omitempty"`
 }
 
 type UserRouterMeta struct {
-	IconType     string `json:"iconType"`
-	Order        int32  `json:"order"`
-	Constant     bool   `json:"constant"`
-	HideInMenu   bool   `json:"hideInMenu"`
-	RequiresAuth bool   `json:"requiresAuth"`
-	Icon         string `json:"icon"`
-	LocalIcon    string `json:"localIcon"`
-	I18nKey      string `json:"i18nKey"`
-	Href         string `json:"href,omitempty"`
-	KeepAlive    bool   `json:"keepAlive"`
-	Title        string `json:"title"`
-	ActiveMenu   string `json:"activeMenu"`
-	MultiTab     bool   `json:"multiTab"`
-	FixedInTab   int32  `json:"fixedInTab"`
-	Query        string `json:"query"`
+	Title      string           `json:"title,omitempty"`
+	I18nKey    string           `json:"i18nKey,omitempty"`
+	Order      int32            `json:"order,omitempty"`
+	Role       []string         `json:"role,omitempty"`
+	Constant   bool             `json:"constant,omitempty"`
+	KeepAlive  bool             `json:"keepAlive,omitempty"`
+	Icon       string           `json:"icon,omitempty"`
+	LocalIcon  string           `json:"localIcon,omitempty"`
+	Href       string           `json:"href,omitempty"`
+	HideInMenu bool             `json:"hideInMenu,omitempty"`
+	ActiveMenu string           `json:"activeMenu,omitempty"`
+	MultiTab   bool             `json:"multiTab,omitempty"`
+	FixedInTab int32            `json:"fixedInTab,omitempty"`
+	Query      []MenuQueryParam `json:"query,omitempty"`
 }
-
+type MenuQueryParam struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
 type RouterTreeSimpleResp struct {
 	ID       string                 `json:"id"`
 	Label    string                 `json:"label"`
 	PID      string                 `json:"pId"`
-	Children []RouterTreeSimpleResp `json:"children"`
+	Children []RouterTreeSimpleResp `json:"children,omitempty"`
 }
 
 type AllApisResp struct {

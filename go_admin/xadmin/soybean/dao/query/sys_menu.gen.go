@@ -38,8 +38,9 @@ func newSysMenu(db *gorm.DB, opts ...gen.DOOption) sysMenu {
 	_sysMenu.Status = field.NewString(tableName, "status")
 	_sysMenu.Type = field.NewString(tableName, "type")
 	_sysMenu.MetaIconType = field.NewString(tableName, "meta_icon_type")
+	_sysMenu.MetaType = field.NewString(tableName, "meta_type")
 	_sysMenu.MetaOrder = field.NewInt32(tableName, "meta_order")
-	_sysMenu.MetaConstant = field.NewInt32(tableName, "meta_constant")
+	_sysMenu.MetaConstant = field.NewString(tableName, "meta_constant")
 	_sysMenu.MetaHideInMenu = field.NewString(tableName, "meta_hide_in_menu")
 	_sysMenu.MetaRequiresAuth = field.NewInt32(tableName, "meta_requires_auth")
 	_sysMenu.MetaIcon = field.NewString(tableName, "meta_icon")
@@ -81,8 +82,9 @@ type sysMenu struct {
 	Status           field.String // 是否启用
 	Type             field.String // 目录类型 "1": "目录", "2": "菜单"
 	MetaIconType     field.String // icon类型 0本地 1iconify
+	MetaType         field.String
 	MetaOrder        field.Int32  // 排序
-	MetaConstant     field.Int32  // 常量路由
+	MetaConstant     field.String // 常量路由
 	MetaHideInMenu   field.String // 菜单中隐藏
 	MetaRequiresAuth field.Int32  // 是否需要认证
 	MetaIcon         field.String // 元图标
@@ -130,8 +132,9 @@ func (s *sysMenu) updateTableName(table string) *sysMenu {
 	s.Status = field.NewString(table, "status")
 	s.Type = field.NewString(table, "type")
 	s.MetaIconType = field.NewString(table, "meta_icon_type")
+	s.MetaType = field.NewString(table, "meta_type")
 	s.MetaOrder = field.NewInt32(table, "meta_order")
-	s.MetaConstant = field.NewInt32(table, "meta_constant")
+	s.MetaConstant = field.NewString(table, "meta_constant")
 	s.MetaHideInMenu = field.NewString(table, "meta_hide_in_menu")
 	s.MetaRequiresAuth = field.NewInt32(table, "meta_requires_auth")
 	s.MetaIcon = field.NewString(table, "meta_icon")
@@ -168,7 +171,7 @@ func (s *sysMenu) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysMenu) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 33)
+	s.fieldMap = make(map[string]field.Expr, 34)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["router_name"] = s.RouterName
@@ -180,6 +183,7 @@ func (s *sysMenu) fillFieldMap() {
 	s.fieldMap["status"] = s.Status
 	s.fieldMap["type"] = s.Type
 	s.fieldMap["meta_icon_type"] = s.MetaIconType
+	s.fieldMap["meta_type"] = s.MetaType
 	s.fieldMap["meta_order"] = s.MetaOrder
 	s.fieldMap["meta_constant"] = s.MetaConstant
 	s.fieldMap["meta_hide_in_menu"] = s.MetaHideInMenu

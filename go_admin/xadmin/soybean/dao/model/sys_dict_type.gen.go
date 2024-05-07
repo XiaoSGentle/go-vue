@@ -12,9 +12,9 @@ const TableNameSysDictType = "sys_dict_type"
 
 // SysDictType mapped from table <sys_dict_type>
 type SysDictType struct {
-	ID          int32     `gorm:"column:id;type:int(11);primaryKey;comment:主键" json:"id"`          // 主键
-	Name        string    `gorm:"column:name;type:varchar(255);not null;comment:字典名称" json:"name"` // 字典名称
-	Code        string    `gorm:"column:code;type:varchar(255);not null;comment:字典类型" json:"code"` // 字典类型
+	ID          int32     `gorm:"column:id;type:int(11);primaryKey;autoIncrement:true;comment:主键" json:"id"` // 主键
+	Name        string    `gorm:"column:name;type:varchar(255);not null;comment:字典名称" json:"name"`           // 字典名称
+	Code        string    `gorm:"column:code;type:varchar(255);not null;comment:字典类型" json:"code"`           // 字典类型
 	Description string    `gorm:"column:description;type:varchar(255);not null" json:"description"`
 	Status      string    `gorm:"column:status;type:varchar(1);not null;default:1;comment:启用状态" json:"status"`          // 启用状态
 	Version     int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"`                               // 乐观锁

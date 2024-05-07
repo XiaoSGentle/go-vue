@@ -14,6 +14,9 @@ interface Props {
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
   rowData?: Api.Dict.DictData | null;
+
+  /** the dict type code */
+  typeCode: string;
 }
 
 const props = defineProps<Props>();
@@ -48,6 +51,7 @@ function createDefaultModel(): Model {
     label: '',
     value: '',
     sort: 0,
+    code: '',
     i18nKey: '',
     status: '2'
   };
@@ -76,6 +80,8 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
+
+  model.code = props.typeCode;
   if (props.operateType === 'add') {
     const { error } = await addDictData(model);
     if (!error) {
@@ -106,10 +112,10 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" display-directive="show" :width="360">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.dict.data.label')" path="name">
+        <NFormItem :label="$t('page.dict.data.label')" path="label">
           <NInput v-model:value="model.label" :placeholder="$t('page.dict.data.form.label')" />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.data.value')" path="code">
+        <NFormItem :label="$t('page.dict.data.value')" path="value">
           <NInput v-model:value="model.value" :placeholder="$t('page.dict.data.form.value')" />
         </NFormItem>
         <!--

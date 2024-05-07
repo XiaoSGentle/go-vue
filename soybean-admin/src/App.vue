@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { NConfigProvider, darkTheme } from 'naive-ui';
+import hljs from 'highlight.js/lib/core';
+import json from 'highlight.js/lib/languages/json';
 import { useAppStore } from './store/modules/app';
 import { useThemeStore } from './store/modules/theme';
 import { naiveDateLocales, naiveLocales } from './locales/naive';
-
 defineOptions({
   name: 'App'
 });
-
+hljs.registerLanguage('json', json);
 const appStore = useAppStore();
 const themeStore = useThemeStore();
 
@@ -26,6 +27,7 @@ const naiveDateLocale = computed(() => {
 <template>
   <NConfigProvider
     :theme="naiveDarkTheme"
+    :hljs="hljs"
     :theme-overrides="themeStore.naiveTheme"
     :locale="naiveLocale"
     :date-locale="naiveDateLocale"

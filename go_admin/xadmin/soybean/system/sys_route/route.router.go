@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
-	"xcore/common/xslice"
 	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtype/xslice"
 	"xcore/core/xcore"
 	"xcore/core/xvariable"
 )
 
-var RouteGroup = xcore.Group("/route", newRouteHandler, regRoute, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize)
-var NoAuthRouteGroup = xcore.Group("/route", newRouteHandler, regNoAuthRoute, xmiddlewares.LogMiddleHandler)
+var RouteGroup = xcore.Group("/route", newRouteHandler, regRoute, xmiddlewares.Authorize)
+var NoAuthRouteGroup = xcore.Group("/route", newRouteHandler, regNoAuthRoute)
 var SysMangerRoute = xcore.Group("/system/route", newRouteHandler, regSysMangerRoute, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize, xmiddlewares.Verify)
 
 func regSysMangerRoute(rg *gin.RouterGroup, group *xcore.GroupBase) error {

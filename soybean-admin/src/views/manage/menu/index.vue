@@ -83,6 +83,24 @@ const { columns, columnChecks, data, loading, pagination, getData } = useTable({
       minWidth: 120
     },
     {
+      key: 'constant',
+      title: $t('page.manage.menu.constant'),
+      align: 'center',
+      width: 80,
+      render: row => {
+        const hide: CommonType.YesOrNo = row.constant ? 'Y' : 'N';
+
+        const tagMap: Record<CommonType.YesOrNo, NaiveUI.ThemeColor> = {
+          Y: 'error',
+          N: 'default'
+        };
+
+        const label = $t(yesOrNoRecord[hide]);
+
+        return <NTag type={tagMap[hide]}>{label}</NTag>;
+      }
+    },
+    {
       key: 'status',
       title: $t('page.manage.menu.menuStatus'),
       align: 'center',

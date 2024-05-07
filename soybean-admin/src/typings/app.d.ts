@@ -154,7 +154,7 @@ declare namespace App {
       /** The menu label */
       label: string;
       /** The menu i18n key */
-      i18nKey?: I18n.I18nKey;
+      i18nKey?: I18n.I18nKey | null;
       /** The route key */
       routeKey: RouteKey;
       /** The route path */
@@ -212,7 +212,7 @@ declare namespace App {
        */
       localIcon?: string;
       /** I18n key */
-      i18nKey?: I18n.I18nKey;
+      i18nKey?: I18n.I18nKey | null;
     };
 
     /** Form rule */
@@ -533,6 +533,7 @@ declare namespace App {
             menuName: string;
             routeName: string;
             routePath: string;
+            constant: string;
             routeParams: string;
             layout: string;
             page: string;
@@ -543,6 +544,7 @@ declare namespace App {
             order: string;
             keepAlive: string;
             href: string;
+            query: string;
             hideInMenu: string;
             activeMenu: string;
             multiTab: string;
@@ -567,6 +569,10 @@ declare namespace App {
               href: string;
               hideInMenu: string;
               activeMenu: string;
+              queryKey: string;
+              otherConfig: string;
+              mainConfig: string;
+              queryValue: string;
               multiTab: string;
               fixedInTab: string;
               fixedIndexInTab: string;

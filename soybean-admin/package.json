@@ -58,7 +58,7 @@
     "dayjs": "1.11.10",
     "echarts": "5.5.0",
     "lodash-es": "4.17.21",
-    "naive-ui": "2.38.1",
+    "naive-ui": "2.38.2",
     "nprogress": "0.2.0",
     "pinia": "2.1.7",
     "vue": "3.4.25",

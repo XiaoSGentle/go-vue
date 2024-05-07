@@ -96,11 +96,12 @@ func (r RouteService) GetConstantRoutes(c *gin.Context) (getUserRoutersVo []User
 	return []UserRouter{
 		{
 			Name:      "login",
+			Props:     true,
 			Path:      "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
 			Component: "layout.blank$view.login",
 			RouterMeta: UserRouterMeta{
-				Constant:   true,
 				HideInMenu: true,
+				Constant:   true,
 				I18nKey:    "route.login",
 				Title:      "login",
 			},
@@ -109,7 +110,6 @@ func (r RouteService) GetConstantRoutes(c *gin.Context) (getUserRoutersVo []User
 }
 
 func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRouter) {
-
 	for _, menu := range sysMenuList {
 		m := UserRouter{
 			ID:        fmt.Sprintf("%d", menu.ID),
@@ -118,21 +118,18 @@ func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRoute
 			Path:      menu.Path,
 			Component: menu.Component,
 			RouterMeta: UserRouterMeta{
-				IconType:     menu.MetaIconType,
-				Order:        menu.MetaOrder,
-				Constant:     menu.MetaConstant == 1,
-				HideInMenu:   menu.MetaHideInMenu == "1",
-				RequiresAuth: menu.MetaRequiresAuth == 1,
-				Icon:         menu.MetaIcon,
-				LocalIcon:    menu.MetaLocalIcon,
-				I18nKey:      menu.MetaI18nKey,
-				Href:         menu.MetaHref,
-				KeepAlive:    menu.MetaKeepAlive == "1",
-				Title:        menu.MetaTitle,
-				ActiveMenu:   menu.MetaActiveMenu,
-				MultiTab:     menu.MetaMultiTab == "1",
-				FixedInTab:   menu.MetaFixedInTab,
-				Query:        "",
+				Order:      menu.MetaOrder,
+				HideInMenu: menu.MetaHideInMenu == "1",
+				Icon:       menu.MetaIcon,
+				LocalIcon:  menu.MetaLocalIcon,
+				I18nKey:    menu.MetaI18nKey,
+				Href:       menu.MetaHref,
+				KeepAlive:  menu.MetaKeepAlive == "1",
+				Title:      menu.MetaTitle,
+				ActiveMenu: menu.MetaActiveMenu,
+				MultiTab:   menu.MetaMultiTab == "1",
+				FixedInTab: menu.MetaFixedInTab,
+				Query:      []MenuQueryParam{},
 			},
 			Children: nil,
 		}

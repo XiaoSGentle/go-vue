@@ -69,3 +69,10 @@ export function deleteDictDataByIds(param: (string | number)[]) {
     data: { ids: param }
   });
 }
+
+export function fetchDict(param: string) {
+  return request<Api.Dict.Dict[]>({
+    url: `/api/dict/${param}`,
+    method: 'get'
+  });
+}

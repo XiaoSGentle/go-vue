@@ -23,28 +23,29 @@ type SysMenu struct {
 	Status           string    `gorm:"column:status;type:varchar(1);not null;default:1;comment:是否启用" json:"status"`                                // 是否启用
 	Type             string    `gorm:"column:type;type:varchar(1);not null;default:1;comment:目录类型 "1": "目录", "2": "菜单"" json:"type"`               // 目录类型 "1": "目录", "2": "菜单"
 	MetaIconType     string    `gorm:"column:meta_icon_type;type:varchar(255);not null;default:1;comment:icon类型 0本地 1iconify" json:"metaIconType"` // icon类型 0本地 1iconify
-	MetaOrder        int32     `gorm:"column:meta_order;type:int(11) unsigned;not null;comment:排序" json:"metaOrder"`                               // 排序
-	MetaConstant     int32     `gorm:"column:meta_constant;type:int(1) unsigned;not null;comment:常量路由" json:"metaConstant"`                        // 常量路由
-	MetaHideInMenu   string    `gorm:"column:meta_hide_in_menu;type:varchar(1);not null;default:2;comment:菜单中隐藏" json:"metaHideInMenu"`            // 菜单中隐藏
-	MetaRequiresAuth int32     `gorm:"column:meta_requires_auth;type:int(11) unsigned;not null;default:1;comment:是否需要认证" json:"metaRequiresAuth"`  // 是否需要认证
-	MetaIcon         string    `gorm:"column:meta_icon;type:varchar(255);not null;comment:元图标" json:"metaIcon"`                                    // 元图标
-	MetaLocalIcon    string    `gorm:"column:meta_local_icon;type:varchar(255);not null;comment:本地元图标" json:"metaLocalIcon"`                       // 本地元图标
-	MetaI18nKey      string    `gorm:"column:meta_i18n_key;type:varchar(255);not null;comment:国际化标题" json:"metaI18nKey"`                           // 国际化标题
-	MetaHref         string    `gorm:"column:meta_href;type:varchar(255);not null;comment:外部连接" json:"metaHref"`                                   // 外部连接
-	MetaKeepAlive    string    `gorm:"column:meta_keep_alive;type:varchar(1);not null;default:1;comment:缓存该路由" json:"metaKeepAlive"`               // 缓存该路由
-	MetaTitle        string    `gorm:"column:meta_title;type:varchar(255);not null;comment:元数据标题" json:"metaTitle"`                                // 元数据标题
-	MetaActiveMenu   string    `gorm:"column:meta_active_menu;type:varchar(255);not null;comment:激活的菜单键" json:"metaActiveMenu"`                    // 激活的菜单键
-	MetaMultiTab     string    `gorm:"column:meta_multi_tab;type:varchar(1);not null;default:1;comment:多个标签页" json:"metaMultiTab"`                 // 多个标签页
-	MetaFixedInTab   int32     `gorm:"column:meta_fixed_in_tab;type:int(1) unsigned;comment:标签固定位置" json:"metaFixedInTab"`                         // 标签固定位置
-	MetaQuery        string    `gorm:"column:meta_query;type:varchar(255);not null;comment:默认携带参数" json:"metaQuery"`                               // 默认携带参数
-	Version          int32     `gorm:"column:version;type:int(11) unsigned;not null;comment:乐观锁" json:"version"`                                   // 乐观锁
-	SoftDeleteTag    int32     `gorm:"column:soft_delete_tag;type:int(1) unsigned;not null;comment:软删除标记" json:"softDeleteTag"`                    // 软删除标记
-	UpdateTime       time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"`                       // 更新时间
-	UpdateUID        int32     `gorm:"column:update_uid;type:int(11);comment:更新者uuid" json:"updateUid"`                                            // 更新者uuid
-	CreateUID        int32     `gorm:"column:create_uid;type:int(11);comment:创建者uuid" json:"createUid"`                                            // 创建者uuid
-	CreateBy         string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                                             // 创建者
-	CreateTime       time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"`                       // 创建时间
-	UpdateBy         string    `gorm:"column:update_by;type:varchar(255);comment:更新者名称" json:"updateBy"`                                           // 更新者名称
+	MetaType         string    `gorm:"column:meta_type;type:varchar(255);not null;default:base" json:"metaType"`
+	MetaOrder        int32     `gorm:"column:meta_order;type:int(11) unsigned;not null;comment:排序" json:"metaOrder"`                              // 排序
+	MetaConstant     string    `gorm:"column:meta_constant;type:varchar(1);not null;default:2;comment:常量路由" json:"metaConstant"`                  // 常量路由
+	MetaHideInMenu   string    `gorm:"column:meta_hide_in_menu;type:varchar(1);not null;default:2;comment:菜单中隐藏" json:"metaHideInMenu"`           // 菜单中隐藏
+	MetaRequiresAuth int32     `gorm:"column:meta_requires_auth;type:int(11) unsigned;not null;default:1;comment:是否需要认证" json:"metaRequiresAuth"` // 是否需要认证
+	MetaIcon         string    `gorm:"column:meta_icon;type:varchar(255);not null;comment:元图标" json:"metaIcon"`                                   // 元图标
+	MetaLocalIcon    string    `gorm:"column:meta_local_icon;type:varchar(255);not null;comment:本地元图标" json:"metaLocalIcon"`                      // 本地元图标
+	MetaI18nKey      string    `gorm:"column:meta_i18n_key;type:varchar(255);not null;comment:国际化标题" json:"metaI18nKey"`                          // 国际化标题
+	MetaHref         string    `gorm:"column:meta_href;type:varchar(255);not null;comment:外部连接" json:"metaHref"`                                  // 外部连接
+	MetaKeepAlive    string    `gorm:"column:meta_keep_alive;type:varchar(1);not null;default:1;comment:缓存该路由" json:"metaKeepAlive"`              // 缓存该路由
+	MetaTitle        string    `gorm:"column:meta_title;type:varchar(255);not null;comment:元数据标题" json:"metaTitle"`                               // 元数据标题
+	MetaActiveMenu   string    `gorm:"column:meta_active_menu;type:varchar(255);not null;comment:激活的菜单键" json:"metaActiveMenu"`                   // 激活的菜单键
+	MetaMultiTab     string    `gorm:"column:meta_multi_tab;type:varchar(1);not null;default:1;comment:多个标签页" json:"metaMultiTab"`                // 多个标签页
+	MetaFixedInTab   int32     `gorm:"column:meta_fixed_in_tab;type:int(1) unsigned;comment:标签固定位置" json:"metaFixedInTab"`                        // 标签固定位置
+	MetaQuery        string    `gorm:"column:meta_query;type:varchar(255);not null;comment:默认携带参数" json:"metaQuery"`                              // 默认携带参数
+	Version          int32     `gorm:"column:version;type:int(11) unsigned;not null;comment:乐观锁" json:"version"`                                  // 乐观锁
+	SoftDeleteTag    int32     `gorm:"column:soft_delete_tag;type:int(1) unsigned;not null;comment:软删除标记" json:"softDeleteTag"`                   // 软删除标记
+	UpdateTime       time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"`                      // 更新时间
+	UpdateUID        int32     `gorm:"column:update_uid;type:int(11);comment:更新者uuid" json:"updateUid"`                                           // 更新者uuid
+	CreateUID        int32     `gorm:"column:create_uid;type:int(11);comment:创建者uuid" json:"createUid"`                                           // 创建者uuid
+	CreateBy         string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                                            // 创建者
+	CreateTime       time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"`                      // 创建时间
+	UpdateBy         string    `gorm:"column:update_by;type:varchar(255);comment:更新者名称" json:"updateBy"`                                          // 更新者名称
 }
 
 // TableName SysMenu's table name

@@ -49,6 +49,7 @@ func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataLi
 			},
 			Label: datum.Label,
 			Value: datum.Value,
+			Code:  param.Code,
 			Sort:  datum.Sort,
 		})
 	}
@@ -63,7 +64,7 @@ func (s SysDictDataService) AddDictData(c *gin.Context, param *AddOrUpDateSysDic
 		Label:      param.Label,
 		Value:      param.Value,
 		Sort:       param.Sort,
-		TypeCode:   param.TypeCode,
+		TypeCode:   param.Code,
 		Status:     param.Status,
 		CreateUID:  payload.Uid,
 		CreateBy:   payload.NickName,
@@ -83,7 +84,7 @@ func (s SysDictDataService) UpdateDictData(c *gin.Context, id int32, param *AddO
 		Label:      param.Label,
 		Value:      param.Value,
 		Sort:       param.Sort,
-		TypeCode:   param.TypeCode,
+		TypeCode:   param.Code,
 		Status:     param.Status,
 		UpdateTime: time.Now(),
 		UpdateUID:  operateUserInfo.Uid,

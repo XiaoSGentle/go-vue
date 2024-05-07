@@ -81,7 +81,7 @@ func (h sysMenuHandler) UpdateMenu(c *gin.Context) {
 	xresponse.UpdateSuccessCtx(c)
 }
 
-func (m sysMenuHandler) DeleteMenuByIds(c *gin.Context) {
+func (h sysMenuHandler) DeleteMenuByIds(c *gin.Context) {
 	var ids basetype.DelIds
 	if err := c.ShouldBind(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
@@ -90,7 +90,7 @@ func (m sysMenuHandler) DeleteMenuByIds(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := m.authService.DeleteMenu(c, ids.Ids); err != nil {
+	if err := h.authService.DeleteMenu(c, ids.Ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}

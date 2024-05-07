@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"gorm.io/gorm"
 	"xcore/common/xcache"
-	"xcore/common/xslice"
+	"xcore/common/xtype/xslice"
 )
 
 var (

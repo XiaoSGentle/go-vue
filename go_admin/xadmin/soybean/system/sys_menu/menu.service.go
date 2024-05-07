@@ -3,11 +3,14 @@ package sys_menu
 import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"strings"
 	"time"
 	"xadmin/soybean/dao/model"
 	baseType "xadmin/soybean/dao/model/base"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xerror"
+	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtype/xbool"
 )
 
 type ISysMenuService interface {
@@ -43,42 +46,32 @@ func (m SysMenuService) DeleteMenu(c *gin.Context, ids []int32) (err error) {
 
 func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateSysMenuParam) (err error) {
 	menuQuery := m.query.SysMenu
-	metaMenuHide := "2"
-	if param.HideInMenu {
-		metaMenuHide = "1"
-	}
+	payload := xtoken.GetBindCustomPayload(c)
 	updates, err := menuQuery.WithContext(c).Where(menuQuery.ID.Eq(id)).Updates(&model.SysMenu{
-		Name:       param.MenuName,
-		RouterName: param.RouteName,
-		Path:       param.RoutePath,
-		ParentID:   param.ParentId,
-		Component:  param.Component,
-		//Props:            param.,
-		Status:           param.Status,
-		Type:             param.MenuType,
-		MetaIconType:     param.IconType,
-		MetaOrder:        param.Order,
-		MetaConstant:     2,
-		MetaHideInMenu:   metaMenuHide,
-		MetaRequiresAuth: 1,
-		MetaIcon:         param.Icon,
-		MetaLocalIcon:    "",
-		MetaI18nKey:      param.I18NKey,
-		//MetaHref:         "",
-		//MetaKeepAlive:    0,
-		MetaTitle: param.RouteName,
-		//MetaActiveMenu: "",
-
-		//MetaFixedInTab: 0,
-		MetaQuery:     "",
-		Version:       0,
-		SoftDeleteTag: 0,
-		UpdateTime:    time.Now(),
-		UpdateUID:     0,
-		CreateUID:     0,
-		CreateBy:      "",
-		CreateTime:    time.Now(),
-		UpdateBy:      "",
+		Name:           param.MenuName,
+		RouterName:     param.RouteName,
+		Path:           param.RoutePath,
+		ParentID:       param.ParentId,
+		Component:      param.Component,
+		Status:         param.Status,
+		Type:           param.MenuType,
+		MetaIconType:   param.IconType,
+		MetaOrder:      param.Order,
+		MetaConstant:   xbool.BooleanTo(param.Constant, "1", "2"),
+		MetaHideInMenu: xbool.BooleanTo(param.HideInMenu, "1", "2"),
+		MetaIcon:       param.Icon,
+		MetaLocalIcon:  "",
+		MetaI18nKey:    param.I18NKey,
+		MetaHref:       param.Href,
+		MetaKeepAlive:  xbool.BooleanTo(param.KeepAlive, "1", "2"),
+		MetaTitle:      param.RouteName,
+		MetaActiveMenu: param.ActiveMenu,
+		MetaMultiTab:   xbool.BooleanTo(param.MultiTab, "1", "2"),
+		MetaFixedInTab: param.FixedIndexInTab,
+		MetaQuery:      strings.Join(param.Query, ","),
+		UpdateTime:     time.Now(),
+		UpdateUID:      payload.Uid,
+		UpdateBy:       payload.NickName,
 	})
 	if err != nil {
 		return err
@@ -91,38 +84,32 @@ func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateS
 
 func (m SysMenuService) AddMenu(c *gin.Context, param *AddOrUpDateSysMenuParam) (err error) {
 	sysMenuQuery := m.query.SysMenu.WithContext(c)
+	payload := xtoken.GetBindCustomPayload(c)
 	err = sysMenuQuery.Create(&model.SysMenu{
-		Name:       param.MenuName,
-		RouterName: param.RouteName,
-		Path:       param.RoutePath,
-		ParentID:   param.ParentId,
-		Component:  param.Component,
-		//Props:            param.,
-		Status:           param.Status,
-		Type:             param.MenuType,
-		MetaIconType:     param.IconType,
-		MetaOrder:        param.Order,
-		MetaConstant:     2,
-		MetaHideInMenu:   "2",
-		MetaRequiresAuth: 1,
-		MetaIcon:         param.Icon,
-		MetaLocalIcon:    "",
-		MetaI18nKey:      param.I18NKey,
-		//MetaHref:         "",
-		//MetaKeepAlive:    0,
-		MetaTitle: param.RouteName,
-		//MetaActiveMenu: "",
-		MetaMultiTab: "0",
-		//MetaFixedInTab: 0,
-		MetaQuery:     "",
-		Version:       0,
-		SoftDeleteTag: 0,
-		UpdateTime:    time.Now(),
-		UpdateUID:     0,
-		CreateUID:     0,
-		CreateBy:      "",
-		CreateTime:    time.Now(),
-		UpdateBy:      "",
+		Name:           param.MenuName,
+		RouterName:     param.RouteName,
+		Path:           param.RoutePath,
+		ParentID:       param.ParentId,
+		Component:      param.Component,
+		Status:         param.Status,
+		Type:           param.MenuType,
+		MetaIconType:   param.IconType,
+		MetaOrder:      param.Order,
+		MetaConstant:   xbool.BooleanTo(param.Constant, "1", "2"),
+		MetaHideInMenu: xbool.BooleanTo(param.HideInMenu, "1", "2"),
+		MetaIcon:       xbool.BooleanTo(param.MenuType == "1", param.Icon, ""),
+		MetaLocalIcon:  xbool.BooleanTo(param.MenuType == "1", "", param.Icon),
+		MetaI18nKey:    param.I18NKey,
+		MetaHref:       param.Href,
+		MetaKeepAlive:  xbool.BooleanTo(param.KeepAlive, "1", "2"),
+		MetaTitle:      param.RouteName,
+		MetaActiveMenu: param.ActiveMenu,
+		MetaMultiTab:   xbool.BooleanTo(param.MultiTab, "1", "2"),
+		MetaFixedInTab: param.FixedIndexInTab,
+		MetaQuery:      strings.Join(param.Query, ","),
+		CreateTime:     time.Now(),
+		CreateUID:      payload.Uid,
+		CreateBy:       payload.NickName,
 	})
 	return
 }
@@ -159,18 +146,26 @@ func sysMenuToSysMenuListRespTree(sysMenuList []*model.SysMenu) (menuVoList []Sy
 				UpdateTime: menu.UpdateTime.String(),
 				Status:     menu.Status,
 			},
-			ParentId:   menu.ParentID,
-			MenuType:   menu.Type,
-			MenuName:   menu.Name,
-			RouteName:  menu.RouterName,
-			HideInMenu: menu.MetaHideInMenu == "1",
-			RoutePath:  menu.Path,
-			Component:  menu.Component,
-			Order:      menu.MetaOrder,
-			I18NKey:    menu.MetaI18nKey,
-			Icon:       menu.MetaIcon,
-			IconType:   menu.MetaIconType,
-			Children:   nil,
+			ParentId:        menu.ParentID,
+			MenuType:        menu.Type,
+			MenuName:        menu.Name,
+			RouteName:       menu.RouterName,
+			RoutePath:       menu.Path,
+			Component:       menu.Component,
+			HideInMenu:      menu.MetaHideInMenu == "1",
+			Order:           menu.MetaOrder,
+			I18NKey:         menu.MetaI18nKey,
+			Icon:            menu.MetaIcon,
+			IconType:        menu.MetaIconType,
+			Status:          menu.Status,
+			KeepAlive:       menu.MetaKeepAlive == "1",
+			Constant:        menu.MetaConstant == "1",
+			ActiveMenu:      menu.MetaActiveMenu,
+			FixedIndexInTab: menu.MetaFixedInTab,
+			MultiTab:        menu.MetaMultiTab == "1",
+			Href:            menu.MetaHref,
+			Query:           strings.Split(menu.MetaQuery, ","),
+			Children:        []SysMenuList{},
 		}
 		menuVoList = append(menuVoList, m)
 	}
