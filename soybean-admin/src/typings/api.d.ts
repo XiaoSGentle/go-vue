@@ -335,5 +335,11 @@ declare namespace Api {
     type LoggerSearchParams = CommonType.RecordNullable<
       Pick<Api.Dict.DictType, 'name' | 'description'> & CommonSearchParams
     >;
+
+    type LoggerFiles = {
+      fileName: string;
+      fileSize: string;
+      createData: string;
+    };
   }
 }

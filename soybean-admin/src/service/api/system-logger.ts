@@ -8,11 +8,10 @@ export function fetchLoggerList(params?: Api.Dict.CommonSearchParams) {
   });
 }
 
-export function downLoggerGzFile(param: Api.SystemManage.AddOrUpdateRoleParams) {
+export function downLoggerGzFile() {
   // 发送 POST 请求到 '/system/menu' 接口，携带参数 data
-  return request<Api.BaseCurd.SuccessNoDataResponse>({
-    url: '/system/role',
-    method: 'post',
-    data: param
+  return request<Api.Logger.LoggerFiles[]>({
+    url: '/system/log/list',
+    method: 'get'
   });
 }

@@ -17,14 +17,13 @@ var NoAuthAuthGroup = xcore.Group("/auth", newAuthHandler, regNoAuthAuth, xmiddl
 
 func regAuth(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 	return group.Reg(func(handle *authHandler) {
-		rg.POST("/refreshToken", handle.RefreshToken)
 		rg.GET("/getUserInfo", handle.GetUserInfo)
 	})
 }
 func regNoAuthAuth(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 	return group.Reg(func(handle *authHandler) {
 		rg.POST("/login", handle.UserLogin)
-
+		rg.POST("/refreshToken", handle.RefreshToken)
 	})
 }
 

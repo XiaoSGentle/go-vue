@@ -2,9 +2,11 @@ package sys_log
 
 import (
 	"bufio"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"os"
+	"strings"
 	baseType "xadmin/soybean/dao/model/base"
 	"xcore/common/xerror"
 	"xcore/common/xmiddlewares"
@@ -14,12 +16,18 @@ import (
 )
 
 var LogGroup = xcore.Group("/system/log", newSysLogHandler, regLog, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize)
+var NoLogLogGroup = xcore.Group("/system/log", newSysLogHandler, noLogLogGroup, xmiddlewares.Authorize)
 
 func regLog(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 	return group.Reg(func(handle *logHandler) {
 		rg.GET("/list", handle.LogFileList)
-		rg.GET("/:level", handle.LogContent)
 		rg.GET("/download/:fileName", handle.DownLogFile)
+	})
+}
+
+func noLogLogGroup(rg *gin.RouterGroup, group *xcore.GroupBase) error {
+	return group.Reg(func(handle *logHandler) {
+		rg.GET("/:level", handle.LogContent)
 	})
 }
 func newSysLogHandler() *logHandler {
@@ -31,15 +39,22 @@ type logHandler struct {
 
 func (h logHandler) LogFileList(c *gin.Context) {
 	list := GetFiles("./logs")
+	var fileZips []SysLogFileZipsResp
 	for _, s := range list {
-		info, err := s.Info()
-		if err != nil {
-			return
+		if strings.HasSuffix(s.Name(), ".log.gz") {
+			stat, _ := os.Stat("./logs/" + s.Name())
+			modTimer := stat.ModTime()
+			info, _ := s.Info()
+			fileSizeMB := float64(info.Size()) / (1024 * 1024)
+			fileSizeMB = float64(int(fileSizeMB*100)) / 100
+			fileZips = append(fileZips, SysLogFileZipsResp{
+				FileName:   s.Name(),
+				FileSize:   fmt.Sprintf("%.2fMB", fileSizeMB),
+				CreateData: modTimer,
+			})
 		}
-		// todo:写成接口
-		println(info.Size())
-		println(s.Name())
 	}
+	xresponse.SuccessCtx(c, fileZips)
 }
 
 func (h logHandler) DownLogFile(c *gin.Context) {

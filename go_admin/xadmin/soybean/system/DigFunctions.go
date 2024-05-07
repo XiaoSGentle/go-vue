@@ -28,6 +28,7 @@ var (
 		sys_user.SysUserGroup,
 		sys_role.SysRoleGroup,
 		sys_log.LogGroup,
+		sys_log.NoLogLogGroup,
 	}
 	Function = []interface{}{
 		sys_auth.NewAuthService,
