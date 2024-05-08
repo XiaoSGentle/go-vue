@@ -164,12 +164,6 @@ const local: App.I18n.Schema = {
     'manage_user-detail': '用户详情',
     manage_role: '角色管理',
     manage_menu: '菜单管理',
-    'multi-menu': '多级菜单',
-    'multi-menu_first': '菜单一',
-    'multi-menu_first_child': '菜单一子菜单',
-    'multi-menu_second': '菜单二',
-    'multi-menu_second_child': '菜单二子菜单',
-    'multi-menu_second_child_home': '菜单二子菜单首页',
     exception: '异常页',
     exception_403: '403',
     exception_404: '404',
@@ -452,7 +446,7 @@ const local: App.I18n.Schema = {
         tableTitle: '字典内容',
         label: '字典标签',
         value: '字典值',
-        i18nKey: 'I18n键',
+        enLabel: '英文键',
         sort: '字典排序',
         status: '字典状态',
         form: {
@@ -460,7 +454,7 @@ const local: App.I18n.Schema = {
           edit: '编辑字典内容',
           label: '请填写字典内容标签',
           value: '请填写字典内容',
-          i18nKey: '请选择字典I18n键',
+          enLabel: '请选择字典英文键',
           sort: '请选择字典内容排序',
           status: '请选择字典内容状态'
         }

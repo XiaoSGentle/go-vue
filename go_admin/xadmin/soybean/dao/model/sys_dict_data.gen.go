@@ -18,7 +18,7 @@ type SysDictDatum struct {
 	Sort       int32     `gorm:"column:sort;type:int(11);not null" json:"sort"`
 	TypeCode   string    `gorm:"column:type_code;type:varchar(255);not null" json:"typeCode"`
 	Version    int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"` // 乐观锁
-	I18nKey    string    `gorm:"column:i18n_key;type:varchar(255)" json:"i18nKey"`
+	EnLabel    string    `gorm:"column:en_label;type:varchar(255)" json:"enLabel"`
 	Status     string    `gorm:"column:status;type:varchar(1)" json:"status"`
 	CreateUID  int32     `gorm:"column:create_uid;type:int(11);comment:创建者uid" json:"createUid"`                       // 创建者uid
 	CreateBy   string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                       // 创建者

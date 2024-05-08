@@ -295,7 +295,7 @@ declare namespace Api {
 
     type DictData = Common.CommonRecord<{
       label: string;
-      i18nKey: string;
+      ebLabel: string;
       value: string;
       sort: number;
       code: string;
@@ -303,10 +303,10 @@ declare namespace Api {
     type DictDataSearchParams = CommonType.RecordNullable<Pick<Api.Dict.DictData, 'code'> & CommonSearchParams>;
 
     type DictDataList = Common.PaginatingQueryRecord<DictData>;
-    type AddOrUpdateDictDataParams = Pick<DictData, 'label' | 'i18nKey' | 'value' | 'sort' | 'status' | 'code'>;
+    type AddOrUpdateDictDataParams = Pick<DictData, 'label' | 'ebLabel' | 'value' | 'sort' | 'status' | 'code'>;
 
     type DictTypeDataSearchParams = CommonType.RecordNullable<
-      Pick<Api.Dict.DictData, 'label' | 'i18nKey' | 'sort' | 'value'> & CommonSearchParams
+      Pick<Api.Dict.DictData, 'label' | 'ebLabel' | 'sort' | 'value'> & CommonSearchParams
     >;
 
     type Dict = {

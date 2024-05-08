@@ -28,6 +28,9 @@ type SysDictDataService struct {
 }
 
 func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataListParam) (resp SysDictDataListResp, err error) {
+	var result SysDictDataListResp = SysDictDataListResp{
+		Records: []SysDictDataList{},
+	}
 	dictDataQuery := s.query.SysDictDatum
 	resp.PageResult.PageParam = param.PageParam
 	queryResultList, totalCount, err := dictDataQuery.WithContext(c).
@@ -35,10 +38,10 @@ func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataLi
 		FindByPage((param.Current-1)*param.Size, param.Size)
 	resp.Total = totalCount
 	if err != nil {
-		return SysDictDataListResp{}, err
+		return result, err
 	}
 	for _, datum := range queryResultList {
-		resp.Records = append(resp.Records, SysDictDataList{
+		result.Records = append(result.Records, SysDictDataList{
 			BaseRecord: baseType.BaseRecord{
 				ID:         datum.ID,
 				CreateBy:   datum.CreateBy,
@@ -53,7 +56,7 @@ func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataLi
 			Sort:  datum.Sort,
 		})
 	}
-	return
+	return result, nil
 }
 
 func (s SysDictDataService) AddDictData(c *gin.Context, param *AddOrUpDateSysDictDataParam) (err error) {

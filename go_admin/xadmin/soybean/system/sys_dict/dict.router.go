@@ -200,6 +200,7 @@ func (h sysDictHandler) DeleteDictDataByIds(c *gin.Context) {
 	var ids baseType.DelIds
 	if err := c.ShouldBind(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
+		return
 	}
 	if err := xvalidate.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
@@ -258,9 +259,10 @@ func (h sysDictHandler) DictInSql(c *gin.Context) (result map[string][]DictInfo)
 		var dictInfo []DictInfo
 		for _, dictDataList := range dataList.Records {
 			dictInfo = append(dictInfo, DictInfo{
-				Label: dictDataList.Label,
-				Value: dictDataList.Value,
-				Sort:  dictDataList.Sort,
+				Label:   dictDataList.Label,
+				Value:   dictDataList.Value,
+				Sort:    dictDataList.Sort,
+				EnLabel: dictDataList.EnLabel,
 			})
 		}
 

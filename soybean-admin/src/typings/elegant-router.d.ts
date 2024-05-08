@@ -34,7 +34,7 @@ declare module "@elegant-router/types" {
     "500": "/500";
     "about": "/about";
     "dict": "/dict";
-    "dict_data": "/dict/data/:id";
+    "dict_data": "/dict/data/:code";
     "dict_type": "/dict/type";
     "function": "/function";
     "function_hide-child": "/function/hide-child";
@@ -57,12 +57,6 @@ declare module "@elegant-router/types" {
     "manage_role": "/manage/role";
     "manage_user": "/manage/user";
     "manage_user-detail": "/manage/user-detail/:id";
-    "multi-menu": "/multi-menu";
-    "multi-menu_first": "/multi-menu/first";
-    "multi-menu_first_child": "/multi-menu/first/child";
-    "multi-menu_second": "/multi-menu/second";
-    "multi-menu_second_child": "/multi-menu/second/child";
-    "multi-menu_second_child_home": "/multi-menu/second/child/home";
     "test-page": "/test-page";
     "test-page_page-one": "/test-page/page-one";
     "test-page_page-two": "/test-page/page-two";
@@ -121,7 +115,6 @@ declare module "@elegant-router/types" {
     | "logger"
     | "login"
     | "manage"
-    | "multi-menu"
     | "test-page"
     | "user-center"
   >;
@@ -165,8 +158,6 @@ declare module "@elegant-router/types" {
     | "manage_role"
     | "manage_user-detail"
     | "manage_user"
-    | "multi-menu_first_child"
-    | "multi-menu_second_child_home"
     | "test-page_page-one"
     | "test-page_page-two"
     | "user-center"

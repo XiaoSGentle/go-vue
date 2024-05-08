@@ -614,7 +614,7 @@ declare namespace App {
             tableTitle: string;
             label: string;
             value: string;
-            i18nKey: string;
+            enLabel: string;
             sort: string;
             status: string;
             form: {
@@ -622,7 +622,7 @@ declare namespace App {
               edit: string;
               label: string;
               value: string;
-              i18nKey: string;
+              enLabel: string;
               sort: string;
               status: string;
             };

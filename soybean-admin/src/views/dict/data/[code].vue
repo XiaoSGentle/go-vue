@@ -12,10 +12,10 @@ import { enableStatusRecord } from '@/constants/business';
 
 import DictDataOperateDrawer from './modules/dict-data-drawer.vue';
 interface Props {
-  id: string;
+  code: string;
 }
 
-const { id: typeCode } = defineProps<Props>();
+const { code: typeCode } = defineProps<Props>();
 const thisDictTypeCode = computed(() => typeCode);
 const appStore = useAppStore();
 
@@ -42,10 +42,10 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
       title: $t('page.dict.data.value'),
       align: 'center'
     },
-    // {
-    // key: 'i18nKey',
-    //  title: $t('page.dict.data.i18nKey')
-    // },
+    {
+      key: 'ebLabel',
+      title: $t('page.dict.data.enLabel')
+    },
     {
       key: 'sort',
       title: $t('page.dict.data.sort'),

@@ -46,12 +46,13 @@ type SysDictDataList struct {
 	Label   string `json:"label"`
 	Value   string `json:"value"`
 	Code    string `json:"code"`
-	I18nKey string `json:"i18nKey"`
+	EnLabel string `json:"enLabel"`
 	Sort    int32  `json:"sort"`
 }
 
 type DictInfo struct {
-	Label string `json:"label"`
-	Value string `json:"value"`
-	Sort  int32  `json:"sort"`
+	Label   string `json:"label"`
+	EnLabel string `json:"enLabel"`
+	Value   string `json:"value"`
+	Sort    int32  `json:"sort"`
 }

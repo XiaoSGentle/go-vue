@@ -164,12 +164,6 @@ const local: App.I18n.Schema = {
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
-    'multi-menu': 'Multi Menu',
-    'multi-menu_first': 'Menu One',
-    'multi-menu_first_child': 'Menu One Child',
-    'multi-menu_second': 'Menu Two',
-    'multi-menu_second_child': 'Menu Two Child',
-    'multi-menu_second_child_home': 'Menu Two Child Home',
     exception: 'Exception',
     exception_403: '403',
     exception_404: '404',
@@ -452,7 +446,7 @@ const local: App.I18n.Schema = {
         tableTitle: 'Dictionary Content',
         label: 'Dictionary Label',
         value: 'Dictionary Value',
-        i18nKey: 'Dictionary I18n Key',
+        enLabel: 'Dictionary English Label',
         sort: 'Dictionary Sort',
         status: 'Dictionary Status',
         form: {
@@ -460,7 +454,7 @@ const local: App.I18n.Schema = {
           edit: 'Edit Dictionary Content',
           label: 'Please enter the dictionary content label',
           value: 'Please enter the dictionary content',
-          i18nKey: 'Please select the dictionary I18n key',
+          enLabel: 'Please select the dictionary English Label',
           sort: 'Please select the dictionary content sort',
           status: 'Please select the dictionary content status'
         }

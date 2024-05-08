@@ -5,7 +5,7 @@ type LoginParam struct {
 	Password string `json:"password" zh_comment:"密码" en_comment:"" validate:"required"`
 }
 type RefreshTokenParam struct {
-	RefreshToken string `json:"refreshToken" zh_comment:"LogFileList" en_comment:"LogFileList" validate:"required"`
+	RefreshToken string `json:"refreshToken" zh_comment:"RefreshToken" en_comment:"RefreshToken" validate:"required"`
 }
 type CheckCaptchaParam struct {
 	Dots []fontDots `json:"dots" validate:"required" comment:"点"`

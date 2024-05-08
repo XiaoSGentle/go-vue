@@ -33,7 +33,7 @@ func newSysDictDatum(db *gorm.DB, opts ...gen.DOOption) sysDictDatum {
 	_sysDictDatum.Sort = field.NewInt32(tableName, "sort")
 	_sysDictDatum.TypeCode = field.NewString(tableName, "type_code")
 	_sysDictDatum.Version = field.NewInt32(tableName, "version")
-	_sysDictDatum.I18nKey = field.NewString(tableName, "i18n_key")
+	_sysDictDatum.EnLabel = field.NewString(tableName, "en_label")
 	_sysDictDatum.Status = field.NewString(tableName, "status")
 	_sysDictDatum.CreateUID = field.NewInt32(tableName, "create_uid")
 	_sysDictDatum.CreateBy = field.NewString(tableName, "create_by")
@@ -57,7 +57,7 @@ type sysDictDatum struct {
 	Sort       field.Int32
 	TypeCode   field.String
 	Version    field.Int32 // 乐观锁
-	I18nKey    field.String
+	EnLabel    field.String
 	Status     field.String
 	CreateUID  field.Int32  // 创建者uid
 	CreateBy   field.String // 创建者
@@ -87,7 +87,7 @@ func (s *sysDictDatum) updateTableName(table string) *sysDictDatum {
 	s.Sort = field.NewInt32(table, "sort")
 	s.TypeCode = field.NewString(table, "type_code")
 	s.Version = field.NewInt32(table, "version")
-	s.I18nKey = field.NewString(table, "i18n_key")
+	s.EnLabel = field.NewString(table, "en_label")
 	s.Status = field.NewString(table, "status")
 	s.CreateUID = field.NewInt32(table, "create_uid")
 	s.CreateBy = field.NewString(table, "create_by")
@@ -118,7 +118,7 @@ func (s *sysDictDatum) fillFieldMap() {
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["type_code"] = s.TypeCode
 	s.fieldMap["version"] = s.Version
-	s.fieldMap["i18n_key"] = s.I18nKey
+	s.fieldMap["en_label"] = s.EnLabel
 	s.fieldMap["status"] = s.Status
 	s.fieldMap["create_uid"] = s.CreateUID
 	s.fieldMap["create_by"] = s.CreateBy

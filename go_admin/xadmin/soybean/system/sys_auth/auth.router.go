@@ -58,9 +58,11 @@ func (a authHandler) RefreshToken(c *gin.Context) {
 	var refreshTokenParam RefreshTokenParam
 	if err := c.ShouldBind(&refreshTokenParam); err != nil {
 		xresponse.ErrorCtx(c, err)
+		return
 	}
 	if err := xvalidate.ValidateStruct(refreshTokenParam); err != nil {
 		xresponse.ErrorCtx(c, err)
+		return
 	}
 	jwtTokenSignKey := xvariable.GlobalYmlConfig.GetString("Token.JwtTokenSignKey")
 	jwtTokenRefreshSignKey := xvariable.GlobalYmlConfig.GetString("Token.JwtTokenRefreshSignKey")
@@ -85,6 +87,7 @@ func (a authHandler) RefreshToken(c *gin.Context) {
 			Roles:    strings.Split(userInfInSql.Roles, ",")})
 	if err != nil {
 		xresponse.ErrorCtx(c, err)
+		return
 	}
 
 	xresponse.SuccessCtx(c, LoginVo{
