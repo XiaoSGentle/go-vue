@@ -50,10 +50,11 @@ func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataLi
 				UpdateTime: datum.UpdateTime.String(),
 				Status:     datum.Status,
 			},
-			Label: datum.Label,
-			Value: datum.Value,
-			Code:  param.Code,
-			Sort:  datum.Sort,
+			Label:   datum.Label,
+			Value:   datum.Value,
+			EnLabel: datum.EnLabel,
+			Code:    param.Code,
+			Sort:    datum.Sort,
 		})
 	}
 	return result, nil
@@ -67,6 +68,7 @@ func (s SysDictDataService) AddDictData(c *gin.Context, param *AddOrUpDateSysDic
 		Label:      param.Label,
 		Value:      param.Value,
 		Sort:       param.Sort,
+		EnLabel:    param.EnLabel,
 		TypeCode:   param.Code,
 		Status:     param.Status,
 		CreateUID:  payload.Uid,
@@ -86,6 +88,7 @@ func (s SysDictDataService) UpdateDictData(c *gin.Context, id int32, param *AddO
 	updates, err := sysDictQuery.WithContext(c).Where(sysDictQuery.ID.Eq(id)).Updates(model.SysDictDatum{
 		Label:      param.Label,
 		Value:      param.Value,
+		EnLabel:    param.EnLabel,
 		Sort:       param.Sort,
 		TypeCode:   param.Code,
 		Status:     param.Status,

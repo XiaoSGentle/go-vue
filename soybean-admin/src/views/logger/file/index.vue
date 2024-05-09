@@ -4,13 +4,13 @@ import { NCard } from 'naive-ui';
 
 import { ref } from 'vue';
 import dayjs from 'dayjs';
-import { downLoggerGzFile } from '@/service/api';
+import { downloadLoggerFile, fetchLoggerFileList } from '@/service/api';
 import { useLoading } from '~/packages/hooks/src';
 const { loading: dataLoading, startLoading, endLoading } = useLoading(false);
 const fileList = ref<Api.Logger.LoggerFiles[] | null>([]);
 const fetchLogFilesList = () => {
   startLoading();
-  downLoggerGzFile().then(({ data }) => {
+  fetchLoggerFileList().then(({ data }) => {
     data
       ?.sort((i, j) => {
         return i.createData > j.createData ? 1 : -1;
@@ -49,7 +49,13 @@ fetchLogFilesList();
               <div class="my1">Name:{{ item.fileName }}</div>
               <div class="my1">Size:{{ item.fileSize }}</div>
               <div>Data:{{ dayjs(item.createData).format('YYYY-MM-DD HH:mm:ss') }}</div>
-              <NButton :color="item.fileName.includes('error') ? '#f87171' : ''" class="my">下载</NButton>
+              <NButton
+                :color="item.fileName.includes('error') ? '#f87171' : ''"
+                class="my"
+                @click="downloadLoggerFile(item.fileName)"
+              >
+                下载
+              </NButton>
             </div>
           </NSpace>
         </NGi>

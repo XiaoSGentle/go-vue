@@ -43,7 +43,7 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
       align: 'center'
     },
     {
-      key: 'ebLabel',
+      key: 'enLabel',
       title: $t('page.dict.data.enLabel')
     },
     {

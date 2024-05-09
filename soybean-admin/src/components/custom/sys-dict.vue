@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useDictStore } from '@/store/modules/dict';
+import { useAppStore } from '@/store/modules/app';
+
 const { getDictData } = useDictStore();
+const appStore = useAppStore();
+
 defineOptions({
   name: 'SysDict'
 });
-
+const isZhCn = computed({ get: () => appStore.locale === 'zh-CN', set: () => {} });
 interface Props {
   /*
    * 字典key */
@@ -55,22 +59,43 @@ onMounted(() => {
 <template>
   <div>
     <NCheckboxGroup v-if="type === 'check'" v-model:value="multipleValue">
-      <NCheckbox v-for="item in options" :key="item.value" :value="item.value" :label="item.label" />
+      <NCheckbox
+        v-for="item in options"
+        :key="item.value"
+        :value="item.value"
+        :label="isZhCn ? item.label : item.enLabel"
+      />
     </NCheckboxGroup>
     <NRadioGroup v-if="type === 'radio' || type === 'radio-button'" v-model:value="singleValue">
       <div v-if="type === 'radio'">
-        <NRadio v-for="item in options" :key="item.value" :value="item.value" :label="item.label" />
+        <NRadio
+          v-for="item in options"
+          :key="item.value"
+          :value="item.value"
+          :label="isZhCn ? item.label : item.enLabel"
+        />
       </div>
       <div v-if="type === 'radio-button'">
-        <NRadioButton v-for="item in options" :key="item.value" :value="item.value" :label="item.label" />
+        <NRadioButton
+          v-for="item in options"
+          :key="item.value"
+          :value="item.value"
+          :label="isZhCn ? item.label : item.enLabel"
+        />
       </div>
     </NRadioGroup>
-    <NSelect v-if="type === 'select'" v-model:value="singleValue" :options="options" />
+    <NSelect
+      v-if="type === 'select'"
+      v-model:value="singleValue"
+      :options="options"
+      :label-field="isZhCn ? 'label' : 'enLabel'"
+    />
     <NSelect
       v-if="type === 'select-multiple'"
       v-model:value="multipleValue"
       :multiple="type === 'select-multiple'"
       :options="options"
+      :label-field="isZhCn ? 'label' : 'enLabel'"
     />
   </div>
 </template>

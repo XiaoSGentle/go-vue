@@ -169,3 +169,30 @@ export const demoRequest = createRequest<App.Service.DemoResponse>(
     }
   }
 );
+
+export const downloadFile = (url: string, fileName: string) => {
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('Authorization', `Bearer ${localStg.get('token')}`);
+  const requestOptions = {
+    method: 'GET',
+    headers
+  };
+  fetch(baseURL + url, requestOptions)
+    .then(response => response.blob())
+    .then(blob => {
+      // 创建一个临时链接对象
+      const FileUrl = window.URL.createObjectURL(blob);
+      // 创建一个隐藏的<a>元素
+      const link = document.createElement('a');
+      link.href = FileUrl;
+      link.download = fileName; // 设置文件名
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      // 模拟点击链接以触发下载
+      link.click();
+      // 清理临时链接对象
+      window.URL.revokeObjectURL(FileUrl);
+      document.body.removeChild(link);
+    });
+};

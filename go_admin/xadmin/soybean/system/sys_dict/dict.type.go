@@ -21,18 +21,20 @@ type SysDictDataListResp struct {
 }
 
 type AddOrUpDateSysDictDataParam struct {
-	Label  string `json:"label" zh_comment:"键" en_comment:"label" validate:"required"`
-	Value  string `json:"value" zh_comment:"值" en_comment:"value" validate:"required"`
-	Sort   int32  `json:"sort"`
-	Code   string `json:"code" zh_comment:"字典类型" en_comment:"type code" validate:"required"`
-	Status string `json:"status"`
+	Label   string `json:"label" zh_comment:"键" en_comment:"label" validate:"required"`
+	Value   string `json:"value" zh_comment:"值" en_comment:"value" validate:"required"`
+	Sort    int32  `json:"sort"`
+	EnLabel string `json:"enLabel"`
+	Code    string `json:"code" zh_comment:"字典类型" en_comment:"type code" validate:"required"`
+	Status  string `json:"status"`
 }
 
 type AddOrUpDateSysDictParam struct {
 	Name        string `json:"name"`
 	Code        string `json:"code"`
 	Description string `json:"description"`
-	Status      string `json:"status"`
+
+	Status string `json:"status"`
 }
 
 type SysDictList struct {

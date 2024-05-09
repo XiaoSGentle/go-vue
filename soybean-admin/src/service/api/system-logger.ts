@@ -1,4 +1,4 @@
-import { request } from '../request';
+import { downloadFile, request } from '../request';
 
 export function fetchLoggerList(params?: Api.Dict.CommonSearchParams) {
   return request<Api.Logger.LoggerList>({
@@ -8,10 +8,12 @@ export function fetchLoggerList(params?: Api.Dict.CommonSearchParams) {
   });
 }
 
-export function downLoggerGzFile() {
-  // 发送 POST 请求到 '/system/menu' 接口，携带参数 data
+export function fetchLoggerFileList() {
   return request<Api.Logger.LoggerFiles[]>({
     url: '/system/log/list',
     method: 'get'
   });
+}
+export function downloadLoggerFile(fileName: string) {
+  downloadFile(`/system/log/download/${fileName}`, fileName);
 }

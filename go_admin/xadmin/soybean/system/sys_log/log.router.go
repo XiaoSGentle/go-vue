@@ -58,7 +58,28 @@ func (h logHandler) LogFileList(c *gin.Context) {
 }
 
 func (h logHandler) DownLogFile(c *gin.Context) {
+	var param struct {
+		FileName string `json:"fileName" uri:"fileName" form:"fileName" zh_comment:"文件名称" en_comment:"file name" validate:"required"`
+	}
 
+	err := c.BindUri(&param)
+	if err != nil {
+		xresponse.ErrorCtx(c, xerror.NewErrCode(xerror.PARAM_BIND_ERROR))
+		return
+	}
+	err = xvalidate.ValidateStruct(&param)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+
+	// 获取文件路径
+	filePath := fmt.Sprintf("./logs/%s", param.FileName)
+	// 设置文件名和文件类型
+	c.Writer.Header().Set("Content-Disposition", "attachment; filename="+filePath)
+	c.Writer.Header().Set("Content-Type", "application/octet-stream")
+	// 返回文件
+	c.File(filePath)
 }
 
 func (h logHandler) LogContent(c *gin.Context) {

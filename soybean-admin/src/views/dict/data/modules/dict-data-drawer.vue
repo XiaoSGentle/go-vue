@@ -52,7 +52,7 @@ function createDefaultModel(): Model {
     value: '',
     sort: 0,
     code: '',
-    ebLabel: '',
+    enLabel: '',
     status: '2'
   };
 }
@@ -120,7 +120,7 @@ watch(visible, () => {
         </NFormItem>
 
         <NFormItem :label="$t('page.dict.data.enLabel')">
-          <NInput v-model:value="model.ebLabel" :placeholder="$t('page.dict.data.form.enLabel')" />
+          <NInput v-model:value="model.enLabel" :placeholder="$t('page.dict.data.form.enLabel')" />
         </NFormItem>
 
         <NFormItem :label="$t('page.dict.data.sort')">
