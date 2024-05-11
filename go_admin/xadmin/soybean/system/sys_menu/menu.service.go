@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 	"xadmin/soybean/dao/model"
-	baseType "xadmin/soybean/dao/model/base"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xerror"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtoken"
+	"xcore/common/xtype/xbase"
 	"xcore/common/xtype/xbool"
 )
 
@@ -124,8 +124,8 @@ func (m SysMenuService) GetMenuList(c *gin.Context) (resp SysMenuListResp, err e
 	result := sysMenuToSysMenuListRespTree(find)
 
 	return SysMenuListResp{
-		PageResult: baseType.PageResult{
-			PageParam: baseType.PageParam{
+		PageResult: xbase.PageResult{
+			PageParam: xbase.PageParam{
 				Current: 1,
 				Size:    10,
 			},
@@ -138,7 +138,7 @@ func (m SysMenuService) GetMenuList(c *gin.Context) (resp SysMenuListResp, err e
 func sysMenuToSysMenuListRespTree(sysMenuList []*model.SysMenu) (menuVoList []SysMenuList) {
 	for _, menu := range sysMenuList {
 		m := SysMenuList{
-			BaseRecord: baseType.BaseRecord{
+			BaseRecord: xbase.BaseRecord{
 				ID:         menu.ID,
 				CreateBy:   menu.CreateBy,
 				CreateTime: menu.CreateTime.String(),

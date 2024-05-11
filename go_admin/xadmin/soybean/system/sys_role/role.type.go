@@ -1,7 +1,7 @@
 package sys_role
 
 import (
-	baseType "xadmin/soybean/dao/model/base"
+	baseType "xcore/common/xtype/xbase"
 )
 
 type SysRoleListParam struct {

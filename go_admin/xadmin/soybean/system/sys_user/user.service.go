@@ -6,10 +6,11 @@ import (
 	"strings"
 	"time"
 	"xadmin/soybean/dao/model"
-	baseType "xadmin/soybean/dao/model/base"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xencrypt"
 	"xcore/common/xerror"
+	"xcore/common/xgorm"
+	baseType "xcore/common/xtype/xbase"
 )
 
 type ISysUserService interface {
@@ -20,12 +21,13 @@ type ISysUserService interface {
 }
 
 func NewSysUserService(db *gorm.DB) ISysUserService {
-	return &SysUserService{db: db, query: query.Use(db)}
+	return &SysUserService{db: db, query: query.Use(db), sysUserInjectFunction: xgorm.InjectRouter[model.SysUser](db)}
 }
 
 type SysUserService struct {
-	db    *gorm.DB
-	query *query.Query
+	db                    *gorm.DB
+	query                 *query.Query
+	sysUserInjectFunction xgorm.IRouterFunctions[model.SysUser]
 }
 
 func (s SysUserService) AddUser(c *gin.Context, param *AddOrUpdateSysUserParam) (err error) {

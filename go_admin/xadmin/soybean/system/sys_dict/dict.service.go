@@ -5,10 +5,11 @@ import (
 	"gorm.io/gorm"
 	"time"
 	"xadmin/soybean/dao/model"
-	baseType "xadmin/soybean/dao/model/base"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xerror"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xgorm"
+	"xcore/common/xtoken"
+	baseType "xcore/common/xtype/xbase"
 )
 
 type ISysDictService interface {
@@ -19,12 +20,17 @@ type ISysDictService interface {
 }
 
 func NewSysDictService(db *gorm.DB) ISysDictService {
-	return &SysDictService{db: db, query: query.Use(db)}
+	return &SysDictService{db: db, query: query.Use(db),
+		dataFn: xgorm.InjectRouter[model.SysDictDatum](db),
+		dictFn: xgorm.InjectRouter[model.SysDictType](db),
+	}
 }
 
 type SysDictService struct {
-	db    *gorm.DB
-	query *query.Query
+	db     *gorm.DB
+	query  *query.Query
+	dataFn xgorm.IRouterFunctions[model.SysDictDatum]
+	dictFn xgorm.IRouterFunctions[model.SysDictType]
 }
 
 func (s SysDictService) GetDictList(c *gin.Context, param *SysDictListParam) (resp SysDictListResp, err error) {

@@ -18,6 +18,13 @@ func StringToInt32(strings []string) []int32 {
 
 	return int32Slice
 }
+func Int32ToString(numbers []int32) []string {
+	result := make([]string, len(numbers))
+	for i, num := range numbers {
+		result[i] = strconv.Itoa(int(num))
+	}
+	return result
+}
 func StringExist(slice []string, target string) bool {
 	found := false
 	for _, s := range slice {

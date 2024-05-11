@@ -1,4 +1,4 @@
-package base_type
+package xbase
 
 type PageParam struct {
 	Current int `json:"current" form:"current" zh_comment:"当前页数" en_comment:"current" validate:"required,gte=1"` // 必填，页面值>=1
@@ -24,10 +24,16 @@ type PageResult struct {
 	PageParam
 	Total int64 `json:"total"`
 }
+
+type PageResultList[T interface{}] struct {
+	PageResult
+	Records []T `json:"records"`
+}
+
 type DelIds struct {
-	Ids []int32 `json:"ids"  zh_comment:"ID" en_comment:"ids" validate:""`
+	Ids []int32 `json:"ids"  zh_comment:"ID" en_comment:"ids" validate:"required"`
 }
 
 type DetailsId struct {
-	Id int32 `uri:"id"`
+	Id int32 `uri:"id"   zh_comment:"ID" en_comment:"ids" validate:"required"`
 }

@@ -12,6 +12,7 @@
             <path value="file://$PROJECT_DIR$/xadmin/config" />
             <path value="file://$PROJECT_DIR$/xadmin/public" />
             <path value="file://$PROJECT_DIR$/xadmin/logs" />
+            <path value="file://$PROJECT_DIR$/xadmin/front" />
           </resourceRoots>
         </entryData>
       </entry>

@@ -8,7 +8,7 @@ import (
 	"golang.org/x/exp/slog"
 	"strings"
 	"time"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtoken"
 	"xcore/core/xvariable"
 )
 

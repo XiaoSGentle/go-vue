@@ -1,15 +1,15 @@
 package sys_user
 
 import (
-	baseType "xadmin/soybean/dao/model/base"
+	"xcore/common/xtype/xbase"
 )
 
 type SysUserListParam struct {
-	baseType.PageParam
+	xbase.PageParam
 }
 
 type SysUserList struct {
-	baseType.BaseRecord
+	xbase.BaseRecord
 	UserName      string   `json:"userName"`
 	UserGender    string   `json:"userGender"`
 	NickName      string   `json:"nickName"`
@@ -32,6 +32,6 @@ type AddOrUpdateSysUserParam struct {
 }
 
 type SysUserListResp struct {
-	baseType.PageResult
+	xbase.PageResult
 	Records []SysUserList `json:"records"`
 }

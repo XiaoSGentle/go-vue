@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/plugin/dbresolver"
 	"time"
+	"xcore/common/xtype/xbool"
 	"xcore/core/xvariable"
 )
 
@@ -17,6 +19,7 @@ func GetMysqlConnection() *gorm.DB {
 	User := xvariable.GormYmlConfig.GetString("Gorm.Mysql.User")
 	Pass := xvariable.GormYmlConfig.GetString("Gorm.Mysql.Pass")
 	Charset := xvariable.GormYmlConfig.GetString("Gorm.Mysql.Charset")
+	isDebug := xvariable.GlobalYmlConfig.GetBool("AppDebug")
 	// ?
 	SetMaxIdleConn := xvariable.GormYmlConfig.GetInt("Gorm.Mysql.SetMaxIdleConn")
 	// 最大连接数
@@ -28,7 +31,9 @@ func GetMysqlConnection() *gorm.DB {
 
 	mysqlDialectic := mysql.Open(connectUrl)
 
-	gormDb, err := gorm.Open(mysqlDialectic, &gorm.Config{})
+	gormDb, err := gorm.Open(mysqlDialectic, &gorm.Config{
+		Logger: logger.Default.LogMode(xbool.BooleanTo[logger.LogLevel](isDebug, logger.Info, logger.Warn)),
+	})
 	if err != nil {
 		xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "gorm 初始化出错:"+err.Error())
 		// >

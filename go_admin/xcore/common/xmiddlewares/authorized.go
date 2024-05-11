@@ -6,7 +6,7 @@ import (
 	"time"
 	"xcore/common/xerror"
 	"xcore/common/xresponse"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtoken"
 	"xcore/core/xvariable"
 )
 

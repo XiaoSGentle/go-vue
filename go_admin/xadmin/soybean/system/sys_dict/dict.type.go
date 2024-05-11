@@ -1,6 +1,8 @@
 package sys_dict
 
-import baseType "xadmin/soybean/dao/model/base"
+import (
+	baseType "xcore/common/xtype/xbase"
+)
 
 type SysDictListParam struct {
 	baseType.PageParam

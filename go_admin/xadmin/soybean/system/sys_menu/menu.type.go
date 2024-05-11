@@ -1,6 +1,8 @@
 package sys_menu
 
-import baseType "xadmin/soybean/dao/model/base"
+import (
+	baseType "xcore/common/xtype/xbase"
+)
 
 type SysMenuListResp struct {
 	baseType.PageResult

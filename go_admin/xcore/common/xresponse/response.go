@@ -24,6 +24,7 @@ func UpdateSuccessCtx(c *gin.Context) {
 	ReturnJson(c, 200, success)
 	c.Abort()
 }
+
 func DeleteSuccessCtx(c *gin.Context) {
 	success := createSuccess("删除成功")
 	ReturnJson(c, 200, success)

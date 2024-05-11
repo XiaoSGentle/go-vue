@@ -11,7 +11,7 @@ import (
 	"xadmin/soybean/dao/query"
 	"xcore/common/xencrypt"
 	"xcore/common/xerror"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtoken"
 	"xcore/core/xvariable"
 )
 

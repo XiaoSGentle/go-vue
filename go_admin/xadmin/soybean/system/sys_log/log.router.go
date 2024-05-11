@@ -7,10 +7,10 @@ import (
 	"log"
 	"os"
 	"strings"
-	baseType "xadmin/soybean/dao/model/base"
 	"xcore/common/xerror"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
+	baseType "xcore/common/xtype/xbase"
 	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 )

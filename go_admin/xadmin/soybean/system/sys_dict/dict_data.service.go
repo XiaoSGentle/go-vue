@@ -5,10 +5,10 @@ import (
 	"gorm.io/gorm"
 	"time"
 	"xadmin/soybean/dao/model"
-	baseType "xadmin/soybean/dao/model/base"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xerror"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtoken"
+	baseType "xcore/common/xtype/xbase"
 )
 
 type ISysDictDataService interface {

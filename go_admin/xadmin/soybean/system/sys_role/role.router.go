@@ -2,10 +2,10 @@ package sys_role
 
 import (
 	"github.com/gin-gonic/gin"
-	baseType "xadmin/soybean/dao/model/base"
 	inithandler "xadmin/soybean/init"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
+	baseType "xcore/common/xtype/xbase"
 	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 	"xcore/core/xvariable"

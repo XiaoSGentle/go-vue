@@ -2,9 +2,9 @@ package sys_menu
 
 import (
 	"github.com/gin-gonic/gin"
-	basetype "xadmin/soybean/dao/model/base"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
+	basetype "xcore/common/xtype/xbase"
 	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 )

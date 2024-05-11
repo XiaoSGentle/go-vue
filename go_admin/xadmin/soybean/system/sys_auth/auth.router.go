@@ -6,7 +6,7 @@ import (
 	"strings"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtoken"
 	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 	"xcore/core/xvariable"
@@ -69,7 +69,7 @@ func (a authHandler) RefreshToken(c *gin.Context) {
 	jwtTokenCreatedExpireAt := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenCreatedExpireAt")
 	jwtTokenRefreshAllowSec := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenRefreshAllowSec")
 	payload, err := xtoken.GetPayloadByRequest(c, jwtTokenSignKey)
-	if err != nil {
+	if err != nil && !strings.HasPrefix(err.Error(), "token is expired by") {
 		xresponse.ErrorCtx(c, err)
 		return
 	}

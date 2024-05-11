@@ -3,17 +3,17 @@ package xcore
 import (
 	"context"
 	"fmt"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"golang.org/x/xerrors"
 	"io/ioutil"
 	"os"
-	"time"
 	"xcore/common/xcaptcha"
 	"xcore/common/xconfig"
 	"xcore/common/xgorm"
 	"xcore/common/xlogger"
+	"xcore/common/xmiddlewares"
 	"xcore/common/xvalidate"
 	"xcore/core/xdig"
 	"xcore/core/xvariable"
@@ -56,16 +56,15 @@ func NewGinCore() *GinCore {
 	} else {
 		// 调试模式，开启 pprof 包，便于开发阶段分析程序性能
 		router = gin.Default()
+		// 注册pprof
 		pprof.Register(router)
+		// 注册普罗米修斯
+		router.GET("/metrics", func(c *gin.Context) {
+			promhttp.Handler().ServeHTTP(c.Writer, c.Request)
+		})
 	}
 
-	router.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
-		AllowHeaders:     []string{"Authorization", "Origin", "Content-Length", "Content-Type"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-		AllowAllOrigins:  true,
-	}))
+	router.Use(xmiddlewares.Cors())
 	// 定义结构体返回
 	core := &GinCore{
 		regFunctions: make([]interface{}, 0),
@@ -112,6 +111,8 @@ func (receiver *GinCore) Run(port string) {
 			xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "注册DIG出错:"+err.Error())
 		}
 	}
+	receiver.Router.Static("/assets", "./front/assets")
+	receiver.Router.GET("", receiver.FontHandler)
 	/// 注册所有的路由
 	mainRouter := receiver.Router.Group("/api")
 	for _, groupBase := range receiver.routerGroup {
@@ -129,6 +130,10 @@ func (receiver *GinCore) Run(port string) {
 	if err != nil {
 		xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "启动失败！"+err.Error())
 	}
+}
+
+func (receiver *GinCore) FontHandler(c *gin.Context) {
+	c.File("./front/index.html")
 }
 
 func InitializeGlobalVariables() {
@@ -191,6 +196,5 @@ type PanicExceptionRecord struct{}
 func (p *PanicExceptionRecord) Write(b []byte) (n int, err error) {
 	errStr := string(b)
 	err = xerrors.New(errStr)
-	xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "系统出错！")
 	return len(errStr), err
 }

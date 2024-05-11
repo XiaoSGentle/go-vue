@@ -2,7 +2,7 @@ package sys_log
 
 import (
 	"time"
-	baseType "xadmin/soybean/dao/model/base"
+	baseType "xcore/common/xtype/xbase"
 )
 
 type SysLogListResp struct {

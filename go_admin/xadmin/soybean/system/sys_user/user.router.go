@@ -2,9 +2,9 @@ package sys_user
 
 import (
 	"github.com/gin-gonic/gin"
-	baseType "xadmin/soybean/dao/model/base"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
+	baseType "xcore/common/xtype/xbase"
 	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 )

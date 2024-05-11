@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
-	xtoken "xcore/common/xtoken/jwt"
+	"xcore/common/xtoken"
 	"xcore/common/xtype/xslice"
 	"xcore/core/xcore"
 	"xcore/core/xvariable"

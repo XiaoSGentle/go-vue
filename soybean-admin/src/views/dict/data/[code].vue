@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="tsx" setup>
 import { NButton, NCard, NDataTable, NPopconfirm, NTag } from 'naive-ui';
 import dayjs from 'dayjs';

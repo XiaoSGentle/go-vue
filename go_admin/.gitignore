@@ -1,2 +1,4 @@
 xadmin/logs/
-xbuild/build/
+xadmin/front/
+xbuild/V*
+xbuild/outputs

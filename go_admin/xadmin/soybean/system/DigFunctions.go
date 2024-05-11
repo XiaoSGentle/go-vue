@@ -2,6 +2,7 @@ package system
 
 import (
 	"xadmin/soybean/system/sys_auth"
+	"xadmin/soybean/system/sys_department"
 	"xadmin/soybean/system/sys_dict"
 	"xadmin/soybean/system/sys_log"
 	"xadmin/soybean/system/sys_menu"
@@ -29,6 +30,7 @@ var (
 		sys_role.SysRoleGroup,
 		sys_log.LogGroup,
 		sys_log.NoLogLogGroup,
+		sys_department.SysDepartmentGroup,
 	}
 	Function = []interface{}{
 		sys_auth.NewAuthService,

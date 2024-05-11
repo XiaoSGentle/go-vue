@@ -23,6 +23,7 @@ func init() {
 	message[USER_NOT_EXIST_ERROR] = "用户不存在"
 
 	message[CURD_AFFECT_NONE_ERROR] = "未影响行数"
+	message[CURD_UPDATE_AFFECT_NONE_ERROR] = "修改失败"
 	message[CURD_DATA_EXIST_ERROR] = "数据已存在"
 	message[CURD_DATA_NOT_EXIST_ERROR] = "数据不存在"
 

@@ -2,11 +2,11 @@ package sys_dict
 
 import (
 	"github.com/gin-gonic/gin"
-	baseType "xadmin/soybean/dao/model/base"
 	"xcore/common/xcache"
 	"xcore/common/xerror"
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
+	baseType "xcore/common/xtype/xbase"
 	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 )
@@ -217,7 +217,6 @@ func (h sysDictHandler) DeleteDictDataByIds(c *gin.Context) {
 }
 
 func (h sysDictHandler) DictInfo(c *gin.Context) {
-
 	var typeCode struct {
 		TypeCode string `uri:"typeCode" zh_comment:"字典KEY" en_comment:"dict key" validate:"required"`
 	}
