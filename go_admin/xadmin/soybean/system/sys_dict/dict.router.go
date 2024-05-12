@@ -7,8 +7,8 @@ import (
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
 	baseType "xcore/common/xtype/xbase"
-	"xcore/common/xvalidate"
 	"xcore/core/xcore"
+	"xcore/core/xvariable"
 )
 
 var SysDictGroup = xcore.Group("/system/dict", newSysMenuHandler, regSysDict, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize, xmiddlewares.Verify)
@@ -54,7 +54,7 @@ func (h sysDictHandler) GetDictList(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -74,7 +74,7 @@ func (h sysDictHandler) AddDict(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&sysMenuAddParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&sysMenuAddParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -93,7 +93,7 @@ func (h sysDictHandler) UpdateDict(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -116,7 +116,7 @@ func (h sysDictHandler) DeleteDictByIds(c *gin.Context) {
 	if err := c.ShouldBind(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
-	if err := xvalidate.ValidateStruct(&ids); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -133,7 +133,7 @@ func (h sysDictHandler) GetDictDataList(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -153,7 +153,7 @@ func (h sysDictHandler) AddDictData(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&sysMenuAddParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&sysMenuAddParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -175,7 +175,7 @@ func (h sysDictHandler) UpdateDictData(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -202,7 +202,7 @@ func (h sysDictHandler) DeleteDictDataByIds(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&ids); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}

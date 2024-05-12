@@ -5,8 +5,8 @@ import (
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
 	baseType "xcore/common/xtype/xbase"
-	"xcore/common/xvalidate"
 	"xcore/core/xcore"
+	"xcore/core/xvariable"
 )
 
 var SysUserGroup = xcore.Group("/system/user", newSysUserHandler, regSysUser, xmiddlewares.LogMiddleHandler)
@@ -34,7 +34,7 @@ func (h sysUserHandler) SysUserList(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&sysUserListParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&sysUserListParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 
@@ -53,7 +53,7 @@ func (h sysUserHandler) AddSysUser(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -72,7 +72,7 @@ func (h sysUserHandler) UpdateUser(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -95,7 +95,7 @@ func (h sysUserHandler) DeleteByIds(c *gin.Context) {
 	if err := c.ShouldBind(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
-	if err := xvalidate.ValidateStruct(&ids); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}

@@ -6,6 +6,7 @@ import (
 	"xcore/common/xcaptcha"
 	"xcore/common/xconfig/interf"
 	"xcore/common/xlogger"
+	"xcore/common/xvalidate"
 )
 
 var (
@@ -23,4 +24,6 @@ var (
 	Captcha *xcaptcha.Captcha
 
 	Auth *xauth.Auth
+
+	Validator xvalidate.IValidator
 )

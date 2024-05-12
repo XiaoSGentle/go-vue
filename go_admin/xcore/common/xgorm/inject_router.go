@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"xcore/common/xresponse"
 	"xcore/common/xtype/xbase"
-	"xcore/common/xvalidate"
+	"xcore/core/xvariable"
 )
 
 type IRouterFunctions[T interface{}] interface {
@@ -33,7 +33,7 @@ func (r RouterFunction[T]) FindOneById(c *gin.Context) {
 	if err := c.ShouldBindUri(&id); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
-	if err := xvalidate.ValidateStruct(&id); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&id); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -51,7 +51,7 @@ func (r RouterFunction[T]) FindByPage(c *gin.Context, queryHelper func(IQueryHel
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&pageParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&pageParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -71,7 +71,7 @@ func (r RouterFunction[T]) UpDateById(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -82,7 +82,7 @@ func (r RouterFunction[T]) UpDateById(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err = xvalidate.ValidateStruct(&pathId); err != nil {
+	if err = xvariable.Validator.ValidateStruct(&pathId); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -99,7 +99,7 @@ func (r RouterFunction[T]) DeleteByIds(c *gin.Context) {
 	if err := c.ShouldBind(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
-	if err := xvalidate.ValidateStruct(&ids); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -115,7 +115,7 @@ func (r RouterFunction[T]) SoftDeleteByIds(c *gin.Context) {
 	if err := c.ShouldBind(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
-	if err := xvalidate.ValidateStruct(&ids); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -132,7 +132,7 @@ func (r RouterFunction[T]) Create(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}

@@ -11,8 +11,8 @@ import (
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
 	baseType "xcore/common/xtype/xbase"
-	"xcore/common/xvalidate"
 	"xcore/core/xcore"
+	"xcore/core/xvariable"
 )
 
 var LogGroup = xcore.Group("/system/log", newSysLogHandler, regLog, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize)
@@ -67,7 +67,7 @@ func (h logHandler) DownLogFile(c *gin.Context) {
 		xresponse.ErrorCtx(c, xerror.NewErrCode(xerror.PARAM_BIND_ERROR))
 		return
 	}
-	err = xvalidate.ValidateStruct(&param)
+	err = xvariable.Validator.ValidateStruct(&param)
 	if err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
@@ -98,7 +98,7 @@ func (h logHandler) LogContent(c *gin.Context) {
 		xresponse.ErrorCtx(c, xerror.NewErrCode(xerror.PARAM_BIND_ERROR))
 		return
 	}
-	err = xvalidate.ValidateStruct(&level)
+	err = xvariable.Validator.ValidateStruct(&level)
 	if err != nil {
 		xresponse.ErrorCtx(c, err)
 		return

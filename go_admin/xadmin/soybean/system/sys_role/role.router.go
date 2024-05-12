@@ -6,7 +6,6 @@ import (
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
 	baseType "xcore/common/xtype/xbase"
-	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 	"xcore/core/xvariable"
 )
@@ -40,7 +39,7 @@ func (r sysRoleHandler) SysRoleList(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&sysUserListParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&sysUserListParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -58,7 +57,7 @@ func (r sysRoleHandler) AddSysRole(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -77,7 +76,7 @@ func (r sysRoleHandler) UpdateRole(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -102,7 +101,7 @@ func (r sysRoleHandler) DeleteByIds(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&ids); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -136,7 +135,7 @@ func (r sysRoleHandler) UpdateApis(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -155,7 +154,7 @@ func (r sysRoleHandler) UpdateMenus(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -174,7 +173,7 @@ func (r sysRoleHandler) UpdateHome(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&param); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}

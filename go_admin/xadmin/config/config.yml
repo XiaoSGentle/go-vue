@@ -3,7 +3,6 @@ AppDebug: true # 设置程序所处的模式，debug=true 调试模式，日志�
 HttpServer:
   Api:
     Port: ":9000" #门户网站类端口,注意前面有冒号
-  ValidateLang: "chinese" # "chinese" | "english"
   AllowCrossDomain: true #是否允许跨域，默认 允许，更多关于跨域的介绍从参考：https://www.yuque.com/xiaofensinixidaouxiang/bkfhct/kxddzd
 Token:
   JwtTokenSignKey: "reacool_mpt_*%*/).d" #设置token生成时加密的签名

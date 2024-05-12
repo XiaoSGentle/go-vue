@@ -140,17 +140,17 @@ func InitializeGlobalVariables() {
 	// 初始化系统
 	xvariable.Logger = xlogger.NewSlog(xvariable.BasePath + "/logs")
 	// 系统配置文件初始化 并启动文件监听
-	xvariable.GlobalYmlConfig = xconfig.CreateYamlFactory("config")
+	xvariable.GlobalYmlConfig = xconfig.NewYamlFactory("config")
 	xvariable.GlobalYmlConfig.ConfigFileChangeListen()
 	// GORM配置文件初始化 并启动文件监听
-	xvariable.GormYmlConfig = xconfig.CreateYamlFactory("gorm")
+	xvariable.GormYmlConfig = xconfig.NewYamlFactory("gorm")
 	xvariable.GormYmlConfig.ConfigFileChangeListen()
 	// 初始化全局字段翻译器
-	xvalidate.InitTransValidator(xvariable.GlobalYmlConfig.GetString("HttpServer.ValidateLang"))
+	xvariable.Validator = xvalidate.NewValidator()
 	// 全局GORM链接
-	xvariable.GormDB = xgorm.GetMysqlConnection()
+	xvariable.GormDB = xgorm.NewMysqlConnection()
 	// 全局验证码
-	xvariable.Captcha = xcaptcha.InitCaptcha()
+	xvariable.Captcha = xcaptcha.NewCaptchaManager()
 
 }
 

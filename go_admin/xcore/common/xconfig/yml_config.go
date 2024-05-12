@@ -23,9 +23,9 @@ func init() {
 	lastChangeTime = time.Now()
 }
 
-// CreateYamlFactory 创建一个yaml配置文件工厂
+// NewYamlFactory 创建一个yaml配置文件工厂
 // 参数设置为可变参数的文件名，这样参数就可以不需要传递，如果传递了多个，我们只取第一个参数作为配置文件名
-func CreateYamlFactory(fileName ...string) interf.YmlConfigInterf {
+func NewYamlFactory(fileName ...string) interf.YmlConfigInterf {
 
 	yamlConfig := viper.New()
 	// 配置文件所在目录

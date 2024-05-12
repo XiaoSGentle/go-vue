@@ -5,8 +5,8 @@ import (
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
 	basetype "xcore/common/xtype/xbase"
-	"xcore/common/xvalidate"
 	"xcore/core/xcore"
+	"xcore/core/xvariable"
 )
 
 var SysMenuGroup = xcore.Group("/system/menu", newSysMenuHandler, regSysMenu, xmiddlewares.LogMiddleHandler, xmiddlewares.Authorize, xmiddlewares.Verify)
@@ -44,7 +44,7 @@ func (h sysMenuHandler) AddMenu(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&sysMenuAddParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&sysMenuAddParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -63,7 +63,7 @@ func (h sysMenuHandler) UpdateMenu(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(&sysMenuAddParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&sysMenuAddParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -86,7 +86,7 @@ func (h sysMenuHandler) DeleteMenuByIds(c *gin.Context) {
 	if err := c.ShouldBind(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
-	if err := xvalidate.ValidateStruct(&ids); err != nil {
+	if err := xvariable.Validator.ValidateStruct(&ids); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}

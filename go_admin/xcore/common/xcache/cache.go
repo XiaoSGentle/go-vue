@@ -39,9 +39,6 @@ func (receiver *CacheStore[T]) Set(key string, value T) (ok bool) {
 	newEncoder := gob.NewEncoder(bufferByte)
 	err := newEncoder.Encode(value)
 	err = receiver.cacheManger.Set(receiver.context, receiver.prefix+key, bufferByte.Bytes())
-	if err != nil {
-		println(err.Error() + "Set")
-	}
 	return err == nil
 }
 func (receiver *CacheStore[T]) Get(key string) (result T) {

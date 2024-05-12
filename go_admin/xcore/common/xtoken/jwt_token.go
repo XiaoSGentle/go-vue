@@ -101,7 +101,7 @@ func GetBindCustomPayload(c *gin.Context) *ClaimsPayload {
 	} else {
 		return &ClaimsPayload{
 			Uid:      -1,
-			NickName: "NoAuth",
+			NickName: "NoAuthMethod",
 			Roles:    []string{},
 		}
 	}

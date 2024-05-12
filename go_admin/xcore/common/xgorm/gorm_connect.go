@@ -12,7 +12,7 @@ import (
 	"xcore/core/xvariable"
 )
 
-func GetMysqlConnection() *gorm.DB {
+func NewMysqlConnection() *gorm.DB {
 	Host := xvariable.GormYmlConfig.GetString("Gorm.Mysql.Host")
 	DataBase := xvariable.GormYmlConfig.GetString("Gorm.Mysql.DataBase")
 	Port := xvariable.GormYmlConfig.GetInt64("Gorm.Mysql.Port")

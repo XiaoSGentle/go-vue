@@ -7,7 +7,6 @@ import (
 	"xcore/common/xmiddlewares"
 	"xcore/common/xresponse"
 	"xcore/common/xtoken"
-	"xcore/common/xvalidate"
 	"xcore/core/xcore"
 	"xcore/core/xvariable"
 )
@@ -60,7 +59,7 @@ func (a authHandler) RefreshToken(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	if err := xvalidate.ValidateStruct(refreshTokenParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(refreshTokenParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
@@ -101,7 +100,7 @@ func (a authHandler) UserLogin(c *gin.Context) {
 	if err := c.ShouldBind(&loginParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
-	if err := xvalidate.ValidateStruct(loginParam); err != nil {
+	if err := xvariable.Validator.ValidateStruct(loginParam); err != nil {
 		xresponse.ErrorCtx(c, err)
 	}
 	LoginVo, err := a.authService.UserLogin(c, &loginParam)

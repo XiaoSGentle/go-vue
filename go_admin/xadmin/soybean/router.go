@@ -11,7 +11,7 @@ import (
 
 func GetAdminRouter() *xcore.GinCore {
 	core := xcore.NewGinCore()
-	core.RegisterRegFunction(xgorm.GetMysqlConnection)
+	core.RegisterRegFunction(xgorm.NewMysqlConnection)
 	core.RegisterRegFunctions(system.Function)
 	core.RegisterRouterGroups(system.Routers)
 

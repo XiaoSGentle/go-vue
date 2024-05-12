@@ -64,7 +64,7 @@ func (s AuthService) UserLogin(c *gin.Context, param *LoginParam) (loginVo Login
 		if getTokenErr != nil {
 			return LoginVo{}, xerror.NewErrCode(xerror.TOKEN_GENERATE_ERROR)
 		}
-		_, _ = userQuery.Where(userQuery.Username.Eq(param.UserName)).Update(userQuery.LastOnlineTime, time.Now())
+		_, _ = userQuery.Where(userQuery.ID.Eq(userInfoInSql.ID)).Update(userQuery.LastOnlineTime, time.Now())
 
 		return LoginVo{
 			Token:        jwtToken,

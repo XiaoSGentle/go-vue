@@ -41,7 +41,7 @@ type CaptchaCodeResp struct {
 	CaptchaKey  string `json:"captcha_key"`
 }
 
-func InitCaptcha() *Captcha {
+func NewCaptchaManager() *Captcha {
 	var ctx = context.Background()
 	bigCacheClient, _ := bigcache.New(ctx, bigcache.DefaultConfig(5*time.Minute))
 	bigCacheStore := bigcacheStore.NewBigcache(bigCacheClient)
