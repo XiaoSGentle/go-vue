@@ -1,0 +1,97 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+{{ $Between := "Between" -}}
+
+package {{ $Table.TableName }}
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
+	"gorm.io/gorm"
+	"strings"
+	"xiaos-go/pkg/global/variable"
+	"xiaos-go/system/model"
+	"xiaos-go/system/query"
+)
+
+type I{{ $Table.UpUpName }}Service interface {
+	Get{{ $Table.UpUpName }}List({{ $Table.LowUpName }}PageParam {{ $Table.UpUpName }}PageParam) ({{ $Table.LowUpName }}PageVo {{ $Table.UpUpName }}PageVo, err error)
+	AddOrUp{{$Table.UpUpName}}(addOrUp{{ $Table.UpUpName }}Param  AddOrUp{{ $Table.UpUpName }}Param,c *gin.Context) (status bool, err error)
+	Get{{ $Table.UpUpName }}Detail(id string)({{ $Table.LowUpName }} *model.{{ $Table.UpUpName }},err error )
+	Del{{ $Table.UpUpName }}ByUuids(delete{{ $Table.UpUpName }}UuidsParam Delete{{ $Table.UpUpName }}UuidsParam,c *gin.Context) (status bool, err error)
+}
+
+func NewI{{ $Table.UpUpName }}Service(db *gorm.DB) I{{ $Table.UpUpName }}Service {
+	return &{{ $Table.UpUpName }}Service{db: db}
+}
+
+type {{ $Table.UpUpName }}Service struct {
+	db *gorm.DB
+}
+
+// Get{{ $Table.UpUpName }}List 分页获取
+func ({{ $Table.LowUpName }}Service {{ $Table.UpUpName }}Service) Get{{ $Table.UpUpName }}List({{ $Table.LowUpName }}PageParam {{ $Table.UpUpName }}PageParam) ({{ $Table.LowUpName }}PageVo {{ $Table.UpUpName }}PageVo, err error){
+	{{ $Table.LowUpName }}Query := query.Use({{ $Table.LowUpName }}Service.db).{{ $Table.UpUpName }}
+	{{ $Table.LowUpName }}PageVo.PageResult.PageParam = {{ $Table.LowUpName }}PageParam.PageParam
+	{{ $Table.LowUpName }}PageVo.{{ $Table.UpUpName }}List,{{ $Table.LowUpName }}PageVo.TotalCount,err = {{ $Table.LowUpName }}Query.Where(
+		{{  range $index, $value := $Columns -}}
+	    {{- with $value -}}
+				 {{- if  .IsQuery  -}}
+						{{ $Table.LowUpName }}Query.{{.ColumnUpUpName}}.{{.QueryType}}(
+						{{- $Table.TableName }}PageParam.{{.ColumnUpUpName -}}),
+				 {{- end -}}
+			{{- end -}}
+		{{ end -}}
+		).FindByPage(({{ $Table.LowUpName }}PageParam.PageNum-1)*{{ $Table.LowUpName }}PageParam.PageSize, {{ $Table.LowUpName }}PageParam.PageSize)
+	return
+}	
+//  AddOrUp{{$Table.UpUpName}} 更新或者修改
+func ({{ $Table.LowUpName }}Service {{ $Table.UpUpName }}Service) AddOrUp{{$Table.UpUpName}}(addOrUp{{ $Table.UpUpName }}Param AddOrUp{{ $Table.UpUpName }}Param,c *gin.Context) (status bool, err error){
+	{{ $Table.LowUpName }}Query := query.Use({{ $Table.LowUpName }}Service.db).{{ $Table.UpUpName }}
+	var temp{{ $Table.UpUpName}} model.{{ $Table.UpUpName}}
+	if err = copier.Copy(&temp{{ $Table.UpUpName}}, addOrUp{{ $Table.UpUpName }}Param); err != nil {
+		return false, err
+	}
+	// 有UUID 判定为更新
+	if addOrUp{{ $Table.UpUpName }}Param.UUID != "" {
+        operator_info_bind.AddUpInfo(&temp{{ $Table.UpUpName}}, operator_info_bind.UP, c)
+		updates, err := {{ $Table.LowUpName }}Query.Where({{ $Table.LowUpName }}Query.UUID.Eq(addOrUp{{ $Table.UpUpName }}Param.UUID)).Updates(temp{{ $Table.UpUpName}})
+		// 影响行数为0 或者有错误
+		if err != nil || updates.RowsAffected < 1 {
+			return false, err
+		}
+        return true, nil
+	} else {
+		// 没有UUID 判断为 新增
+		temp{{ $Table.UpUpName}}.UUID = variable.SnowFlake.GetStringUuid()
+		operator_info_bind.AddUpInfo(&temp{{ $Table.UpUpName}}, operator_info_bind.ADD, c)
+		err := {{ $Table.LowUpName }}Query .Save(&temp{{ $Table.UpUpName}})
+		if err != nil {
+			return false, err
+		}
+		return true, nil
+	}
+}
+
+// Get{{ $Table.UpUpName }}Detail 获取细节
+func ({{ $Table.LowUpName }}Service {{ $Table.UpUpName }}Service) Get{{ $Table.UpUpName }}Detail(id string)({{ $Table.LowUpName }} *model.{{ $Table.UpUpName }},err error){
+	{{ $Table.LowUpName }}Query := query.Use({{ $Table.LowUpName }}Service.db).{{ $Table.UpUpName }}
+	{{ $Table.LowUpName }},err = {{ $Table.LowUpName }}Query.Where({{ $Table.LowUpName }}Query.UUID.Eq(id)).First()
+	if err != nil {
+		return {{ $Table.LowUpName }},nil
+	}else{
+		return nil,err
+	}
+}
+
+
+// Del{{ $Table.UpUpName }}ByUuids 根据UUIDs删除
+func ({{ $Table.LowUpName }}Service {{ $Table.UpUpName }}Service) Del{{ $Table.UpUpName }}ByUuids(delete{{ $Table.UpUpName }}UuidsParam Delete{{ $Table.UpUpName }}UuidsParam,c *gin.Context) (status bool, err error){
+	{{ $Table.LowUpName }}Query := query.Use({{ $Table.LowUpName }}Service.db).{{ $Table.UpUpName }}
+	idArray := strings.Split(delete{{ $Table.UpUpName }}UuidsParam.Ids, ",")
+	info, err := {{ $Table.LowUpName }}Query.Where({{ $Table.LowUpName }}Query.UUID.In(idArray...)).Delete()
+	if err != nil && info.RowsAffected > 1{
+		return true, nil
+	} else {
+		return false, err
+	}
+}

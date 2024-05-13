@@ -1,6 +1,0 @@
-backFold: ../xadmin/
-frontFold: ../../soybean-admin/
-
-platform: windows
-goBuildFileName: XADMIN_API
-apiVersion: V1.1.0.0

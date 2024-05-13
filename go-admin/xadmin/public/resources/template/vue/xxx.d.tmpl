@@ -1,0 +1,23 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+declare namespace {{ $Table.UpUpName -}}Management {
+  // 基础参数
+  type AddOrUp{{ $Table.UpUpName }}Param = {
+    /* uuid */
+    uuid: string;
+    {{-  range $index, $value := $Columns -}}
+	    {{- with $value -}}
+             {{- if  .IsBase  }}
+    /* {{ .ColumnComment }} */
+    {{ .ColumnLowUpName }}:{{ .ColumnTsType -}};
+             {{- end -}}
+        {{- end -}}
+    {{- end }}
+  };
+  // 单个实例
+  type Base{{ $Table.UpUpName }} = BaseModel.BaseModel{{NoIt "<AddOrUp~Param>" $Table.UpUpName}};
+  // 分页获取结果
+  type Api{{ $Table.UpUpName }}PageResult = BaseModel.ApiPageResult{{NoIt "<Base~>"  $Table.UpUpName }};
+  // 分页请求参数
+  type Req{{ $Table.UpUpName }}PageParam = BaseModel.PageReqParam{{NoIt "<AddOrUp~Param>"  $Table.UpUpName }};
+}
