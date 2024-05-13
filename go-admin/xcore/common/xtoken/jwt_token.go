@@ -42,6 +42,7 @@ func GenerateJwtToken(secretKey string, seconds int64, claimsPayload *ClaimsPayl
 	return
 }
 
+// ParseJwtToken  解析Token
 func ParseJwtToken(secretKey string, tokenString string) (claims *CustomClaims, err error) {
 	parseClaims, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(secretKey), nil
@@ -55,6 +56,7 @@ func ParseJwtToken(secretKey string, tokenString string) (claims *CustomClaims, 
 	return nil, xerror.NewErrCode(xerror.TOKEN_FORMAT_ERROR)
 }
 
+// RefreshToken  刷新Token
 func RefreshToken(refreshToken string, refreshTokenSecretKey string, refreshTokenSecretKeyExpire int64, tokenSecretKey string, tokenSecretKeyExpire int64, payload *ClaimsPayload) (tokenString string, refreshTokenString string, err error) {
 	_, err = jwt.ParseWithClaims(refreshToken, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(refreshTokenSecretKey), nil
@@ -64,6 +66,7 @@ func RefreshToken(refreshToken string, refreshTokenSecretKey string, refreshToke
 	return
 }
 
+// GetPayloadByRequest 从gin.Context获取PayLoad
 func GetPayloadByRequest(r *gin.Context, secretKey string) (claimsPayload *ClaimsPayload, err error) {
 	authorizationHeader := r.GetHeader("Authorization")
 	split := strings.Split(authorizationHeader, " ")
@@ -71,9 +74,6 @@ func GetPayloadByRequest(r *gin.Context, secretKey string) (claimsPayload *Claim
 		return nil, xerror.NewErrCode(xerror.TOKEN_FORMAT_ERROR)
 	}
 	customClaims, err := ParseJwtToken(secretKey, split[1])
-	if err != nil {
-		return &customClaims.ClaimsPayload, err
-	}
 	return &customClaims.ClaimsPayload, nil
 }
 func GetClaimsByRequest(r *gin.Context, secretKey string) (claimsPayload *CustomClaims, err error) {

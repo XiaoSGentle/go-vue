@@ -24,6 +24,7 @@ type SysDictType struct {
 	UpdateTime  time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"` // 更新时间
 	UpdateBy    string    `gorm:"column:update_by;type:varchar(255);comment:更新者" json:"updateBy"`                       // 更新者
 	UpdateUID   int32     `gorm:"column:update_uid;type:int(11);comment:更新者uid" json:"updateUid"`                       // 更新者uid
+	DeleteTag   int32     `gorm:"column:delete_tag;type:int(11);not null;comment:软删除标记" json:"deleteTag"`               // 软删除标记
 }
 
 // TableName SysDictType's table name

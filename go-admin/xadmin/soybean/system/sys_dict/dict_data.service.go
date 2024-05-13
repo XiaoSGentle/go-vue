@@ -7,6 +7,7 @@ import (
 	"xadmin/soybean/dao/model"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xerror"
+	"xcore/common/xgorm"
 	"xcore/common/xtoken"
 	baseType "xcore/common/xtype/xbase"
 )
@@ -19,12 +20,13 @@ type ISysDictDataService interface {
 }
 
 func NewSysDictDataService(db *gorm.DB) ISysDictDataService {
-	return &SysDictDataService{db: db, query: query.Use(db)}
+	return &SysDictDataService{db: db, query: query.Use(db), serviceFun: xgorm.InjectService[model.SysDictDatum](db)}
 }
 
 type SysDictDataService struct {
-	db    *gorm.DB
-	query *query.Query
+	db         *gorm.DB
+	query      *query.Query
+	serviceFun xgorm.IServiceFunctions[model.SysDictDatum]
 }
 
 func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataListParam) (resp SysDictDataListResp, err error) {
@@ -35,6 +37,7 @@ func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataLi
 	resp.PageResult.PageParam = param.PageParam
 	queryResultList, totalCount, err := dictDataQuery.WithContext(c).
 		Where(dictDataQuery.TypeCode.Eq(param.Code)).
+		Where(dictDataQuery.DeleteTag.Eq(0)).
 		FindByPage((param.Current-1)*param.Size, param.Size)
 	resp.Total = totalCount
 	if err != nil {
@@ -61,10 +64,10 @@ func (s SysDictDataService) GetDictDataList(c *gin.Context, param *SysDictDataLi
 }
 
 func (s SysDictDataService) AddDictData(c *gin.Context, param *AddOrUpDateSysDictDataParam) (err error) {
-	sysDictQuery := query.Use(s.db).SysDictDatum
+	dictDataQuery := query.Use(s.db).SysDictDatum
 	payload := xtoken.GetBindCustomPayload(c)
 
-	err = sysDictQuery.WithContext(c).Create(&model.SysDictDatum{
+	err = dictDataQuery.WithContext(c).Create(&model.SysDictDatum{
 		Label:      param.Label,
 		Value:      param.Value,
 		Sort:       param.Sort,
@@ -79,23 +82,29 @@ func (s SysDictDataService) AddDictData(c *gin.Context, param *AddOrUpDateSysDic
 }
 
 func (s SysDictDataService) UpdateDictData(c *gin.Context, id int32, param *AddOrUpDateSysDictDataParam) (err error) {
-	sysDictQuery := query.Use(s.db).SysDictDatum
-	count, err := sysDictQuery.WithContext(c).Where(sysDictQuery.ID.Eq(id)).Count()
+	dictDataQuery := query.Use(s.db).SysDictDatum
+	count, err := dictDataQuery.WithContext(c).
+		Where(dictDataQuery.ID.Eq(id)).
+		Where(dictDataQuery.DeleteTag.Eq(0)).
+		Count()
 	if count < 1 {
 		return xerror.NewErrCode(xerror.CURD_DATA_NOT_EXIST_ERROR)
 	}
 	operateUserInfo := xtoken.GetBindCustomPayload(c)
-	updates, err := sysDictQuery.WithContext(c).Where(sysDictQuery.ID.Eq(id)).Updates(model.SysDictDatum{
-		Label:      param.Label,
-		Value:      param.Value,
-		EnLabel:    param.EnLabel,
-		Sort:       param.Sort,
-		TypeCode:   param.Code,
-		Status:     param.Status,
-		UpdateTime: time.Now(),
-		UpdateUID:  operateUserInfo.Uid,
-		UpdateBy:   operateUserInfo.NickName,
-	})
+	updates, err := dictDataQuery.WithContext(c).
+		Where(dictDataQuery.ID.Eq(id)).
+		Where(dictDataQuery.DeleteTag.Eq(0)).
+		Updates(model.SysDictDatum{
+			Label:      param.Label,
+			Value:      param.Value,
+			EnLabel:    param.EnLabel,
+			Sort:       param.Sort,
+			TypeCode:   param.Code,
+			Status:     param.Status,
+			UpdateTime: time.Now(),
+			UpdateUID:  operateUserInfo.Uid,
+			UpdateBy:   operateUserInfo.NickName,
+		})
 	if err != nil {
 		return
 	}
@@ -106,8 +115,16 @@ func (s SysDictDataService) UpdateDictData(c *gin.Context, id int32, param *AddO
 }
 
 func (s SysDictDataService) DeleteDictData(c *gin.Context, ids []int32) (err error) {
-	menuQuery := s.query.SysDictDatum
-	info, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Delete()
+	dictDataQuery := s.query.SysDictDatum
+	operatorInfo := s.serviceFun.GetOperatorInfo(c)
+	info, err := dictDataQuery.WithContext(c).
+		Where(dictDataQuery.ID.In(ids...)).
+		Updates(&model.SysDictDatum{
+			DeleteTag:  1,
+			UpdateBy:   operatorInfo.NickName,
+			UpdateUID:  operatorInfo.Uid,
+			UpdateTime: time.Now(),
+		})
 	if err != nil {
 		return err
 	}

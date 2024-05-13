@@ -20,23 +20,19 @@ type ISysDictService interface {
 }
 
 func NewSysDictService(db *gorm.DB) ISysDictService {
-	return &SysDictService{db: db, query: query.Use(db),
-		dataFn: xgorm.InjectRouter[model.SysDictDatum](db),
-		dictFn: xgorm.InjectRouter[model.SysDictType](db),
-	}
+	return &SysDictService{db: db, query: query.Use(db), serviceFun: xgorm.InjectService[model.SysDictType](db)}
 }
 
 type SysDictService struct {
-	db     *gorm.DB
-	query  *query.Query
-	dataFn xgorm.IRouterFunctions[model.SysDictDatum]
-	dictFn xgorm.IRouterFunctions[model.SysDictType]
+	db         *gorm.DB
+	query      *query.Query
+	serviceFun xgorm.IServiceFunctions[model.SysDictType]
 }
 
 func (s SysDictService) GetDictList(c *gin.Context, param *SysDictListParam) (resp SysDictListResp, err error) {
-	sysDictQuery := query.Use(s.db).SysDictType.WithContext(c)
+	sysDictQuery := query.Use(s.db).SysDictType
 	resp.PageResult.PageParam = param.PageParam
-	queryResultList, totalCount, err := sysDictQuery.FindByPage((param.Current-1)*param.Size, param.Size)
+	queryResultList, totalCount, err := sysDictQuery.WithContext(c).Where(sysDictQuery.DeleteTag.Eq(0)).FindByPage((param.Current-1)*param.Size, param.Size)
 	if err != nil {
 		return
 	}
@@ -82,7 +78,7 @@ func (s SysDictService) AddDict(c *gin.Context, param *AddOrUpDateSysDictParam) 
 
 func (s SysDictService) UpdateDict(c *gin.Context, id int32, param *AddOrUpDateSysDictParam) (err error) {
 	sysDictQuery := query.Use(s.db).SysDictType
-	count, err := sysDictQuery.WithContext(c).Where(sysDictQuery.ID.Eq(id)).Count()
+	count, err := sysDictQuery.WithContext(c).Where(sysDictQuery.ID.Eq(id)).Where(sysDictQuery.DeleteTag.Eq(0)).Count()
 	if count < 1 {
 		return xerror.NewErrCode(xerror.CURD_DATA_NOT_EXIST_ERROR)
 	}
@@ -107,7 +103,13 @@ func (s SysDictService) UpdateDict(c *gin.Context, id int32, param *AddOrUpDateS
 
 func (s SysDictService) DeleteDict(c *gin.Context, ids []int32) (err error) {
 	menuQuery := s.query.SysDictType
-	info, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Delete()
+	operatorInfo := s.serviceFun.GetOperatorInfo(c)
+	info, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Updates(&model.SysMenu{
+		DeleteTag:  1,
+		UpdateBy:   operatorInfo.NickName,
+		UpdateUID:  operatorInfo.Uid,
+		UpdateTime: time.Now(),
+	})
 	if err != nil {
 		return err
 	}

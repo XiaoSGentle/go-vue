@@ -21,6 +21,7 @@ func init() {
 	message[CAPTCHA_VERIFY_ERROR] = "验证码验证失败"
 
 	message[USER_NOT_EXIST_ERROR] = "用户不存在"
+	message[USER_STARTUS_ERROR] = "用户状态异常"
 
 	message[CURD_AFFECT_NONE_ERROR] = "未影响行数"
 	message[CURD_UPDATE_AFFECT_NONE_ERROR] = "修改失败"
@@ -30,16 +31,16 @@ func init() {
 	message[DICT_NOT_EXIST_ERROR] = "字典不存在"
 }
 
-func MapErrMsg(errcode uint32) string {
-	if msg, ok := message[errcode]; ok {
+func MapErrMsg(decode uint32) string {
+	if msg, ok := message[decode]; ok {
 		return msg
 	} else {
 		return "服务器开小差啦,稍后再来试一试"
 	}
 }
 
-func IsCodeErr(errcode uint32) bool {
-	if _, ok := message[errcode]; ok {
+func IsCodeErr(decode uint32) bool {
+	if _, ok := message[decode]; ok {
 		return true
 	} else {
 		return false

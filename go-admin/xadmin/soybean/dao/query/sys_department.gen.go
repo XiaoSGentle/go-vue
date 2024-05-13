@@ -36,8 +36,9 @@ func newSysDepartment(db *gorm.DB, opts ...gen.DOOption) sysDepartment {
 	_sysDepartment.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysDepartment.UpdateUID = field.NewInt32(tableName, "update_uid")
 	_sysDepartment.UpdateBy = field.NewString(tableName, "update_by")
-	_sysDepartment.SoftDeleteTag = field.NewInt32(tableName, "soft_delete_tag")
+	_sysDepartment.Status = field.NewString(tableName, "status")
 	_sysDepartment.Version = field.NewInt32(tableName, "version")
+	_sysDepartment.DeleteTag = field.NewInt32(tableName, "delete_tag")
 
 	_sysDepartment.fillFieldMap()
 
@@ -47,18 +48,19 @@ func newSysDepartment(db *gorm.DB, opts ...gen.DOOption) sysDepartment {
 type sysDepartment struct {
 	sysDepartmentDo
 
-	ALL           field.Asterisk
-	ID            field.Int32  // 主键
-	Name          field.String // 部门名称
-	ParentID      field.Int32  // 父id
-	CreateBy      field.String // 创建者
-	CreateTime    field.Time   // 创建时间
-	CreateUID     field.Int32  // 创建者uid
-	UpdateTime    field.Time   // 更新时间
-	UpdateUID     field.Int32  // 更新者uid
-	UpdateBy      field.String // 更新者名称
-	SoftDeleteTag field.Int32  // 软删除标记
-	Version       field.Int32  // 乐观锁
+	ALL        field.Asterisk
+	ID         field.Int32  // 主键
+	Name       field.String // 部门名称
+	ParentID   field.Int32  // 父id
+	CreateBy   field.String // 创建者
+	CreateTime field.Time   // 创建时间
+	CreateUID  field.Int32  // 创建者uid
+	UpdateTime field.Time   // 更新时间
+	UpdateUID  field.Int32  // 更新者uid
+	UpdateBy   field.String // 更新者名称
+	Status     field.String // 软删除标记
+	Version    field.Int32  // 乐观锁
+	DeleteTag  field.Int32  // 软删除标记
 
 	fieldMap map[string]field.Expr
 }
@@ -84,8 +86,9 @@ func (s *sysDepartment) updateTableName(table string) *sysDepartment {
 	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
 	s.UpdateBy = field.NewString(table, "update_by")
-	s.SoftDeleteTag = field.NewInt32(table, "soft_delete_tag")
+	s.Status = field.NewString(table, "status")
 	s.Version = field.NewInt32(table, "version")
+	s.DeleteTag = field.NewInt32(table, "delete_tag")
 
 	s.fillFieldMap()
 
@@ -102,7 +105,7 @@ func (s *sysDepartment) GetFieldByName(fieldName string) (field.OrderExpr, bool)
 }
 
 func (s *sysDepartment) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 11)
+	s.fieldMap = make(map[string]field.Expr, 12)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["parent_id"] = s.ParentID
@@ -112,8 +115,9 @@ func (s *sysDepartment) fillFieldMap() {
 	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_uid"] = s.UpdateUID
 	s.fieldMap["update_by"] = s.UpdateBy
-	s.fieldMap["soft_delete_tag"] = s.SoftDeleteTag
+	s.fieldMap["status"] = s.Status
 	s.fieldMap["version"] = s.Version
+	s.fieldMap["delete_tag"] = s.DeleteTag
 }
 
 func (s sysDepartment) clone(db *gorm.DB) sysDepartment {

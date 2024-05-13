@@ -39,13 +39,13 @@ type SysMenu struct {
 	MetaFixedInTab   int32     `gorm:"column:meta_fixed_in_tab;type:int(1) unsigned;comment:标签固定位置" json:"metaFixedInTab"`                        // 标签固定位置
 	MetaQuery        string    `gorm:"column:meta_query;type:varchar(255);not null;comment:默认携带参数" json:"metaQuery"`                              // 默认携带参数
 	Version          int32     `gorm:"column:version;type:int(11) unsigned;not null;comment:乐观锁" json:"version"`                                  // 乐观锁
-	SoftDeleteTag    int32     `gorm:"column:soft_delete_tag;type:int(1) unsigned;not null;comment:软删除标记" json:"softDeleteTag"`                   // 软删除标记
 	UpdateTime       time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"`                      // 更新时间
 	UpdateUID        int32     `gorm:"column:update_uid;type:int(11);comment:更新者uuid" json:"updateUid"`                                           // 更新者uuid
 	CreateUID        int32     `gorm:"column:create_uid;type:int(11);comment:创建者uuid" json:"createUid"`                                           // 创建者uuid
 	CreateBy         string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                                            // 创建者
 	CreateTime       time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"`                      // 创建时间
 	UpdateBy         string    `gorm:"column:update_by;type:varchar(255);comment:更新者名称" json:"updateBy"`                                          // 更新者名称
+	DeleteTag        int32     `gorm:"column:delete_tag;type:int(11);not null;comment:软删除标记" json:"deleteTag"`                                    // 软删除标记
 }
 
 // TableName SysMenu's table name

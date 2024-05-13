@@ -432,6 +432,7 @@ const local: App.I18n.Schema = {
         name: 'Dict Name',
         code: 'Dict Code',
         desc: 'Description',
+        copy: 'Copy',
         status: 'Dict Status',
         form: {
           add: 'Add dictionary',

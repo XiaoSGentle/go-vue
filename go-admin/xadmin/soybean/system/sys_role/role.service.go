@@ -8,6 +8,7 @@ import (
 	"xadmin/soybean/dao/model"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xerror"
+	"xcore/common/xtoken"
 	baseType "xcore/common/xtype/xbase"
 )
 
@@ -33,7 +34,10 @@ type SysRoleService struct {
 
 func (s SysRoleService) UpdateHome(c *gin.Context, param UpdateRoleHomeParam) (err error) {
 	menuQuery := s.query.SysRole
-	update, err := menuQuery.WithContext(c).Where(menuQuery.Code.Eq(param.RoleCode)).Update(menuQuery.Home, param.Home)
+	update, err := menuQuery.WithContext(c).
+		Where(menuQuery.Code.Eq(param.RoleCode)).
+		Where(menuQuery.DeleteTag.Eq(0)).
+		Update(menuQuery.Home, param.Home)
 	if err != nil {
 		return err
 	}
@@ -45,7 +49,10 @@ func (s SysRoleService) UpdateHome(c *gin.Context, param UpdateRoleHomeParam) (e
 
 func (s SysRoleService) UpdateMenus(c *gin.Context, param UpdateRolePermitParam) (err error) {
 	menuQuery := s.query.SysRole
-	update, err := menuQuery.WithContext(c).Where(menuQuery.Code.Eq(param.RoleCode)).Update(menuQuery.MenuIds, strings.Join(param.MenuIds, ","))
+	update, err := menuQuery.WithContext(c).
+		Where(menuQuery.Code.Eq(param.RoleCode)).
+		Where(menuQuery.DeleteTag.Eq(0)).
+		Update(menuQuery.MenuIds, strings.Join(param.MenuIds, ","))
 	if err != nil {
 		return err
 	}
@@ -57,7 +64,10 @@ func (s SysRoleService) UpdateMenus(c *gin.Context, param UpdateRolePermitParam)
 
 func (s SysRoleService) UpdateApis(c *gin.Context, param UpdateRolePermitParam) (err error) {
 	menuQuery := s.query.SysRole
-	update, err := menuQuery.WithContext(c).Where(menuQuery.Code.Eq(param.RoleCode)).Update(menuQuery.APICodes, strings.Join(param.ApiCodes, ","))
+	update, err := menuQuery.WithContext(c).
+		Where(menuQuery.Code.Eq(param.RoleCode)).
+		Where(menuQuery.DeleteTag.Eq(0)).
+		Update(menuQuery.APICodes, strings.Join(param.ApiCodes, ","))
 	if err != nil {
 		return err
 	}
@@ -69,7 +79,10 @@ func (s SysRoleService) UpdateApis(c *gin.Context, param UpdateRolePermitParam) 
 
 func (s SysRoleService) GetRolePermit(c *gin.Context, param string) (resp SysRolePermitResp, err error) {
 	menuQuery := s.query.SysRole
-	first, err := menuQuery.WithContext(c).Where(menuQuery.Code.Eq(param)).First()
+	first, err := menuQuery.WithContext(c).
+		Where(menuQuery.Code.Eq(param)).
+		Where(menuQuery.DeleteTag.Eq(0)).
+		First()
 	if err != nil {
 		return SysRolePermitResp{}, err
 	}
@@ -83,35 +96,38 @@ func (s SysRoleService) GetRolePermit(c *gin.Context, param string) (resp SysRol
 func (s SysRoleService) AddRole(c *gin.Context, param *AddOrUpdateSysRoleParam) (err error) {
 	menuQuery := s.query.SysRole
 	err = menuQuery.WithContext(c).Create(&model.SysRole{
-		Name:          param.RoleName,
-		Code:          param.RoleCode,
-		ParentID:      0,
-		Description:   param.RoleDesc,
-		Status:        param.Status,
-		MenuIds:       "",
-		APICodes:      "",
-		Version:       0,
-		SoftDeleteTag: 0,
-		UpdateTime:    time.Now(),
-		UpdateUID:     0,
-		CreateUID:     0,
-		CreateBy:      "",
-		CreateTime:    time.Now(),
-		UpdateBy:      "",
+		Name:        param.RoleName,
+		Code:        param.RoleCode,
+		ParentID:    0,
+		Description: param.RoleDesc,
+		Status:      param.Status,
+		MenuIds:     "",
+		APICodes:    "",
+		Version:     0,
+
+		UpdateTime: time.Now(),
+		UpdateUID:  0,
+		CreateUID:  0,
+		CreateBy:   "",
+		CreateTime: time.Now(),
+		UpdateBy:   "",
 	})
 	return
 }
 
 func (s SysRoleService) UpdateRole(c *gin.Context, id int32, param *AddOrUpdateSysRoleParam) (err error) {
 	menuQuery := s.query.SysRole
-	updates, err := menuQuery.WithContext(c).Where(menuQuery.ID.Eq(id)).Updates(&model.SysRole{
-		Name:        param.RoleName,
-		Code:        param.RoleCode,
-		Description: param.RoleDesc,
-		Status:      param.Status,
-		UpdateTime:  time.Now(),
-		UpdateBy:    "",
-	})
+	updates, err := menuQuery.WithContext(c).
+		Where(menuQuery.ID.Eq(id)).
+		Where(menuQuery.DeleteTag.Eq(0)).
+		Updates(&model.SysRole{
+			Name:        param.RoleName,
+			Code:        param.RoleCode,
+			Description: param.RoleDesc,
+			Status:      param.Status,
+			UpdateTime:  time.Now(),
+			UpdateBy:    "",
+		})
 	if err != nil {
 		return err
 	}
@@ -123,7 +139,15 @@ func (s SysRoleService) UpdateRole(c *gin.Context, id int32, param *AddOrUpdateS
 
 func (s SysRoleService) DeleteRole(c *gin.Context, ids []int32) (err error) {
 	menuQuery := s.query.SysRole
-	info, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Delete()
+	payload := xtoken.GetBindCustomPayload(c)
+	info, err := menuQuery.WithContext(c).
+		Where(menuQuery.ID.In(ids...)).
+		Updates(&model.SysRole{
+			DeleteTag:  1,
+			UpdateTime: time.Now(),
+			UpdateUID:  payload.Uid,
+			UpdateBy:   payload.NickName,
+		})
 	if err != nil {
 		return err
 	}
@@ -137,9 +161,11 @@ func (s SysRoleService) DeleteRole(c *gin.Context, ids []int32) (err error) {
 }
 
 func (s SysRoleService) SysRoleList(c *gin.Context, param *SysRoleListParam) (sysRoleListResp SysRoleListResp, err error) {
-	sysRoleQuery := query.Use(s.db).SysRole.WithContext(c)
+	sysRoleQuery := query.Use(s.db).SysRole
 	sysRoleListResp.PageResult.PageParam = param.PageParam
-	roleListInSql, totalCount, err := sysRoleQuery.FindByPage((param.Current-1)*param.Size, param.Size)
+	roleListInSql, totalCount, err := sysRoleQuery.WithContext(c).
+		Where(sysRoleQuery.DeleteTag.Eq(0)).
+		FindByPage((param.Current-1)*param.Size, param.Size)
 	var userList []SysRoleList
 	for _, role := range roleListInSql {
 		userList = append(userList, SysRoleList{

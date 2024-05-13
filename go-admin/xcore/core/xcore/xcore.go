@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"golang.org/x/xerrors"
-	"io/ioutil"
+	"io"
 	"os"
 	"xcore/common/xcaptcha"
 	"xcore/common/xconfig"
@@ -126,7 +126,6 @@ func (receiver *GinCore) Run(port string) {
 	// 启动
 	println("router run at port" + port)
 	err := receiver.Router.Run(port)
-
 	if err != nil {
 		xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "启动失败！"+err.Error())
 	}
@@ -172,7 +171,7 @@ func CheckRequiredFolds(paths []string) {
 func ReleaseRouter() *gin.Engine {
 	// 切换到生产模式禁用 gin 输出接口访问日志，经过并发测试验证，可以提升5%的性能
 	gin.SetMode(gin.ReleaseMode)
-	gin.DefaultWriter = ioutil.Discard
+	gin.DefaultWriter = io.Discard
 
 	engine := gin.New()
 	// 载入gin的中间件，关键是第二个中间件，我们对它进行了自定义重写，将可能的 panic 异常等，统一使用 slog 接管，保证全局日志打印统一

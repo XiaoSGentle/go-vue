@@ -54,13 +54,13 @@ func newSysMenu(db *gorm.DB, opts ...gen.DOOption) sysMenu {
 	_sysMenu.MetaFixedInTab = field.NewInt32(tableName, "meta_fixed_in_tab")
 	_sysMenu.MetaQuery = field.NewString(tableName, "meta_query")
 	_sysMenu.Version = field.NewInt32(tableName, "version")
-	_sysMenu.SoftDeleteTag = field.NewInt32(tableName, "soft_delete_tag")
 	_sysMenu.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysMenu.UpdateUID = field.NewInt32(tableName, "update_uid")
 	_sysMenu.CreateUID = field.NewInt32(tableName, "create_uid")
 	_sysMenu.CreateBy = field.NewString(tableName, "create_by")
 	_sysMenu.CreateTime = field.NewTime(tableName, "create_time")
 	_sysMenu.UpdateBy = field.NewString(tableName, "update_by")
+	_sysMenu.DeleteTag = field.NewInt32(tableName, "delete_tag")
 
 	_sysMenu.fillFieldMap()
 
@@ -98,13 +98,13 @@ type sysMenu struct {
 	MetaFixedInTab   field.Int32  // 标签固定位置
 	MetaQuery        field.String // 默认携带参数
 	Version          field.Int32  // 乐观锁
-	SoftDeleteTag    field.Int32  // 软删除标记
 	UpdateTime       field.Time   // 更新时间
 	UpdateUID        field.Int32  // 更新者uuid
 	CreateUID        field.Int32  // 创建者uuid
 	CreateBy         field.String // 创建者
 	CreateTime       field.Time   // 创建时间
 	UpdateBy         field.String // 更新者名称
+	DeleteTag        field.Int32  // 软删除标记
 
 	fieldMap map[string]field.Expr
 }
@@ -148,13 +148,13 @@ func (s *sysMenu) updateTableName(table string) *sysMenu {
 	s.MetaFixedInTab = field.NewInt32(table, "meta_fixed_in_tab")
 	s.MetaQuery = field.NewString(table, "meta_query")
 	s.Version = field.NewInt32(table, "version")
-	s.SoftDeleteTag = field.NewInt32(table, "soft_delete_tag")
 	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
 	s.CreateUID = field.NewInt32(table, "create_uid")
 	s.CreateBy = field.NewString(table, "create_by")
 	s.CreateTime = field.NewTime(table, "create_time")
 	s.UpdateBy = field.NewString(table, "update_by")
+	s.DeleteTag = field.NewInt32(table, "delete_tag")
 
 	s.fillFieldMap()
 
@@ -199,13 +199,13 @@ func (s *sysMenu) fillFieldMap() {
 	s.fieldMap["meta_fixed_in_tab"] = s.MetaFixedInTab
 	s.fieldMap["meta_query"] = s.MetaQuery
 	s.fieldMap["version"] = s.Version
-	s.fieldMap["soft_delete_tag"] = s.SoftDeleteTag
 	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_uid"] = s.UpdateUID
 	s.fieldMap["create_uid"] = s.CreateUID
 	s.fieldMap["create_by"] = s.CreateBy
 	s.fieldMap["create_time"] = s.CreateTime
 	s.fieldMap["update_by"] = s.UpdateBy
+	s.fieldMap["delete_tag"] = s.DeleteTag
 }
 
 func (s sysMenu) clone(db *gorm.DB) sysMenu {

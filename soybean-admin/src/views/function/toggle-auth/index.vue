@@ -90,9 +90,9 @@ async function handleToggleAccount(account: Account) {
       class="card-wrapper"
     >
       <NSpace>
-        <NButton v-if="hasAuth('B_CODE1')">{{ $t('page.function.toggleAuth.superAdminVisible') }}</NButton>
-        <NButton v-if="hasAuth('B_CODE2')">{{ $t('page.function.toggleAuth.adminVisible') }}</NButton>
-        <NButton v-if="hasAuth('B_CODE3')">
+        <NButton v-if="hasAuth('R_SUPER')">{{ $t('page.function.toggleAuth.superAdminVisible') }}</NButton>
+        <NButton v-if="hasAuth('R_SUPER')">{{ $t('page.function.toggleAuth.adminVisible') }}</NButton>
+        <NButton v-if="hasAuth('R_SUPER')">
           {{ $t('page.function.toggleAuth.adminOrUserVisible') }}
         </NButton>
       </NSpace>

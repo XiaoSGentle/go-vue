@@ -18,6 +18,7 @@ import (
 var (
 	Q                 = new(Query)
 	SysAPI            *sysAPI
+	SysCron           *sysCron
 	SysDepartment     *sysDepartment
 	SysDictDatum      *sysDictDatum
 	SysDictType       *sysDictType
@@ -32,6 +33,7 @@ var (
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
 	SysAPI = &Q.SysAPI
+	SysCron = &Q.SysCron
 	SysDepartment = &Q.SysDepartment
 	SysDictDatum = &Q.SysDictDatum
 	SysDictType = &Q.SysDictType
@@ -47,6 +49,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:                db,
 		SysAPI:            newSysAPI(db, opts...),
+		SysCron:           newSysCron(db, opts...),
 		SysDepartment:     newSysDepartment(db, opts...),
 		SysDictDatum:      newSysDictDatum(db, opts...),
 		SysDictType:       newSysDictType(db, opts...),
@@ -63,6 +66,7 @@ type Query struct {
 	db *gorm.DB
 
 	SysAPI            sysAPI
+	SysCron           sysCron
 	SysDepartment     sysDepartment
 	SysDictDatum      sysDictDatum
 	SysDictType       sysDictType
@@ -80,6 +84,7 @@ func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:                db,
 		SysAPI:            q.SysAPI.clone(db),
+		SysCron:           q.SysCron.clone(db),
 		SysDepartment:     q.SysDepartment.clone(db),
 		SysDictDatum:      q.SysDictDatum.clone(db),
 		SysDictType:       q.SysDictType.clone(db),
@@ -104,6 +109,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:                db,
 		SysAPI:            q.SysAPI.replaceDB(db),
+		SysCron:           q.SysCron.replaceDB(db),
 		SysDepartment:     q.SysDepartment.replaceDB(db),
 		SysDictDatum:      q.SysDictDatum.replaceDB(db),
 		SysDictType:       q.SysDictType.replaceDB(db),
@@ -118,6 +124,7 @@ func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 
 type queryCtx struct {
 	SysAPI            ISysAPIDo
+	SysCron           ISysCronDo
 	SysDepartment     ISysDepartmentDo
 	SysDictDatum      ISysDictDatumDo
 	SysDictType       ISysDictTypeDo
@@ -132,6 +139,7 @@ type queryCtx struct {
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
 		SysAPI:            q.SysAPI.WithContext(ctx),
+		SysCron:           q.SysCron.WithContext(ctx),
 		SysDepartment:     q.SysDepartment.WithContext(ctx),
 		SysDictDatum:      q.SysDictDatum.WithContext(ctx),
 		SysDictType:       q.SysDictType.WithContext(ctx),

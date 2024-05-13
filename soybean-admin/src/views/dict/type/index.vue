@@ -2,6 +2,7 @@
 import { NButton, NCard, NDataTable, NPopconfirm, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
 
+import { useClipboard } from '@vueuse/core';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { deleteDictTypeByIds, fetchGetDictTypeList } from '@/service/api';
 import TableHeaderOperation from '@/components/advanced/table-header-operation.vue';
@@ -10,9 +11,9 @@ import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
 import { useRouterPush } from '@/hooks/common/router';
 import DictTypeOperateDrawer from './modules/dict-type-drawer.vue';
-
 const appStore = useAppStore();
 const { routerPush } = useRouterPush();
+
 const { loading, data, columns, getData, mobilePagination, columnChecks } = useTable({
   apiFn: fetchGetDictTypeList,
   apiParams: {
@@ -34,22 +35,40 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
       key: 'code',
       title: $t('page.dict.type.code'),
       align: 'center',
+
       render: row => {
+        const { copy, isSupported } = useClipboard();
         return (
-          <div
-            onClick={() => {
-              routerPush(`/dict/data/${row.code}`);
-            }}
-          >
-            <span class="cursor-pointer border-blue-6 p-1 color-blue hover:border-b-1.5 hover:color-blue-6">
-              {row.code}
-            </span>
-          </div>
+          <NSpace class="px6">
+            <div
+              onClick={() => {
+                routerPush(`/dict/data/${row.code}`);
+              }}
+              class="mt1"
+            >
+              <span class="cursor-pointer border-blue-6 p-1 color-blue hover:border-b-1.5 hover:color-blue-6">
+                {row.code}
+              </span>
+            </div>
+            {isSupported && (
+              <NButton
+                size="small"
+                type="primary"
+                ghost
+                onClick={() => {
+                  copy(row.code);
+                }}
+              >
+                {$t('page.dict.type.copy')}
+              </NButton>
+            )}
+          </NSpace>
         );
       }
     },
     {
       key: 'description',
+
       title: $t('page.dict.type.desc')
     },
     {

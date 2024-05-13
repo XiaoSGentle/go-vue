@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"xadmin/soybean/dao/model"
 	"xadmin/soybean/dao/query"
+	"xcore/common/xtype/xbool"
 )
 
 type IRouteService interface {
@@ -120,8 +121,8 @@ func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRoute
 			RouterMeta: UserRouterMeta{
 				Order:      menu.MetaOrder,
 				HideInMenu: menu.MetaHideInMenu == "1",
-				Icon:       menu.MetaIcon,
-				LocalIcon:  menu.MetaLocalIcon,
+				Icon:       xbool.BooleanTo(menu.MetaIconType == "1", menu.MetaIcon, ""),
+				LocalIcon:  xbool.BooleanTo(menu.MetaIconType == "2", menu.MetaIcon, ""),
 				I18nKey:    menu.MetaI18nKey,
 				Href:       menu.MetaHref,
 				KeepAlive:  menu.MetaKeepAlive == "1",

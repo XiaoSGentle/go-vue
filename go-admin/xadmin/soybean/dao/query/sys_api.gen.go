@@ -29,7 +29,7 @@ func newSysAPI(db *gorm.DB, opts ...gen.DOOption) sysAPI {
 	_sysAPI.ALL = field.NewAsterisk(tableName)
 	_sysAPI.APICode = field.NewString(tableName, "api_code")
 	_sysAPI.Version = field.NewInt32(tableName, "version")
-	_sysAPI.SoftDeleteTag = field.NewInt32(tableName, "soft_delete_tag")
+	_sysAPI.Status = field.NewString(tableName, "status")
 	_sysAPI.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysAPI.UpdateUID = field.NewInt32(tableName, "update_uid")
 	_sysAPI.CreateUID = field.NewInt32(tableName, "create_uid")
@@ -45,16 +45,16 @@ func newSysAPI(db *gorm.DB, opts ...gen.DOOption) sysAPI {
 type sysAPI struct {
 	sysAPIDo
 
-	ALL           field.Asterisk
-	APICode       field.String // 标记GET::/api
-	Version       field.Int32  // 乐观锁
-	SoftDeleteTag field.Int32  // 软删除标记
-	UpdateTime    field.Time   // 更新时间
-	UpdateUID     field.Int32  // 更新者uuid
-	CreateUID     field.Int32  // 创建者uuid
-	CreateBy      field.String // 创建者
-	CreateTime    field.Time   // 创建时间
-	UpdateBy      field.String // 更新者名称
+	ALL        field.Asterisk
+	APICode    field.String // 标记GET::/api
+	Version    field.Int32  // 乐观锁
+	Status     field.String // 软删除标记
+	UpdateTime field.Time   // 更新时间
+	UpdateUID  field.Int32  // 更新者uuid
+	CreateUID  field.Int32  // 创建者uuid
+	CreateBy   field.String // 创建者
+	CreateTime field.Time   // 创建时间
+	UpdateBy   field.String // 更新者名称
 
 	fieldMap map[string]field.Expr
 }
@@ -73,7 +73,7 @@ func (s *sysAPI) updateTableName(table string) *sysAPI {
 	s.ALL = field.NewAsterisk(table)
 	s.APICode = field.NewString(table, "api_code")
 	s.Version = field.NewInt32(table, "version")
-	s.SoftDeleteTag = field.NewInt32(table, "soft_delete_tag")
+	s.Status = field.NewString(table, "status")
 	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
 	s.CreateUID = field.NewInt32(table, "create_uid")
@@ -99,7 +99,7 @@ func (s *sysAPI) fillFieldMap() {
 	s.fieldMap = make(map[string]field.Expr, 9)
 	s.fieldMap["api_code"] = s.APICode
 	s.fieldMap["version"] = s.Version
-	s.fieldMap["soft_delete_tag"] = s.SoftDeleteTag
+	s.fieldMap["status"] = s.Status
 	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_uid"] = s.UpdateUID
 	s.fieldMap["create_uid"] = s.CreateUID

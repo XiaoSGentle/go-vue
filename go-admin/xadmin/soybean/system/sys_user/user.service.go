@@ -21,18 +21,18 @@ type ISysUserService interface {
 }
 
 func NewSysUserService(db *gorm.DB) ISysUserService {
-	return &SysUserService{db: db, query: query.Use(db), sysUserInjectFunction: xgorm.InjectRouter[model.SysUser](db)}
+	return &SysUserService{db: db, query: query.Use(db), serviceFun: xgorm.InjectService[model.SysUser](db)}
 }
 
 type SysUserService struct {
-	db                    *gorm.DB
-	query                 *query.Query
-	sysUserInjectFunction xgorm.IRouterFunctions[model.SysUser]
+	db         *gorm.DB
+	query      *query.Query
+	serviceFun xgorm.IServiceFunctions[model.SysUser]
 }
 
 func (s SysUserService) AddUser(c *gin.Context, param *AddOrUpdateSysUserParam) (err error) {
 	menuQuery := s.query.SysUser
-	err = menuQuery.WithContext(c).Create(&model.SysUser{
+	insertC := &model.SysUser{
 		Nickname:       param.NickName,
 		Username:       param.UserName,
 		Roles:          strings.Join(param.UserRoles, ","),
@@ -47,20 +47,15 @@ func (s SysUserService) AddUser(c *gin.Context, param *AddOrUpdateSysUserParam) 
 		LastCpwdTime:   time.Now(),
 		UserStatus:     param.Status,
 		Version:        0,
-		SoftDeleteTag:  0,
-		UpdateTime:     time.Now(),
-		UpdateUID:      0,
-		CreateUID:      0,
-		CreateBy:       "",
-		CreateTime:     time.Now(),
-		UpdateBy:       "",
-	})
+	}
+	s.serviceFun.BindCreateInfo(c, insertC)
+	err = menuQuery.WithContext(c).Create(insertC)
 	return
 }
 
 func (s SysUserService) UpdateUser(c *gin.Context, id int32, param *AddOrUpdateSysUserParam) (err error) {
 	menuQuery := s.query.SysUser
-	updates, err := menuQuery.WithContext(c).Where(menuQuery.ID.Eq(id)).Updates(&model.SysUser{
+	updateC := &model.SysUser{
 		Nickname:       param.UserName,
 		Username:       param.NickName,
 		Roles:          strings.Join(param.UserRoles, ","),
@@ -75,14 +70,12 @@ func (s SysUserService) UpdateUser(c *gin.Context, id int32, param *AddOrUpdateS
 		LastCpwdTime:   time.Time{},
 		UserStatus:     param.Status,
 		Version:        0,
-		SoftDeleteTag:  0,
-		UpdateTime:     time.Now(),
-		UpdateUID:      0,
-		CreateUID:      0,
-		CreateBy:       "",
-		CreateTime:     time.Now(),
-		UpdateBy:       "",
-	})
+	}
+	s.serviceFun.BindUpdateInfo(c, updateC)
+	updates, err := menuQuery.WithContext(c).
+		Where(menuQuery.ID.Eq(id)).
+		Where(menuQuery.DeleteTag.Eq(0)).
+		Updates(updateC)
 	if err != nil {
 		return err
 	}
@@ -94,7 +87,13 @@ func (s SysUserService) UpdateUser(c *gin.Context, id int32, param *AddOrUpdateS
 
 func (s SysUserService) DeleteUser(c *gin.Context, ids []int32) (err error) {
 	menuQuery := s.query.SysUser
-	info, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Delete()
+	operatorInfo := s.serviceFun.GetOperatorInfo(c)
+	info, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Updates(&model.SysUser{
+		DeleteTag:  1,
+		UpdateBy:   operatorInfo.NickName,
+		UpdateUID:  operatorInfo.Uid,
+		UpdateTime: time.Now(),
+	})
 	if err != nil {
 		return err
 	}
@@ -108,9 +107,11 @@ func (s SysUserService) DeleteUser(c *gin.Context, ids []int32) (err error) {
 }
 
 func (s SysUserService) SysUserList(c *gin.Context, param *SysUserListParam) (sysUserListResp SysUserListResp, err error) {
-	sysUserQuery := query.Use(s.db).SysUser.WithContext(c)
+	sysUserQuery := query.Use(s.db).SysUser
 	sysUserListResp.PageResult.PageParam = param.PageParam
-	userListInSql, totalCount, err := sysUserQuery.FindByPage((param.Current-1)*param.Size, param.Size)
+	userListInSql, totalCount, err := sysUserQuery.WithContext(c).
+		Where(sysUserQuery.DeleteTag.Eq(0)).
+		FindByPage((param.Current-1)*param.Size, param.Size)
 	var userList []SysUserList
 	for _, user := range userListInSql {
 		userList = append(userList, SysUserList{

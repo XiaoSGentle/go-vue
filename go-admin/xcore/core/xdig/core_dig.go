@@ -9,7 +9,7 @@ import (
 var container = dig.New()
 var instanceList []interface{}
 
-// ProvideForDI 提供依赖
+// ProvideForDI 注入依赖
 func ProvideForDI(constructor interface{}, opts ...dig.ProvideOption) error {
 	if constructor == nil {
 		return nil
@@ -25,8 +25,7 @@ func ProvideForDI(constructor interface{}, opts ...dig.ProvideOption) error {
 
 }
 
-// DI 生成目标
-
+// DI 提供依赖
 func DI(function interface{}, opts ...dig.InvokeOption) error {
 	return container.Invoke(function, opts...)
 }

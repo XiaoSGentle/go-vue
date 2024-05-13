@@ -39,6 +39,7 @@ func newSysDictType(db *gorm.DB, opts ...gen.DOOption) sysDictType {
 	_sysDictType.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysDictType.UpdateBy = field.NewString(tableName, "update_by")
 	_sysDictType.UpdateUID = field.NewInt32(tableName, "update_uid")
+	_sysDictType.DeleteTag = field.NewInt32(tableName, "delete_tag")
 
 	_sysDictType.fillFieldMap()
 
@@ -61,6 +62,7 @@ type sysDictType struct {
 	UpdateTime  field.Time   // 更新时间
 	UpdateBy    field.String // 更新者
 	UpdateUID   field.Int32  // 更新者uid
+	DeleteTag   field.Int32  // 软删除标记
 
 	fieldMap map[string]field.Expr
 }
@@ -89,6 +91,7 @@ func (s *sysDictType) updateTableName(table string) *sysDictType {
 	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateBy = field.NewString(table, "update_by")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
+	s.DeleteTag = field.NewInt32(table, "delete_tag")
 
 	s.fillFieldMap()
 
@@ -105,7 +108,7 @@ func (s *sysDictType) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysDictType) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 12)
+	s.fieldMap = make(map[string]field.Expr, 13)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["code"] = s.Code
@@ -118,6 +121,7 @@ func (s *sysDictType) fillFieldMap() {
 	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_by"] = s.UpdateBy
 	s.fieldMap["update_uid"] = s.UpdateUID
+	s.fieldMap["delete_tag"] = s.DeleteTag
 }
 
 func (s sysDictType) clone(db *gorm.DB) sysDictType {

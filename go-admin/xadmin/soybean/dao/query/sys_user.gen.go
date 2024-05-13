@@ -42,13 +42,14 @@ func newSysUser(db *gorm.DB, opts ...gen.DOOption) sysUser {
 	_sysUser.LastCpwdTime = field.NewTime(tableName, "last_cpwd_time")
 	_sysUser.UserStatus = field.NewString(tableName, "user_status")
 	_sysUser.Version = field.NewInt32(tableName, "version")
-	_sysUser.SoftDeleteTag = field.NewInt32(tableName, "soft_delete_tag")
+	_sysUser.Status = field.NewString(tableName, "status")
 	_sysUser.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysUser.UpdateUID = field.NewInt32(tableName, "update_uid")
 	_sysUser.CreateUID = field.NewInt32(tableName, "create_uid")
 	_sysUser.CreateBy = field.NewString(tableName, "create_by")
 	_sysUser.CreateTime = field.NewTime(tableName, "create_time")
 	_sysUser.UpdateBy = field.NewString(tableName, "update_by")
+	_sysUser.DeleteTag = field.NewInt32(tableName, "delete_tag")
 
 	_sysUser.fillFieldMap()
 
@@ -74,13 +75,14 @@ type sysUser struct {
 	LastCpwdTime   field.Time   // 上次改密码时间
 	UserStatus     field.String // 用户状态
 	Version        field.Int32  // 乐观锁
-	SoftDeleteTag  field.Int32  // 软删除标记
+	Status         field.String // 软删除标记
 	UpdateTime     field.Time   // 更新时间
 	UpdateUID      field.Int32  // 更新者uuid
 	CreateUID      field.Int32  // 创建者uuid
 	CreateBy       field.String // 创建者
 	CreateTime     field.Time   // 创建时间
 	UpdateBy       field.String // 更新者名称
+	DeleteTag      field.Int32  // 软删除标记
 
 	fieldMap map[string]field.Expr
 }
@@ -112,13 +114,14 @@ func (s *sysUser) updateTableName(table string) *sysUser {
 	s.LastCpwdTime = field.NewTime(table, "last_cpwd_time")
 	s.UserStatus = field.NewString(table, "user_status")
 	s.Version = field.NewInt32(table, "version")
-	s.SoftDeleteTag = field.NewInt32(table, "soft_delete_tag")
+	s.Status = field.NewString(table, "status")
 	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
 	s.CreateUID = field.NewInt32(table, "create_uid")
 	s.CreateBy = field.NewString(table, "create_by")
 	s.CreateTime = field.NewTime(table, "create_time")
 	s.UpdateBy = field.NewString(table, "update_by")
+	s.DeleteTag = field.NewInt32(table, "delete_tag")
 
 	s.fillFieldMap()
 
@@ -135,7 +138,7 @@ func (s *sysUser) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysUser) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 22)
+	s.fieldMap = make(map[string]field.Expr, 23)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["nickname"] = s.Nickname
 	s.fieldMap["username"] = s.Username
@@ -151,13 +154,14 @@ func (s *sysUser) fillFieldMap() {
 	s.fieldMap["last_cpwd_time"] = s.LastCpwdTime
 	s.fieldMap["user_status"] = s.UserStatus
 	s.fieldMap["version"] = s.Version
-	s.fieldMap["soft_delete_tag"] = s.SoftDeleteTag
+	s.fieldMap["status"] = s.Status
 	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_uid"] = s.UpdateUID
 	s.fieldMap["create_uid"] = s.CreateUID
 	s.fieldMap["create_by"] = s.CreateBy
 	s.fieldMap["create_time"] = s.CreateTime
 	s.fieldMap["update_by"] = s.UpdateBy
+	s.fieldMap["delete_tag"] = s.DeleteTag
 }
 
 func (s sysUser) clone(db *gorm.DB) sysUser {

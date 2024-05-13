@@ -2,6 +2,7 @@ package system
 
 import (
 	"xadmin/soybean/system/sys_auth"
+	"xadmin/soybean/system/sys_cron"
 	"xadmin/soybean/system/sys_department"
 	"xadmin/soybean/system/sys_dict"
 	"xadmin/soybean/system/sys_log"
@@ -16,7 +17,7 @@ type System struct {
 }
 
 var (
-	Routers = []*xcore.GroupBase{
+	RouterGroups = []*xcore.GroupBase{
 		sys_auth.AuthGroup,
 		sys_route.RouteGroup,
 		sys_route.NoAuthRouteGroup,
@@ -31,8 +32,9 @@ var (
 		sys_log.LogGroup,
 		sys_log.NoLogLogGroup,
 		sys_department.SysDepartmentGroup,
+		sys_cron.SysCronGroup,
 	}
-	Function = []interface{}{
+	NewServiceFunctions = []interface{}{
 		sys_auth.NewAuthService,
 		sys_route.NewRouteService,
 		sys_user.NewSysUserService,

@@ -31,7 +31,7 @@ type AuthService struct {
 
 func (s AuthService) GetUserById(c *gin.Context, uid int32) (user *model.SysUser, err error) {
 	userQuery := s.query.SysUser
-	user, err = userQuery.WithContext(c).Where(userQuery.ID.Eq(uid)).First()
+	user, err = userQuery.WithContext(c).Where(userQuery.ID.Eq(uid)).Where(userQuery.DeleteTag.Eq(0)).First()
 	return
 }
 
@@ -41,12 +41,19 @@ func (s AuthService) UserLogin(c *gin.Context, param *LoginParam) (loginVo Login
 	jwtTokenCreatedExpireAt := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenCreatedExpireAt")
 	maxLoginFailTimes := xvariable.GlobalYmlConfig.GetInt64("LoginPolicy.MaxLoginFailTimes")
 	jwtTokenRefreshAllowSec := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenRefreshAllowSec")
-	count, err := userQuery.Where(userQuery.Username.Eq(param.UserName)).Count()
+	count, err := userQuery.Where(userQuery.Username.Eq(param.UserName)).Where(userQuery.DeleteTag.Eq(0)).Count()
 	if err != nil || count < 1 {
 		return LoginVo{}, xerror.NewErrCode(xerror.USER_NOT_EXIST_ERROR)
 	}
-	userInfoInSql, err := userQuery.Where(userQuery.Username.Eq(param.UserName)).First()
+	userInfoInSql, err := userQuery.
+		Where(userQuery.Username.Eq(param.UserName)).
+		Where(userQuery.DeleteTag.Eq(0)).
+		First()
+
 	if userInfoInSql == nil {
+		return LoginVo{}, xerror.NewErrCode(xerror.USER_NOT_EXIST_ERROR)
+	}
+	if userInfoInSql.Status != "1" {
 		return LoginVo{}, xerror.NewErrCode(xerror.USER_NOT_EXIST_ERROR)
 	}
 	if userInfoInSql.Password == xencrypt.Base64Md5(param.Password) {

@@ -600,6 +600,7 @@ declare namespace App {
             name: string;
             code: string;
             desc: string;
+            copy: string;
             status: string;
             form: {
               add: string;

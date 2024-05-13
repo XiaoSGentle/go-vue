@@ -5,6 +5,7 @@ import (
 	"xcore/common/xauth"
 	"xcore/common/xcaptcha"
 	"xcore/common/xconfig/interf"
+	"xcore/common/xcron"
 	"xcore/common/xlogger"
 	"xcore/common/xvalidate"
 )
@@ -26,4 +27,6 @@ var (
 	Auth *xauth.Auth
 
 	Validator xvalidate.IValidator
+
+	XCron xcron.IXCron
 )

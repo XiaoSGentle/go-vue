@@ -168,7 +168,7 @@ export function fetchGetUserList(params?: Api.SystemManage.UserSearchParams) {
 
 export function deleteUserByIds(param: (string | number)[]) {
   return request<Api.BaseCurd.SuccessNoDataResponse>({
-    url: '/api/system/user',
+    url: '/system/user',
     method: 'delete',
     data: { ids: param }
   });

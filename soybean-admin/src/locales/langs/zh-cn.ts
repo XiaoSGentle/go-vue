@@ -433,6 +433,7 @@ const local: App.I18n.Schema = {
         code: '字典标识',
         desc: '字典描述',
         status: '字典状态',
+        copy: '复制',
         form: {
           add: '新增字典类型',
           edit: '编辑字典类型',
