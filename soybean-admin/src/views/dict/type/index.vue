@@ -1,5 +1,5 @@
 <script lang="tsx" setup>
-import { NButton, NCard, NDataTable, NPopconfirm, NTag } from 'naive-ui';
+import { NButton, NCard, NDataTable, NPopconfirm, NSpace, NTag } from 'naive-ui';
 import dayjs from 'dayjs';
 
 import { useClipboard } from '@vueuse/core';

@@ -51,6 +51,35 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'code-gen',
+    path: '/code-gen',
+    component: 'layout.base',
+    meta: {
+      title: 'code-gen',
+      i18nKey: 'route.code-gen'
+    },
+    children: [
+      {
+        name: 'code-gen_column',
+        path: '/code-gen/column/:name',
+        component: 'view.code-gen_column',
+        meta: {
+          title: 'code-gen_column',
+          i18nKey: 'route.code-gen_column'
+        }
+      },
+      {
+        name: 'code-gen_table',
+        path: '/code-gen/table',
+        component: 'view.code-gen_table',
+        meta: {
+          title: 'code-gen_table',
+          i18nKey: 'route.code-gen_table'
+        }
+      }
+    ]
+  },
+  {
     name: 'dict',
     path: '/dict',
     component: 'layout.base',

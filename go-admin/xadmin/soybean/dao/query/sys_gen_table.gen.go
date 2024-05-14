@@ -27,16 +27,16 @@ func newSysGenTable(db *gorm.DB, opts ...gen.DOOption) sysGenTable {
 
 	tableName := _sysGenTable.sysGenTableDo.TableName()
 	_sysGenTable.ALL = field.NewAsterisk(tableName)
-	_sysGenTable.UID = field.NewString(tableName, "uid")
+	_sysGenTable.ID = field.NewInt32(tableName, "id")
 	_sysGenTable.TableName_ = field.NewString(tableName, "table_name")
 	_sysGenTable.TableComment = field.NewString(tableName, "table_comment")
 	_sysGenTable.AuthorName = field.NewString(tableName, "author_name")
-	_sysGenTable.LowUpName = field.NewString(tableName, "low_up_name")
-	_sysGenTable.UpUpName = field.NewString(tableName, "up_up_name")
+	_sysGenTable.UpperCamelCase = field.NewString(tableName, "upper_camel_case")
+	_sysGenTable.LowerCamelCase = field.NewString(tableName, "lower_camel_case")
 	_sysGenTable.RelativePath = field.NewString(tableName, "relative_path")
-	_sysGenTable.IsCheckToken = field.NewInt32(tableName, "is_check_token")
-	_sysGenTable.IsCheckAuth = field.NewInt32(tableName, "is_check_auth")
-	_sysGenTable.IsCreateLog = field.NewInt32(tableName, "is_create_log")
+	_sysGenTable.CheckToken = field.NewString(tableName, "check_token")
+	_sysGenTable.CheckAuth = field.NewString(tableName, "check_auth")
+	_sysGenTable.AddLog = field.NewString(tableName, "add_log")
 	_sysGenTable.Remarks = field.NewString(tableName, "remarks")
 	_sysGenTable.Version = field.NewInt32(tableName, "version")
 	_sysGenTable.CreateUID = field.NewInt32(tableName, "create_uid")
@@ -44,7 +44,7 @@ func newSysGenTable(db *gorm.DB, opts ...gen.DOOption) sysGenTable {
 	_sysGenTable.CreateTime = field.NewTime(tableName, "create_time")
 	_sysGenTable.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysGenTable.UpdateUID = field.NewInt32(tableName, "update_uid")
-	_sysGenTable.SoftDeleteTag = field.NewInt32(tableName, "soft_delete_tag")
+	_sysGenTable.DeleteTag = field.NewString(tableName, "delete_tag")
 	_sysGenTable.UpdateBy = field.NewString(tableName, "update_by")
 
 	_sysGenTable.fillFieldMap()
@@ -55,26 +55,26 @@ func newSysGenTable(db *gorm.DB, opts ...gen.DOOption) sysGenTable {
 type sysGenTable struct {
 	sysGenTableDo
 
-	ALL           field.Asterisk
-	UID           field.String // 主键
-	TableName_    field.String // 表名称
-	TableComment  field.String // 表描述
-	AuthorName    field.String // 作者的名称
-	LowUpName     field.String // 实体的名称
-	UpUpName      field.String // 生成模块名
-	RelativePath  field.String // 相对路径
-	IsCheckToken  field.Int32  // 需要检测是否有Token
-	IsCheckAuth   field.Int32  // 是否鉴权
-	IsCreateLog   field.Int32  // 是否创建日志
-	Remarks       field.String // 备注信息
-	Version       field.Int32  // 乐观锁
-	CreateUID     field.Int32  // 创建者uid
-	CreateBy      field.String // 创建者
-	CreateTime    field.Time   // 创建时间
-	UpdateTime    field.Time   // 更新时间
-	UpdateUID     field.Int32  // 更新者uid
-	SoftDeleteTag field.Int32  // 软删除标记
-	UpdateBy      field.String // 更新者
+	ALL            field.Asterisk
+	ID             field.Int32  // 主键
+	TableName_     field.String // 表名称
+	TableComment   field.String // 表描述
+	AuthorName     field.String // 作者的名称
+	UpperCamelCase field.String // 实体的名称
+	LowerCamelCase field.String // 生成模块名
+	RelativePath   field.String // 相对路径
+	CheckToken     field.String // 需要检测是否有Token
+	CheckAuth      field.String // 是否鉴权
+	AddLog         field.String // 是否创建日志
+	Remarks        field.String // 备注信息
+	Version        field.Int32  // 乐观锁
+	CreateUID      field.Int32  // 创建者uid
+	CreateBy       field.String // 创建者
+	CreateTime     field.Time   // 创建时间
+	UpdateTime     field.Time   // 更新时间
+	UpdateUID      field.Int32  // 更新者uid
+	DeleteTag      field.String // 软删除标记
+	UpdateBy       field.String // 更新者
 
 	fieldMap map[string]field.Expr
 }
@@ -91,16 +91,16 @@ func (s sysGenTable) As(alias string) *sysGenTable {
 
 func (s *sysGenTable) updateTableName(table string) *sysGenTable {
 	s.ALL = field.NewAsterisk(table)
-	s.UID = field.NewString(table, "uid")
+	s.ID = field.NewInt32(table, "id")
 	s.TableName_ = field.NewString(table, "table_name")
 	s.TableComment = field.NewString(table, "table_comment")
 	s.AuthorName = field.NewString(table, "author_name")
-	s.LowUpName = field.NewString(table, "low_up_name")
-	s.UpUpName = field.NewString(table, "up_up_name")
+	s.UpperCamelCase = field.NewString(table, "upper_camel_case")
+	s.LowerCamelCase = field.NewString(table, "lower_camel_case")
 	s.RelativePath = field.NewString(table, "relative_path")
-	s.IsCheckToken = field.NewInt32(table, "is_check_token")
-	s.IsCheckAuth = field.NewInt32(table, "is_check_auth")
-	s.IsCreateLog = field.NewInt32(table, "is_create_log")
+	s.CheckToken = field.NewString(table, "check_token")
+	s.CheckAuth = field.NewString(table, "check_auth")
+	s.AddLog = field.NewString(table, "add_log")
 	s.Remarks = field.NewString(table, "remarks")
 	s.Version = field.NewInt32(table, "version")
 	s.CreateUID = field.NewInt32(table, "create_uid")
@@ -108,7 +108,7 @@ func (s *sysGenTable) updateTableName(table string) *sysGenTable {
 	s.CreateTime = field.NewTime(table, "create_time")
 	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
-	s.SoftDeleteTag = field.NewInt32(table, "soft_delete_tag")
+	s.DeleteTag = field.NewString(table, "delete_tag")
 	s.UpdateBy = field.NewString(table, "update_by")
 
 	s.fillFieldMap()
@@ -127,16 +127,16 @@ func (s *sysGenTable) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 
 func (s *sysGenTable) fillFieldMap() {
 	s.fieldMap = make(map[string]field.Expr, 19)
-	s.fieldMap["uid"] = s.UID
+	s.fieldMap["id"] = s.ID
 	s.fieldMap["table_name"] = s.TableName_
 	s.fieldMap["table_comment"] = s.TableComment
 	s.fieldMap["author_name"] = s.AuthorName
-	s.fieldMap["low_up_name"] = s.LowUpName
-	s.fieldMap["up_up_name"] = s.UpUpName
+	s.fieldMap["upper_camel_case"] = s.UpperCamelCase
+	s.fieldMap["lower_camel_case"] = s.LowerCamelCase
 	s.fieldMap["relative_path"] = s.RelativePath
-	s.fieldMap["is_check_token"] = s.IsCheckToken
-	s.fieldMap["is_check_auth"] = s.IsCheckAuth
-	s.fieldMap["is_create_log"] = s.IsCreateLog
+	s.fieldMap["check_token"] = s.CheckToken
+	s.fieldMap["check_auth"] = s.CheckAuth
+	s.fieldMap["add_log"] = s.AddLog
 	s.fieldMap["remarks"] = s.Remarks
 	s.fieldMap["version"] = s.Version
 	s.fieldMap["create_uid"] = s.CreateUID
@@ -144,7 +144,7 @@ func (s *sysGenTable) fillFieldMap() {
 	s.fieldMap["create_time"] = s.CreateTime
 	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_uid"] = s.UpdateUID
-	s.fieldMap["soft_delete_tag"] = s.SoftDeleteTag
+	s.fieldMap["delete_tag"] = s.DeleteTag
 	s.fieldMap["update_by"] = s.UpdateBy
 }
 

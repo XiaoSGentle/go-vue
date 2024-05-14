@@ -343,4 +343,63 @@ declare namespace Api {
       createData: string;
     };
   }
+  namespace CodeGen {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+
+    type TableInfoType = Common.CommonRecord<{
+      tableName: string;
+      tableComment: string;
+      authorName: string;
+      upperCamelCase: string;
+      lowerCamelCase: number;
+      relativePath: string;
+      checkToken: Common.EnableStatus;
+      checkAuth: Common.EnableStatus;
+      addLog: Common.EnableStatus;
+      remarks: string;
+    }>;
+
+    type AddOrUpdateTableInfoDataParams = Pick<
+      TableInfoType,
+      'authorName' | 'checkToken' | 'checkAuth' | 'addLog' | 'remarks' | 'relativePath' | 'tableName'
+    >;
+
+    type TableInfoList = Common.PaginatingQueryRecord<TableInfoType>;
+
+    // 列相关
+    type TableColumnSearchParams = CommonType.RecordNullable<
+      CommonSearchParams & Pick<TableColumnInfoType, 'tableName'>
+    >;
+    type TableColumnInfoType = Common.CommonRecord<{
+      baseColumn: Common.EnableStatus;
+      comment: string;
+      dictType: string;
+      goType: string;
+      htmlType: string;
+      isQuery: Common.EnableStatus;
+      length: string;
+      queryType: string;
+      required: Common.EnableStatus;
+      snakeCase: string;
+      sort: number;
+      tableName: string;
+      tsType: string;
+    }>;
+
+    type TableColumnInfoList = Common.PaginatingQueryRecord<TableColumnInfoType>;
+
+    type AddOrUpdateTableColumnsInfoDataParams = Pick<
+      TableColumnInfoType,
+      | 'snakeCase'
+      | 'comment'
+      | 'dictType'
+      | 'goType'
+      | 'htmlType'
+      | 'isQuery'
+      | 'queryType'
+      | 'required'
+      | 'sort'
+      | 'tsType'
+    >;
+  }
 }

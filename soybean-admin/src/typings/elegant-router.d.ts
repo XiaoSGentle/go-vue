@@ -33,6 +33,9 @@ declare module "@elegant-router/types" {
     "404": "/404";
     "500": "/500";
     "about": "/about";
+    "code-gen": "/code-gen";
+    "code-gen_column": "/code-gen/column/:name";
+    "code-gen_table": "/code-gen/table";
     "dict": "/dict";
     "dict_data": "/dict/data/:code";
     "dict_type": "/dict/type";
@@ -108,6 +111,7 @@ declare module "@elegant-router/types" {
     | "404"
     | "500"
     | "about"
+    | "code-gen"
     | "dict"
     | "function"
     | "home"
@@ -141,6 +145,8 @@ declare module "@elegant-router/types" {
     | "iframe-page"
     | "login"
     | "about"
+    | "code-gen_column"
+    | "code-gen_table"
     | "dict_data"
     | "dict_type"
     | "function_hide-child_one"

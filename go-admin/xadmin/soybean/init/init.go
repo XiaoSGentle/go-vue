@@ -67,10 +67,13 @@ func InitCron() xcron.IXCron {
 	println("init Cron...")
 	xCorn := xcron.NewXCorn(Test{})
 	cronQuery := query.Use(xvariable.GormDB).SysCron
+	// 扫描一个结构体下所有的函数
 	keys, functions := xCorn.ScannerFunctions()
+	// 先删除数据库中有但是代码中不存在的
 	_, _ = cronQuery.WithContext(context.Background()).Where(cronQuery.Key.NotIn(keys...)).Delete()
 	find, _ := cronQuery.Select(cronQuery.Key).Find()
 	keysInSql := extractKeys(find)
+	// 写入数据库
 	for _, function := range functions {
 		if !xslice.StringExist(keysInSql, function.Key) {
 			_ = cronQuery.Create(&model.SysCron{
@@ -82,19 +85,22 @@ func InitCron() xcron.IXCron {
 			})
 		}
 	}
+	// 设置从数据库添加定时任务的数据
 	xCorn.SetCronRule(func(cron *cron.Cron) {
 		cronInSql, _ := cronQuery.Find()
 		for _, sysCron := range cronInSql {
-			_ = cron.AddFunc(sysCron.Schedule, func() {
-				var interfaceSlice []interface{}
-				for _, arg := range strings.Split(sysCron.Arguments, ",") {
-					interfaceSlice = append(interfaceSlice, arg)
-				}
-				xCorn.CallMethodsOnValue(sysCron.Key, interfaceSlice...)
-			})
+			if sysCron.Status == "1" {
+				_ = cron.AddFunc(sysCron.Schedule, func() {
+					var interfaceSlice []interface{}
+					for _, arg := range strings.Split(sysCron.Arguments, ",") {
+						interfaceSlice = append(interfaceSlice, arg)
+					}
+					xCorn.CallMethodsOnValue(sysCron.Key, interfaceSlice...)
+				})
+			}
 		}
 	})
-
+	// 启动定时任务
 	xCorn.StartCorn()
 	println("init Cron Success!")
 	return xCorn

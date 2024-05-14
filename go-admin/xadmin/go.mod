@@ -3,7 +3,9 @@ module xadmin
 go 1.22
 
 require (
+	github.com/duke-git/lancet/v2 v2.3.0
 	github.com/gin-gonic/gin v1.9.1
+	github.com/robfig/cron v1.2.0
 	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f
 	golang.org/x/net v0.24.0
 	gorm.io/gen v0.3.26

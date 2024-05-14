@@ -3,6 +3,7 @@ package xgorm
 import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"xcore/common/xtype/xstring"
 )
 
 type OperationType string
@@ -34,42 +35,42 @@ func (q *QueryHelper) SpliceQueryIfExit(c *gin.Context, queryType QueryType) *go
 		switch method {
 		case EQ:
 			if query, b := c.GetQuery(key); b {
-				q.db = q.db.Where(key+" = ?", query)
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" = ?", query)
 			}
 			break
 		case NEQ:
 			if query, b := c.GetQuery(key); b {
-				q.db = q.db.Where(key+" <> ?", query)
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" <> ?", query)
 			}
 			break
 		case LIKE:
 			if query, b := c.GetQuery(key); b {
-				q.db = q.db.Where(key+" LIKE ?", "%"+query+"%")
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" LIKE ?", "%"+query+"%")
 			}
 			break
 		case LESS:
 			if query, b := c.GetQuery(key); b {
-				q.db = q.db.Where(key+" < ?", query)
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" < ?", query)
 			}
 			break
 		case LESS_EQ:
 			if query, b := c.GetQuery(key); b {
-				q.db = q.db.Where(key+" <= ?", query)
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" <= ?", query)
 			}
 			break
 		case MORE:
 			if query, b := c.GetQuery(key); b {
-				q.db = q.db.Where(key+" > ?", query)
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" > ?", query)
 			}
 			break
 		case MORE_EQ:
 			if query, b := c.GetQuery(key); b {
-				q.db = q.db.Where(key+" >= ?", query)
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" >= ?", query)
 			}
 			break
 		case BETWEEN:
 			if query, b := c.GetQueryArray(key); b && len(query) == 2 {
-				q.db = q.db.Where(key+" BETWEEN ? AND ?", query[0], query[1])
+				q.db = q.db.Where(xstring.LowerCamelCaseToSnake(key)+" BETWEEN ? AND ?", query[0], query[1])
 			}
 			break
 		}

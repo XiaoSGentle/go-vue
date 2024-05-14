@@ -8,7 +8,7 @@ const TableNameSysCron = "sys_cron"
 
 // SysCron mapped from table <sys_cron>
 type SysCron struct {
-	Key         string `gorm:"column:key;type:varchar(255);comment:唯一键值" json:"key"`                      // 唯一键值
+	Key         string `gorm:"column:key;type:varchar(255);primaryKey;comment:唯一键值" json:"key"`           // 唯一键值
 	Description string `gorm:"column:description;type:varchar(255);comment:描述" json:"description"`        // 描述
 	Schedule    string `gorm:"column:schedule;type:varchar(255);comment:cron表达式" json:"schedule"`         // cron表达式
 	Status      string `gorm:"column:status;type:varchar(1);not null;default:1;comment:状态" json:"status"` // 状态

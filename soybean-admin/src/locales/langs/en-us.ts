@@ -176,7 +176,10 @@ const local: App.I18n.Schema = {
     logger_file: 'Log Download',
     dict: 'Dict Manage',
     dict_type: 'Dict Type',
-    dict_data: 'Dict Data'
+    dict_data: 'Dict Data',
+    'code-gen': 'Code Gen',
+    'code-gen_column': 'Table Columns',
+    'code-gen_table': 'Code Gen'
   },
   page: {
     login: {
@@ -460,7 +463,100 @@ const local: App.I18n.Schema = {
           status: 'Please select the dictionary content status'
         }
       }
+    },
+    gen: {
+      type: {
+        tableTitle: 'Generate Table Information',
+        relativePath: 'API Base Path',
+        remarks: 'Description',
+        tableComment: 'Table Comment',
+        tableName: 'Table Name',
+        addLog: 'Log Middleware',
+        authorName: 'Author Name',
+        checkAuth: 'Authorization Middleware',
+        checkToken: 'Authentication Middleware',
+        form: {
+          add: 'Generate Table',
+          edit: 'Edit Table Information',
+          relativePath: 'Please enter API base path',
+          remarks: 'Please enter description',
+          tableComment: 'Please enter table comment',
+          tableName: 'Please enter table name',
+          addLog: 'Please select if log middleware is used',
+          authorName: 'Please enter author name',
+          checkAuth: 'Please select if authorization middleware is used',
+          checkToken: 'Please select if authentication middleware is used'
+        }
+      },
+      columnType: {
+        tableTitle: '{tableName} Column Details',
+        baseColumn: 'Base Column',
+        comment: 'Description',
+        dictType: 'Dictionary Type',
+        goType: 'Go Type',
+        htmlType: 'HTML Component Type',
+        isQuery: 'Query Attribute',
+        length: 'Field Length',
+        queryType: 'Query Type',
+        required: 'Required Parameter',
+        snakeCase: 'Field Name',
+        sort: 'Sorting',
+        tableName: 'Table Name',
+        tsType: 'TypeScript Type',
+        form: {
+          add: 'Add Column',
+          edit: 'Edit Column Attributes',
+          baseColumn: 'Immutable',
+          comment: 'Please enter a comment',
+          dictType: 'Please select a dictionary',
+          goType: 'Please select a Go type',
+          htmlType: 'Please select a frontend component type',
+          isQuery: "Please select if it's a query parameter",
+          length: 'Immutable',
+          queryType: 'Please enter a query type',
+          required: "Please select if it's a required field",
+          snakeCase: 'Immutable',
+          sort: 'Please select a sorting',
+          tableName: 'Immutable',
+          tsType: 'Please select a TypeScript type'
+        }
+      }
     }
+    // cron: {
+    //   type: {
+    //     tableTitle: '',
+    //     baseColumn: '',
+    //     comment: '',
+    //     dictType: '',
+    //     goType: '',
+    //     htmlType: '',
+    //     isQuery: '',
+    //     length: '',
+    //     queryType: '',
+    //     required: '',
+    //     snakeCase: '',
+    //     sort: 'number',
+    //     tableName: '',
+    //     tsType: '',
+    //     form: {
+    //       add: '',
+    //       edit: '',
+    //       baseColumn: '',
+    //       comment: '',
+    //       dictType: '',
+    //       goType: '',
+    //       htmlType: '',
+    //       isQuery: '',
+    //       length: '',
+    //       queryType: '',
+    //       required: '',
+    //       snakeCase: '',
+    //       sort: 'number',
+    //       tableName: '',
+    //       tsType: ''
+    //     }
+    //   }
+    // }
   },
   form: {
     required: 'Cannot be empty',

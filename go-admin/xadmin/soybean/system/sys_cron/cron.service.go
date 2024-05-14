@@ -6,8 +6,10 @@ import (
 	"strings"
 	"xadmin/soybean/dao/model"
 	"xadmin/soybean/dao/query"
+	"xcore/common/xerror"
 	"xcore/common/xgorm"
 	"xcore/common/xtype/xbase"
+	"xcore/core/xvariable"
 )
 
 type ISysCronService interface {
@@ -43,7 +45,10 @@ func (s SysCronService) FindCronList(c *gin.Context, param *xbase.PageParam) (re
 
 func (s SysCronService) UpdateCron(c *gin.Context, cron *UpdateCronReq) (err error) {
 	cronQuery := query.Use(s.db).SysCron
-
+	cronInSql, err := cronQuery.WithContext(c).Where(cronQuery.Key.Eq(cron.Key)).First()
+	if err != nil {
+		return xerror.NewErrCode(xerror.CURD_DATA_EXIST_ERROR)
+	}
 	updates, err := cronQuery.WithContext(c).Where(cronQuery.Key.Eq(cron.Key)).Updates(model.SysCron{
 		Key:         cron.Key,
 		Description: cron.Description,
@@ -54,8 +59,12 @@ func (s SysCronService) UpdateCron(c *gin.Context, cron *UpdateCronReq) (err err
 	if err != nil {
 		return err
 	}
+
 	if updates.Error != nil {
 		return updates.Error
+	}
+	if cronInSql.Schedule != cron.Schedule || cronInSql.Arguments != strings.Join(cron.Arguments, ",") {
+		xvariable.XCron.ReStartCorn()
 	}
 	return
 }

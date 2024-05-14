@@ -629,6 +629,101 @@ declare namespace App {
             };
           };
         };
+        gen: {
+          type: {
+            tableTitle: string;
+
+            relativePath: string;
+            remarks: string;
+            tableComment: string;
+            tableName: string;
+            addLog: string;
+            authorName: string;
+            checkAuth: string;
+            checkToken: string;
+            form: {
+              add: string;
+              edit: string;
+
+              relativePath: string;
+              remarks: string;
+              tableComment: string;
+              tableName: string;
+              addLog: string;
+              authorName: string;
+              checkAuth: string;
+              checkToken: string;
+            };
+          };
+          columnType: {
+            tableTitle: string;
+            baseColumn: string;
+            comment: string;
+            dictType: string;
+            goType: string;
+            htmlType: string;
+            isQuery: string;
+            length: string;
+            queryType: string;
+            required: string;
+            snakeCase: string;
+            sort: string;
+            tableName: string;
+            tsType: string;
+            form: {
+              add: string;
+              edit: string;
+              baseColumn: string;
+              comment: string;
+              dictType: string;
+              goType: string;
+              htmlType: string;
+              isQuery: string;
+              length: string;
+              queryType: string;
+              required: string;
+              snakeCase: string;
+              sort: string;
+              tableName: string;
+              tsType: string;
+            };
+          };
+        };
+        // cron: {
+        //   type: {
+        //     tableTitle: string;
+        //     baseColumn: string;
+        //     comment: string;
+        //     dictType: string;
+        //     goType: string;
+        //     htmlType: string;
+        //     isQuery: string;
+        //     length: string;
+        //     queryType: string;
+        //     required: string;
+        //     snakeCase: string;
+        //     sort: string;
+        //     tableName: string;
+        //     tsType: string;
+        //     form: {
+        //       add: string;
+        //       edit: string;
+        //       baseColumn: string;
+        //       comment: string;
+        //       dictType: string;
+        //       goType: string;
+        //       htmlType: string;
+        //       isQuery: string;
+        //       length: string;
+        //       queryType: string;
+        //       required: string;
+        //       snakeCase: string;
+        //       sort: string;
+        //       tableName: string;
+        //       tsType: string;
+        //     };
+        //   };
+        // };
       };
       form: {
         required: string;

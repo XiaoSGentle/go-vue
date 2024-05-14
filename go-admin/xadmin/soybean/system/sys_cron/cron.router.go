@@ -71,6 +71,6 @@ func (h Handler) UpdateCron(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	xvariable.XCron.ReStartCorn()
+
 	xresponse.UpdateSuccessCtx(c)
 }

@@ -27,20 +27,18 @@ func newSysGenTableColumn(db *gorm.DB, opts ...gen.DOOption) sysGenTableColumn {
 
 	tableName := _sysGenTableColumn.sysGenTableColumnDo.TableName()
 	_sysGenTableColumn.ALL = field.NewAsterisk(tableName)
-	_sysGenTableColumn.UID = field.NewString(tableName, "uid")
-	_sysGenTableColumn.TableID = field.NewString(tableName, "table_id")
-	_sysGenTableColumn.ColumnUpUpName = field.NewString(tableName, "column_up_up_name")
-	_sysGenTableColumn.ColumnLowUpName = field.NewString(tableName, "column_low_up_name")
-	_sysGenTableColumn.ColumnName = field.NewString(tableName, "column_name")
-	_sysGenTableColumn.ColumnComment = field.NewString(tableName, "column_comment")
-	_sysGenTableColumn.ColumnLength = field.NewString(tableName, "column_length")
-	_sysGenTableColumn.ColumnType = field.NewString(tableName, "column_type")
-	_sysGenTableColumn.ColumnTsType = field.NewString(tableName, "column_ts_type")
-	_sysGenTableColumn.IsRequired = field.NewInt32(tableName, "is_required")
-	_sysGenTableColumn.IsBase = field.NewInt32(tableName, "is_base")
-	_sysGenTableColumn.IsEdit = field.NewInt32(tableName, "is_edit")
-	_sysGenTableColumn.IsList = field.NewInt32(tableName, "is_list")
-	_sysGenTableColumn.IsQuery = field.NewInt32(tableName, "is_query")
+	_sysGenTableColumn.ID = field.NewInt32(tableName, "id")
+	_sysGenTableColumn.TableName_ = field.NewString(tableName, "table_name")
+	_sysGenTableColumn.UpperCamelCase = field.NewString(tableName, "upper_camel_case")
+	_sysGenTableColumn.LowerCamelCase = field.NewString(tableName, "lower_camel_case")
+	_sysGenTableColumn.SnakeCase = field.NewString(tableName, "snake_case")
+	_sysGenTableColumn.Comment = field.NewString(tableName, "comment")
+	_sysGenTableColumn.Length = field.NewString(tableName, "length")
+	_sysGenTableColumn.GoType = field.NewString(tableName, "go_type")
+	_sysGenTableColumn.TsType = field.NewString(tableName, "ts_type")
+	_sysGenTableColumn.Required = field.NewString(tableName, "required")
+	_sysGenTableColumn.BaseColumn = field.NewString(tableName, "base_column")
+	_sysGenTableColumn.IsQuery = field.NewString(tableName, "is_query")
 	_sysGenTableColumn.QueryType = field.NewString(tableName, "query_type")
 	_sysGenTableColumn.HTMLType = field.NewString(tableName, "html_type")
 	_sysGenTableColumn.DictType = field.NewString(tableName, "dict_type")
@@ -51,7 +49,7 @@ func newSysGenTableColumn(db *gorm.DB, opts ...gen.DOOption) sysGenTableColumn {
 	_sysGenTableColumn.CreateTime = field.NewTime(tableName, "create_time")
 	_sysGenTableColumn.UpdateTime = field.NewTime(tableName, "update_time")
 	_sysGenTableColumn.UpdateUID = field.NewInt32(tableName, "update_uid")
-	_sysGenTableColumn.SoftDeleteTag = field.NewInt32(tableName, "soft_delete_tag")
+	_sysGenTableColumn.DeleteTag = field.NewString(tableName, "delete_tag")
 	_sysGenTableColumn.UpdateBy = field.NewString(tableName, "update_by")
 
 	_sysGenTableColumn.fillFieldMap()
@@ -62,33 +60,31 @@ func newSysGenTableColumn(db *gorm.DB, opts ...gen.DOOption) sysGenTableColumn {
 type sysGenTableColumn struct {
 	sysGenTableColumnDo
 
-	ALL             field.Asterisk
-	UID             field.String // 软删除编辑
-	TableID         field.String // 表ID
-	ColumnUpUpName  field.String // 字段upup
-	ColumnLowUpName field.String // 字段lowup
-	ColumnName      field.String // 字段名
-	ColumnComment   field.String // 列描述
-	ColumnLength    field.String // 列长度
-	ColumnType      field.String // go类型
-	ColumnTsType    field.String // ts类型
-	IsRequired      field.Int32  // 是否必填: [1=是, 0=否]
-	IsBase          field.Int32  // 是否基础字段
-	IsEdit          field.Int32  // 是否编辑字段: [1=是, 0=否]
-	IsList          field.Int32  // 是否列表字段: [1=是, 0=否]
-	IsQuery         field.Int32  // 是否查询字段: [1=是, 0=否]
-	QueryType       field.String // 查询方式: [等于、不等于、大于、小于、范围]
-	HTMLType        field.String // 显示类型: [文本框、文本域、下拉框、复选框、单选框、日期控件]
-	DictType        field.String // 字典类型
-	Sort            field.Int32  // 排序编号
-	Version         field.Int32  // 乐观锁
-	CreateUID       field.Int32  // 创建者uid
-	CreateBy        field.String // 创建者
-	CreateTime      field.Time   // 创建时间
-	UpdateTime      field.Time   // 更新时间
-	UpdateUID       field.Int32  // 更新者uid
-	SoftDeleteTag   field.Int32  // 软删除标记
-	UpdateBy        field.String // 更新者
+	ALL            field.Asterisk
+	ID             field.Int32  // 主键
+	TableName_     field.String // 表名称
+	UpperCamelCase field.String // 字段upup
+	LowerCamelCase field.String
+	SnakeCase      field.String // 字段名
+	Comment        field.String // 列描述
+	Length         field.String // 列长度
+	GoType         field.String // go类型
+	TsType         field.String // ts类型
+	Required       field.String // 是否必填: [1=是, 0=否]
+	BaseColumn     field.String // 基础字段
+	IsQuery        field.String // 是否查询字段: [1=是, 0=否]
+	QueryType      field.String // 查询方式: [等于、不等于、大于、小于、范围]
+	HTMLType       field.String // 显示类型: [文本框、文本域、下拉框、复选框、单选框、日期控件]
+	DictType       field.String // 字典类型
+	Sort           field.Int32  // 排序编号
+	Version        field.Int32  // 乐观锁
+	CreateUID      field.Int32  // 创建者uid
+	CreateBy       field.String // 创建者
+	CreateTime     field.Time   // 创建时间
+	UpdateTime     field.Time   // 更新时间
+	UpdateUID      field.Int32  // 更新者uid
+	DeleteTag      field.String // 软删除标记
+	UpdateBy       field.String // 更新者
 
 	fieldMap map[string]field.Expr
 }
@@ -105,20 +101,18 @@ func (s sysGenTableColumn) As(alias string) *sysGenTableColumn {
 
 func (s *sysGenTableColumn) updateTableName(table string) *sysGenTableColumn {
 	s.ALL = field.NewAsterisk(table)
-	s.UID = field.NewString(table, "uid")
-	s.TableID = field.NewString(table, "table_id")
-	s.ColumnUpUpName = field.NewString(table, "column_up_up_name")
-	s.ColumnLowUpName = field.NewString(table, "column_low_up_name")
-	s.ColumnName = field.NewString(table, "column_name")
-	s.ColumnComment = field.NewString(table, "column_comment")
-	s.ColumnLength = field.NewString(table, "column_length")
-	s.ColumnType = field.NewString(table, "column_type")
-	s.ColumnTsType = field.NewString(table, "column_ts_type")
-	s.IsRequired = field.NewInt32(table, "is_required")
-	s.IsBase = field.NewInt32(table, "is_base")
-	s.IsEdit = field.NewInt32(table, "is_edit")
-	s.IsList = field.NewInt32(table, "is_list")
-	s.IsQuery = field.NewInt32(table, "is_query")
+	s.ID = field.NewInt32(table, "id")
+	s.TableName_ = field.NewString(table, "table_name")
+	s.UpperCamelCase = field.NewString(table, "upper_camel_case")
+	s.LowerCamelCase = field.NewString(table, "lower_camel_case")
+	s.SnakeCase = field.NewString(table, "snake_case")
+	s.Comment = field.NewString(table, "comment")
+	s.Length = field.NewString(table, "length")
+	s.GoType = field.NewString(table, "go_type")
+	s.TsType = field.NewString(table, "ts_type")
+	s.Required = field.NewString(table, "required")
+	s.BaseColumn = field.NewString(table, "base_column")
+	s.IsQuery = field.NewString(table, "is_query")
 	s.QueryType = field.NewString(table, "query_type")
 	s.HTMLType = field.NewString(table, "html_type")
 	s.DictType = field.NewString(table, "dict_type")
@@ -129,7 +123,7 @@ func (s *sysGenTableColumn) updateTableName(table string) *sysGenTableColumn {
 	s.CreateTime = field.NewTime(table, "create_time")
 	s.UpdateTime = field.NewTime(table, "update_time")
 	s.UpdateUID = field.NewInt32(table, "update_uid")
-	s.SoftDeleteTag = field.NewInt32(table, "soft_delete_tag")
+	s.DeleteTag = field.NewString(table, "delete_tag")
 	s.UpdateBy = field.NewString(table, "update_by")
 
 	s.fillFieldMap()
@@ -147,20 +141,18 @@ func (s *sysGenTableColumn) GetFieldByName(fieldName string) (field.OrderExpr, b
 }
 
 func (s *sysGenTableColumn) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 26)
-	s.fieldMap["uid"] = s.UID
-	s.fieldMap["table_id"] = s.TableID
-	s.fieldMap["column_up_up_name"] = s.ColumnUpUpName
-	s.fieldMap["column_low_up_name"] = s.ColumnLowUpName
-	s.fieldMap["column_name"] = s.ColumnName
-	s.fieldMap["column_comment"] = s.ColumnComment
-	s.fieldMap["column_length"] = s.ColumnLength
-	s.fieldMap["column_type"] = s.ColumnType
-	s.fieldMap["column_ts_type"] = s.ColumnTsType
-	s.fieldMap["is_required"] = s.IsRequired
-	s.fieldMap["is_base"] = s.IsBase
-	s.fieldMap["is_edit"] = s.IsEdit
-	s.fieldMap["is_list"] = s.IsList
+	s.fieldMap = make(map[string]field.Expr, 24)
+	s.fieldMap["id"] = s.ID
+	s.fieldMap["table_name"] = s.TableName_
+	s.fieldMap["upper_camel_case"] = s.UpperCamelCase
+	s.fieldMap["lower_camel_case"] = s.LowerCamelCase
+	s.fieldMap["snake_case"] = s.SnakeCase
+	s.fieldMap["comment"] = s.Comment
+	s.fieldMap["length"] = s.Length
+	s.fieldMap["go_type"] = s.GoType
+	s.fieldMap["ts_type"] = s.TsType
+	s.fieldMap["required"] = s.Required
+	s.fieldMap["base_column"] = s.BaseColumn
 	s.fieldMap["is_query"] = s.IsQuery
 	s.fieldMap["query_type"] = s.QueryType
 	s.fieldMap["html_type"] = s.HTMLType
@@ -172,7 +164,7 @@ func (s *sysGenTableColumn) fillFieldMap() {
 	s.fieldMap["create_time"] = s.CreateTime
 	s.fieldMap["update_time"] = s.UpdateTime
 	s.fieldMap["update_uid"] = s.UpdateUID
-	s.fieldMap["soft_delete_tag"] = s.SoftDeleteTag
+	s.fieldMap["delete_tag"] = s.DeleteTag
 	s.fieldMap["update_by"] = s.UpdateBy
 }
 

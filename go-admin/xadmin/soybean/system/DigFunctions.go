@@ -5,6 +5,7 @@ import (
 	"xadmin/soybean/system/sys_cron"
 	"xadmin/soybean/system/sys_department"
 	"xadmin/soybean/system/sys_dict"
+	"xadmin/soybean/system/sys_gen"
 	"xadmin/soybean/system/sys_log"
 	"xadmin/soybean/system/sys_menu"
 	"xadmin/soybean/system/sys_role"
@@ -33,6 +34,8 @@ var (
 		sys_log.NoLogLogGroup,
 		sys_department.SysDepartmentGroup,
 		sys_cron.SysCronGroup,
+		sys_gen.SysGenTableGroup,
+		sys_gen.SysGenColumGroup,
 	}
 	NewServiceFunctions = []interface{}{
 		sys_auth.NewAuthService,
@@ -42,5 +45,6 @@ var (
 		sys_dict.NewSysDictService,
 		sys_dict.NewSysDictDataService,
 		sys_role.NewSysRoleService,
+		sys_gen.NewSysGenService,
 	}
 )

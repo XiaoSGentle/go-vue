@@ -176,7 +176,10 @@ const local: App.I18n.Schema = {
     logger_file: '日志下载',
     dict: '字典管理',
     dict_type: '字典类型',
-    dict_data: '字典详情'
+    dict_data: '字典详情',
+    'code-gen': '代码生成',
+    'code-gen_column': '列详情',
+    'code-gen_table': '代码生成'
   },
   page: {
     login: {
@@ -458,6 +461,64 @@ const local: App.I18n.Schema = {
           enLabel: '请选择字典英文键',
           sort: '请选择字典内容排序',
           status: '请选择字典内容状态'
+        }
+      }
+    },
+    gen: {
+      type: {
+        tableTitle: '生成表信息',
+        relativePath: '接口基础地址',
+        remarks: '描述',
+        tableComment: '表备注',
+        tableName: '表名',
+        addLog: '日志中间件',
+        authorName: '作者名称',
+        checkAuth: '权限中间件',
+        checkToken: '认证中间件',
+        form: {
+          add: '生成表',
+          edit: '编辑表信息',
+          relativePath: '请输入接口基础地址',
+          remarks: '请输入接口基础地址',
+          tableComment: '请输入接口基础地址',
+          tableName: '请输入接口基础地址',
+          addLog: '请输选择是否使用日志中间件',
+          authorName: '请输入作者名称',
+          checkAuth: '请输选择是否使用权限中间件',
+          checkToken: '请输选择是否使用认证中间件'
+        }
+      },
+      columnType: {
+        tableTitle: '{tableName}列详情',
+        baseColumn: '基础字段',
+        comment: '描述',
+        dictType: '字典类型',
+        goType: 'Go类型',
+        htmlType: '组件类型',
+        isQuery: '查询属性',
+        length: '字段长度',
+        queryType: '查询类型',
+        required: '必须参数',
+        snakeCase: '字段名',
+        sort: '排序',
+        tableName: '表名',
+        tsType: 'Ts类型',
+        form: {
+          add: '添加列',
+          edit: '编辑列属性',
+          baseColumn: '不可变更',
+          comment: '请输入备注',
+          dictType: '请选择字典',
+          goType: '请选择Go类型',
+          htmlType: '请选择前端组件类型',
+          isQuery: '请选择是否查询参数',
+          length: '不可变更',
+          queryType: '请输入查询类型',
+          required: '请选择是否必填字段',
+          snakeCase: '不可变更',
+          sort: '请选择排序',
+          tableName: '不可变更',
+          tsType: '请选择Ts类型'
         }
       }
     }
