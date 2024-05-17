@@ -24,6 +24,7 @@ func regSysGenTableMangerRoute(rg *gin.RouterGroup, group *xcore.GroupBase) erro
 		rg.GET("/:id", handle.TableRoute.FindOneById)
 		rg.GET("/models", handle.GetTableList)
 		rg.POST("/gen", handle.GenTables)
+		rg.GET("/preview/:name", handle.GenPreView)
 		rg.POST("", handle.TableRoute.Create)
 		rg.PUT("/:id", handle.TableRoute.UpDateById)
 		rg.DELETE("", handle.TableRoute.DeleteByIds)
@@ -65,7 +66,7 @@ func (h Handler) GetTableList(c *gin.Context) {
 	}
 	var tableNames []string
 	for _, sqlTable := range tablesInSql {
-		if strings.HasPrefix(sqlTable, "sys_") {
+		if !strings.HasPrefix(sqlTable, "sys_") {
 			tableNames = append(tableNames, sqlTable)
 		}
 	}
@@ -107,4 +108,25 @@ func (h Handler) GetTableColumns(c *gin.Context) {
 		return
 	}
 	xresponse.SuccessCtx(c, columns)
+}
+
+func (h Handler) GenPreView(c *gin.Context) {
+	var param struct {
+		TableName string `uri:"name" zh_comment:"表名" en_comment:"table name" validate:"required"`
+	}
+	if err := c.ShouldBindUri(&param); err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	if err := xvariable.Validator.ValidateStruct(&param); err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+
+	preview, err := h.genService.CodePreview(c, param.TableName)
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	xresponse.SuccessCtx(c, preview)
 }

@@ -29,6 +29,8 @@ func init() {
 	message[CURD_DATA_NOT_EXIST_ERROR] = "数据不存在"
 
 	message[DICT_NOT_EXIST_ERROR] = "字典不存在"
+
+	message[GEN_NOT_EXIST_ERROR] = "要生成的表不存在"
 }
 
 func MapErrMsg(decode uint32) string {

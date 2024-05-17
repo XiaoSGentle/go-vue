@@ -10,6 +10,7 @@ import TableHeaderOperation from '@/components/advanced/table-header-operation.v
 import { useAppStore } from '@/store/modules/app';
 import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
+import SysDict from '@/components/custom/sys-dict.vue';
 import ColumnDataOperateDrawer from './modules/column-data-drawer.vue';
 interface Props {
   name: string;
@@ -35,21 +36,36 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
     {
       key: 'goType',
       title: $t('page.gen.columnType.goType'),
-      align: 'center'
+      width: 120,
+      align: 'center',
+      render: row => row.goType && <SysDict selectValue={row.goType} type="show" dictKey="SYS_GEN_GO_TYPE"></SysDict>
     },
     {
       key: 'tsType',
       title: $t('page.gen.columnType.tsType'),
-      align: 'center'
+      width: 120,
+      align: 'center',
+      render: row => row.tsType && <SysDict selectValue={row.tsType} type="show" dictKey="SYS_GEN_TS_TYPE"></SysDict>
     },
     {
       key: 'htmlType',
       title: $t('page.gen.columnType.htmlType'),
-      align: 'center'
+      width: 120,
+      align: 'center',
+      render: row =>
+        row.htmlType && <SysDict selectValue={row.htmlType} type="show" dictKey="SYS_GEN_HTML_TYPE"></SysDict>
+    },
+    {
+      key: 'isQuery',
+      width: 120,
+      title: $t('page.gen.columnType.isQuery'),
+      align: 'center',
+      render: row =>
+        row.queryType && <SysDict selectValue={row.queryType} type="show" dictKey="SYS_GEN_QUERY_TYPE"></SysDict>
     },
     {
       key: 'required',
-      width: 70,
+      width: 120,
       title: $t('page.gen.columnType.required'),
       align: 'center',
       render: row => {
@@ -66,9 +82,10 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
         return <NTag type={tagMap[row.required]}>{label}</NTag>;
       }
     },
+
     {
-      key: 'isQuery',
-      width: 70,
+      key: 'queryType',
+      width: 120,
       title: $t('page.gen.columnType.isQuery'),
       align: 'center',
       render: row => {
@@ -125,7 +142,6 @@ const {
   drawerVisible,
   operateType,
   editingData,
-
   handleEdit,
   checkedRowKeys
 
@@ -140,7 +156,7 @@ function edit(id: number) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <NCard
-      :title="$t('page.dict.data.tableTitle')"
+      :title="$t('page.gen.columnType.tableTitle', { tableName: thisTableName })"
       :bordered="false"
       size="small"
       class="sm:flex-1-hidden card-wrapper"
@@ -166,7 +182,7 @@ function edit(id: number) {
         :row-key="row => row.id"
         :pagination="mobilePagination"
         class="sm:h-full"
-      ></NDataTable>
+      />
       <ColumnDataOperateDrawer
         v-model:visible="drawerVisible"
         :operate-type="operateType"

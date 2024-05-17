@@ -33,8 +33,8 @@ const { defaultRequiredRule } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.dict.data.form.add'),
-    edit: $t('page.dict.data.form.edit')
+    add: $t('page.gen.columnType.form.add'),
+    edit: $t('page.gen.columnType.form.edit', { columnName: props.rowData?.comment })
   };
   return titles[props.operateType];
 });
@@ -58,10 +58,9 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = keyof Model & ('label' | 'value');
+type RuleKey = keyof Model & ('snakeCase' | 'value');
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  label: defaultRequiredRule,
-  value: defaultRequiredRule
+  snakeCase: defaultRequiredRule
 };
 
 function handleUpdateModelWhenEdit() {
@@ -86,8 +85,8 @@ async function handleSubmit() {
     const { error } = await updateTableColumnsById(props.rowData?.id, model);
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
-      closeDrawer();
       emit('submitted');
+      closeDrawer();
     }
   }
 }
@@ -104,29 +103,44 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" display-directive="show" :width="360">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.dict.data.label')" path="label">
-          <NInput v-model:value="model.snakeCase" :placeholder="$t('page.dict.data.form.label')" />
-        </NFormItem>
-        <NFormItem :label="$t('page.dict.data.value')" path="value">
-          <NInput v-model:value="model.comment" :placeholder="$t('page.dict.data.form.value')" />
+        <NFormItem :label="$t('page.dict.data.label')" path="snakeCase">
+          <NInput v-model:value="model.snakeCase" disabled :placeholder="$t('page.dict.data.form.label')" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.dict.data.enLabel')">
-          <NInput v-model:value="model.goType" :placeholder="$t('page.dict.data.form.enLabel')" />
+        <NFormItem :label="$t('page.gen.columnType.htmlType')">
+          <SysDict v-model:select-value="model.htmlType" dict-key="SYS_GEN_HTML_TYPE" />
+        </NFormItem>
+        <NFormItem :label="$t('page.gen.columnType.tsType')">
+          <SysDict v-model:select-value="model.tsType" dict-key="SYS_GEN_TS_TYPE" />
         </NFormItem>
 
-        <NFormItem :label="$t('page.dict.data.sort')">
+        <NFormItem :label="$t('page.gen.columnType.goType')">
+          <SysDict v-model:select-value="model.goType" dict-key="SYS_GEN_GO_TYPE" />
+        </NFormItem>
+        <NFormItem :label="$t('page.gen.columnType.queryType')">
+          <SysDict v-model:select-value="model.queryType" dict-key="SYS_GEN_QUERY_TYPE" />
+        </NFormItem>
+        <NFormItem :label="$t('page.gen.columnType.sort')">
           <NInputNumber
             v-model:value="model.sort"
             button-placement="right"
             class="w-full"
-            :placeholder="$t('page.dict.data.form.sort')"
+            :placeholder="$t('page.gen.columnType.form.sort')"
           />
         </NFormItem>
-        <NFormItem :label="$t('page.dict.data.status')">
-          <NRadioGroup v-model:value="model.goType">
+        <NFormItem :label="$t('page.gen.columnType.required')">
+          <NRadioGroup v-model:value="model.required">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
+        </NFormItem>
+
+        <NFormItem :label="$t('page.gen.columnType.isQuery')">
+          <NRadioGroup v-model:value="model.isQuery">
+            <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
+          </NRadioGroup>
+        </NFormItem>
+        <NFormItem :label="$t('page.gen.columnType.comment')">
+          <NInput v-model:value="model.comment" type="textarea" />
         </NFormItem>
       </NForm>
       <template #footer>

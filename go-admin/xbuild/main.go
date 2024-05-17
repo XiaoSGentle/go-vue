@@ -50,7 +50,10 @@ func main() {
 		zipFormat = ".tar"
 	}
 	split := strings.Split(GoBuildTargetFileName, ",")
-	zipFolder(".\\"+ApiVersion, split[0]+"_"+Platform+zipFormat)
+	err := zipFolder(".\\"+ApiVersion, split[0]+"_"+Platform+zipFormat)
+	if err != nil {
+		return
+	}
 }
 
 func buildFront() {

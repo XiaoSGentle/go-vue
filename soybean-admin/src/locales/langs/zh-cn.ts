@@ -505,7 +505,7 @@ const local: App.I18n.Schema = {
         tsType: 'Ts类型',
         form: {
           add: '添加列',
-          edit: '编辑列属性',
+          edit: '编辑{columnName}列属性',
           baseColumn: '不可变更',
           comment: '请输入备注',
           dictType: '请选择字典',

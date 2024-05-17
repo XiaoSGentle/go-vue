@@ -41,3 +41,7 @@ const CURD_DATA_NOT_EXIST_ERROR uint32 = 101010
 // 字典相关
 
 const DICT_NOT_EXIST_ERROR uint32 = 101200
+
+// 代码生曾相关
+
+const GEN_NOT_EXIST_ERROR uint32 = 101300

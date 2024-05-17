@@ -232,7 +232,12 @@ async function handleAddModelBtnClick() {
         :pagination="mobilePagination"
         class="sm:h-full"
       ></NDataTable>
-      <TableOperateDrawer v-model:visible="drawerVisible" :operate-type="operateType" :row-data="editingData" />
+      <TableOperateDrawer
+        v-model:visible="drawerVisible"
+        :operate-type="operateType"
+        :row-data="editingData"
+        @submitted="getData"
+      />
       <NDrawer v-model:show="addTableModelVis" display-directive="show" :width="300">
         <NDrawerContent :title="$t('page.gen.type.form.add')" closable>
           <NCheckboxGroup v-model:value="selectGenTables">
@@ -259,4 +264,3 @@ async function handleAddModelBtnClick() {
     </NCard>
   </div>
 </template>
-NSpace, import { useRouterPush } from '@/hooks/common/router';

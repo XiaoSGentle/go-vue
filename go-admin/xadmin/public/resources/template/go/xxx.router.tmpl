@@ -1,107 +1,44 @@
 {{ $Table := .Table -}}
 {{ $Columns := .Columns -}}
 
-package {{ $Table.TableName }}
+
+package sys_department
+
 import (
 	"github.com/gin-gonic/gin"
-	"xiaos-go/pkg/global/consts"
-	"xiaos-go/pkg/global/variable"
-	"xiaos-go/pkg/utils/response"
-	"xiaos-go/system/core/container"
-	"xiaos-go/system/middleware/authorization"
-	"xiaos-go/system/middleware/log"
+	"gorm.io/gorm"
+	"xadmin/soybean/dao/model"
+	"xcore/common/xgorm"
+	"xcore/core/xcore"
 )
 
-var {{ $Table.UpUpName }}Group = container.Group("{{ $Table.RelativePath }}", new{{ $Table.UpUpName }}Handler, reg{{ $Table.UpUpName }}, {{if or $Table.IsCheckAuth $Table.IsCreateLog}} author_middleware.CheckTokenAuth(),{{ end }} {{if $Table.IsCheckAuth}} author_middleware.CheckCasbinAuth(),{{end}} {{if $Table.IsCreateLog}}syslog_middleware.LogHandler(){{end}})
+var SysDepartmentGroup = xcore.Group("/system/department", NewDepartmentHandler, regDepartmentMangerRoute)
 
-func reg{{ $Table.UpUpName }}(rg *gin.RouterGroup, group *container.GroupBase) error {
-	return group.Reg(func(handle *{{ $Table.LowUpName }}Handler) {
-		rg.GET("/list", handle.Get{{ $Table.UpUpName }}List)
-		rg.GET("/:id", handle.Get{{ $Table.UpUpName }}Detail)
-		rg.POST("/", handle.AddOrUp{{ $Table.UpUpName}})
-		rg.DELETE("/:ids", handle.Del{{ $Table.UpUpName}}ByUuids)
+func regDepartmentMangerRoute(rg *gin.RouterGroup, group *xcore.GroupBase) error {
+	return group.Reg(func(handle *Handler) {
+		rg.GET("/list", func(c *gin.Context) {
+			handle.FindByPage(c, func(helper xgorm.IQueryHelper) *gorm.DB {
+				return helper.SpliceQueryIfExit(c, map[string]xgorm.OperationType{
+					"name": xgorm.LIKE,
+					"id":   xgorm.BETWEEN,
+				})
+			})
+		})
+		rg.GET("/:id", handle.FindOneById)
+		rg.POST("", handle.Create)
+		rg.PUT("/:id", handle.UpDateById)
+		rg.DELETE("", handle.DeleteByIds)
 	})
 }
 
-type {{ $Table.LowUpName}}Handler struct {
-	{{ $Table.LowUpName}}Service I{{ $Table.UpUpName}}Service
+type Handler struct {
+	xgorm.IRouterFunctions[model.{{ $Table.UpperCamelCase }}]
+	service I{{ $Table.UpperCamelCase }}
 }
 
-func new{{ $Table.UpUpName}}Handler(service I{{ $Table.UpUpName}}Service) *{{ $Table.LowUpName}}Handler {
-	return &{{ $Table.LowUpName }}Handler{
-	    {{ $Table.LowUpName }}Service: service,
-	  }
-}
-
-// Get{{ $Table.UpUpName }}List 分页获取
-func (handler {{ $Table.LowUpName}}Handler) Get{{ $Table.UpUpName }}List(c *gin.Context) {
-	var {{ $Table.LowUpName }}PageParam {{ $Table.UpUpName }}PageParam
-	if err := c.ShouldBind(&{{ $Table.LowUpName }}PageParam); err != nil {
-		response.Fail(c, consts.ParamBindFailCode, consts.ParamBindFailMsg, false)
-		return
+func New{{ $Table.UpperCamelCase }}Handler(db *gorm.DB) *Handler {
+	return &Handler{
+		IRouterFunctions: xgorm.InjectRouter[model.{{ $Table.UpperCamelCase }}](db),
+		service:          New{{ $Table.UpperCamelCase }}(db),
 	}
-	if variable.MyValidate.Validate(c, &{{ $Table.LowUpName }}PageParam) {
-		return
-	}
-	if pageResult, err := handler.{{ $Table.LowUpName }}Service.Get{{ $Table.UpUpName }}List({{ $Table.LowUpName }}PageParam); err == nil {
-		response.Success(c, consts.CurdStatusOkMsg, pageResult)
-	} else {
-		response.Fail(c, consts.CurdSelectFailCode, consts.CurdSelectFailMsg, false)
-	}
-}
-
-// AddOrUp{{$Table.UpUpName}} 添加或者修改
-func (handler {{ $Table.LowUpName}}Handler) AddOrUp{{$Table.UpUpName}}(c *gin.Context) {
-	var addOrUp{{ $Table.UpUpName }}Param AddOrUp{{ $Table.UpUpName }}Param
-	if err := c.ShouldBind(&addOrUp{{ $Table.UpUpName }}Param); err != nil {
-		response.Fail(c, consts.ParamBindFailCode, consts.ParamBindFailMsg, false)
-		return
-	}
-	if variable.MyValidate.Validate(c, &addOrUp{{ $Table.UpUpName }}Param) {
-		return
-	}
-	status, err := handler.{{ $Table.LowUpName }}Service.AddOrUp{{$Table.UpUpName}}(addOrUp{{ $Table.UpUpName }}Param,c)
-	if status && err == nil {
-		response.Success(c, consts.CurdStatusOkMsg, true)
-	} else {
-		response.Fail(c, consts.CurdCreatFailCode, consts.CurdCreatFailMsg, false)
-	}
-}
-
-
-// Get{{ $Table.UpUpName }}Detail 根据id获取
-func ( handler {{ $Table.LowUpName}}Handler) Get{{ $Table.UpUpName }}Detail(c *gin.Context) {
-	var {{ $Table.LowUpName }}DetailsById {{ $Table.UpUpName }}DetailsById
-	if err := c.ShouldBindUri(&{{ $Table.LowUpName }}DetailsById); err != nil {
-		response.Fail(c, consts.ParamBindFailCode, consts.ParamBindFailMsg, false)
-		return
-	}
-	if variable.MyValidate.Validate(c, &{{ $Table.LowUpName }}DetailsById) {
-		return
-	}
-	if detail, err := handler.{{ $Table.LowUpName }}Service.Get{{ $Table.UpUpName }}Detail({{ $Table.LowUpName }}DetailsById.Id); err != nil {
-		response.Fail(c, consts.CurdSelectFailCode, consts.CurdSelectFailMsg, false)
-	}else{
-		response.Success(c, consts.CurdStatusOkMsg, detail)
-	}
-}
-
-
-
-// Del{{ $Table.UpUpName }}ByUuids 根据uuids删除
-func (handler {{ $Table.LowUpName}}Handler) Del{{ $Table.UpUpName }}ByUuids(c *gin.Context) {
-	var delete{{ $Table.UpUpName }}UuidsParam Delete{{ $Table.UpUpName }}UuidsParam
-	if err := c.ShouldBindUri(&delete{{ $Table.UpUpName }}UuidsParam) ;err != nil {
-		response.Fail(c, consts.ParamBindFailCode, consts.ParamBindFailMsg, false)
-		return
-	}
-	if variable.MyValidate.Validate(c, &delete{{ $Table.UpUpName }}UuidsParam) {
-		return
-	}
-	if status, err := handler.{{ $Table.LowUpName }}Service.Del{{ $Table.UpUpName }}ByUuids(delete{{ $Table.UpUpName }}UuidsParam,c); !status && err != nil {
-		response.Fail(c, consts.CurdDeleteFailCode, consts.CurdDeleteFailMsg, false)
-	}else {
-		response.Success(c, consts.CurdStatusOkMsg, true)
-	}
-
 }

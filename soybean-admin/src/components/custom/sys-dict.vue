@@ -14,7 +14,7 @@ interface Props {
   /*
    * 字典key */
   dictKey: string;
-  type?: 'check' | 'radio' | 'radio-button' | 'select' | 'select-multiple';
+  type?: 'show' | 'check' | 'radio' | 'radio-button' | 'select' | 'select-multiple';
 }
 const props = withDefaults(defineProps<Props>(), {
   type: 'select'
@@ -51,13 +51,23 @@ const fetchDictData = async () => {
   options.value = data;
 };
 
+function getFromShow() {
+  const selectOptions = options.value.find(item => {
+    return item.value === selectValue.value;
+  });
+  return isZhCn.value ? selectOptions?.label : selectOptions?.enLabel;
+}
+
 onMounted(() => {
   fetchDictData();
 });
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
+    <NSpace v-if="type === 'show'" justify="center">
+      <div>{{ getFromShow() }}</div>
+    </NSpace>
     <NCheckboxGroup v-if="type === 'check'" v-model:value="multipleValue">
       <NCheckbox
         v-for="item in options"

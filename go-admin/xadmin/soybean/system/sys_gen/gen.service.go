@@ -1,14 +1,19 @@
 package sys_gen
 
 import (
+	"bytes"
 	"github.com/duke-git/lancet/v2/slice"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"log"
 	"strconv"
+	"text/template"
 	"time"
 	"xadmin/soybean/dao/model"
 	"xadmin/soybean/dao/query"
+	"xcore/common/xerror"
 	"xcore/common/xgorm"
+	"xcore/common/xtemplate"
 	"xcore/common/xtype/xbool"
 	"xcore/common/xtype/xstring"
 )
@@ -17,6 +22,7 @@ type ISysGenService interface {
 	AddGenTable(c *gin.Context, params []string) error
 	GetTableColumns(c *gin.Context, params string) ([]*model.SysGenTableColumn, error)
 	GetColumService() xgorm.IServiceFunctions[model.SysGenTableColumn]
+	CodePreview(c *gin.Context, param string) (GenTablePreview, error)
 	GetDB() *gorm.DB
 }
 
@@ -25,6 +31,54 @@ type SysGenService struct {
 	columnService xgorm.IServiceFunctions[model.SysGenTableColumn]
 	query         *query.Query
 	db            *gorm.DB
+}
+
+type TmplGenParam struct {
+	Table   *model.SysGenTable
+	Columns []*model.SysGenTableColumn
+}
+
+func (s SysGenService) CodePreview(c *gin.Context, param string) (GenTablePreview, error) {
+	var result GenTablePreview
+	var genParam TmplGenParam
+	tableQuery := s.query.SysGenTable
+	columnQuery := s.query.SysGenTableColumn
+	if count, err := tableQuery.WithContext(c).Where(tableQuery.TableName_.Eq(param)).Count(); err != nil || count <= 0 {
+		return result, xerror.NewErrCode(xerror.GEN_NOT_EXIST_ERROR)
+	}
+	tableInSql, err := tableQuery.WithContext(c).Where(tableQuery.TableName_.Eq(param)).First()
+	if err != nil {
+		return GenTablePreview{}, err
+	}
+	genParam.Table = tableInSql
+	columnsInSql, err := columnQuery.WithContext(c).Where(columnQuery.TableName_.Eq(param)).Find()
+	if err != nil {
+		return GenTablePreview{}, err
+	}
+	genParam.Columns = columnsInSql
+	tmplBasePath := `./public/resources/template`
+	goTmpfs := []string{"/go/xxx.type.tmpl", "/go/xxx.router.tmpl", "/go/xxx.service.tmpl"}
+	for i, tmpl := range goTmpfs {
+		tmplEngine := xtemplate.GetTemplate(tmplBasePath+tmpl, template.FuncMap{})
+		var buffers bytes.Buffer
+		err = tmplEngine.Execute(&buffers, genParam)
+		if err != nil {
+			log.Fatalln(err)
+			return GenTablePreview{}, err
+		}
+		switch i {
+		case 0:
+			result.GoType = string(buffers.Bytes())
+			break
+		case 1:
+			result.GoRouter = string(buffers.Bytes())
+			break
+		case 2:
+			result.GoService = string(buffers.Bytes())
+			break
+		}
+	}
+	return result, nil
 }
 
 func (s SysGenService) GetTableColumns(c *gin.Context, params string) ([]*model.SysGenTableColumn, error) {

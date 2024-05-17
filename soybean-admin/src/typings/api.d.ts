@@ -401,5 +401,11 @@ declare namespace Api {
       | 'sort'
       | 'tsType'
     >;
+
+    type GenCodeItem = {
+      type: string;
+      fileName: string;
+      fileContent: string;
+    };
   }
 }
