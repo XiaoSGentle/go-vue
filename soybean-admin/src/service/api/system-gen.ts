@@ -55,3 +55,9 @@ export function updateTableColumnsById(
     data: param
   });
 }
+export function fetchTableGenPreview(name: string) {
+  return request<Api.CodeGen.GenCodeItem[]>({
+    url: `/system/table/preview/${name}`,
+    method: 'get'
+  });
+}

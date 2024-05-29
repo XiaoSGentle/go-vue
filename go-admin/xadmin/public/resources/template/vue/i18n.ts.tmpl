@@ -1,0 +1,69 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+// TS type
+
+        {{ $Table.ShortName }}: {
+
+            tableTitle: string;
+            {{- range $Columns }}
+              {{- if eq .IsShow "1"}}
+                {{ .LowerCamelCase -}}:string;
+              {{ end -}}
+            {{ end -}}
+            form: {
+                  add: string;
+                  edit: string;
+                {{- range $Columns }}
+                  {{- if eq .IsShow "1"}}
+                    {{ .LowerCamelCase -}}:string;
+                  {{ end -}}
+                {{ end -}}
+          
+          };
+        };
+
+
+// i18n zh-cn
+
+        {{ $Table.ShortName }}: {
+
+            tableTitle: '{{$Table.TableComment}}管理',
+            {{- range $Columns }}
+              {{- if eq .IsShow "1"}}
+                {{ .LowerCamelCase -}}:'{{ .Comment }}',
+              {{ end -}}
+            {{ end -}}
+            form: {
+              add: '新增{{$Table.TableComment}}',
+              edit: '编辑{{$Table.TableComment}}',
+                {{- range $Columns }}
+                  {{- if eq .IsShow "1"}}
+              {{.LowerCamelCase -}}:'请填写{{ .Comment }}',
+                  {{ end -}}
+                {{ end -}}
+            },
+
+        },
+
+
+// i18n en
+
+        {{ $Table.ShortName }}: {
+
+            tableTitle: '{{$Table.UpperCamelCase }} Manager',
+            {{- range $Columns }}
+              {{- if eq .IsShow "1"}}
+                {{.LowerCamelCase -}}:'{{ .UpperCamelCase }}',
+              {{ end -}}
+            {{ end -}}
+            form: {
+              add: 'Add {{$Table.UpperCamelCase}}',
+              edit: 'Edit {{$Table.UpperCamelCase}}',
+                    {{- range $Columns }}
+                      {{- if eq .IsShow "1"}}
+                        {{ .LowerCamelCase -}}:'Please input {{ .UpperCamelCase }}',
+                      {{ end -}}
+                    {{ end -}}
+            },
+
+        },

@@ -12,8 +12,16 @@ import { enableStatusRecord } from '@/constants/business';
 import { useBoolean } from '~/packages/hooks/src';
 import { useRouterPush } from '@/hooks/common/router';
 import TableOperateDrawer from './modules/table-data-drawer.vue';
+import GenCodeShow from './modules/code-view-modal.vue';
 const appStore = useAppStore();
 const { routerPush } = useRouterPush();
+// 预览相关
+const { bool: previewVisible, setBool: setPreviewVisible } = useBoolean(false);
+const selectPreviewTableName = ref('');
+const handlePreviewClick = (tableName: string) => {
+  selectPreviewTableName.value = tableName;
+  setPreviewVisible(true);
+};
 const { loading, data, columns, getData, mobilePagination, columnChecks } = useTable({
   apiFn: fetchGenTables,
   apiParams: {
@@ -117,9 +125,12 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      width: 200,
       render: row => (
         <div class="flex-center gap-8px">
+          <NButton type="primary" ghost size="small" onClick={() => handlePreviewClick(row.tableName)}>
+            {$t('common.preView', { name: '' })}
+          </NButton>
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
             {$t('common.edit')}
           </NButton>
@@ -262,5 +273,6 @@ async function handleAddModelBtnClick() {
         </NDrawerContent>
       </NDrawer>
     </NCard>
+    <GenCodeShow v-model:table-name="selectPreviewTableName" v-model:visible="previewVisible"></GenCodeShow>
   </div>
 </template>

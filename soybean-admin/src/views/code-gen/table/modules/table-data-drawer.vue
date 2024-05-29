@@ -49,15 +49,17 @@ function createDefaultModel(): Model {
     authorName: '',
     checkToken: '1',
     checkAuth: '1',
+    daoPath: '',
     addLog: '1',
     remarks: '',
     relativePath: ''
   };
 }
 
-type RuleKey = keyof Model & 'relativePath';
+type RuleKey = keyof Model & ('relativePath' | 'daoPath');
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  relativePath: defaultRequiredRule
+  relativePath: defaultRequiredRule,
+  daoPath: defaultRequiredRule
 };
 
 function handleUpdateModelWhenEdit() {
@@ -105,14 +107,15 @@ watch(visible, () => {
         <NFormItem :label="$t('page.gen.type.relativePath')" path="relativePath">
           <NInput v-model:value="model.relativePath" :placeholder="$t('page.gen.type.form.relativePath')" />
         </NFormItem>
+        <NFormItem :label="$t('page.gen.columnType.daoPath')" path="daoPath">
+          <NInput v-model:value="model.daoPath" :placeholder="$t('page.gen.columnType.form.daoPath')" />
+        </NFormItem>
         <NFormItem :label="$t('page.gen.type.authorName')">
           <NInput v-model:value="model.authorName" :placeholder="$t('page.gen.type.form.authorName')" />
         </NFormItem>
-
         <NFormItem :label="$t('page.gen.type.remarks')">
           <NInput v-model:value="model.remarks" :placeholder="$t('page.gen.type.form.remarks')" />
         </NFormItem>
-
         <NFormItem :label="$t('page.gen.type.checkAuth')">
           <NRadioGroup v-model:value="model.checkAuth">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />

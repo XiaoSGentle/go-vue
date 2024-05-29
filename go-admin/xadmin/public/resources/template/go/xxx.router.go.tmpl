@@ -2,25 +2,40 @@
 {{ $Columns := .Columns -}}
 
 
-package sys_department
+package {{$Table.TableName_}}
 
 import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"xadmin/soybean/dao/model"
+	"{{$Table.DaoPath}}/model"
+    "xcore/common/xmiddlewares"
 	"xcore/common/xgorm"
 	"xcore/core/xcore"
 )
 
-var SysDepartmentGroup = xcore.Group("/system/department", NewDepartmentHandler, regDepartmentMangerRoute)
+var {{$Table.UpperCamelCase}}Group = xcore.Group("{{$Table.RelativePath}}", New{{$Table.UpperCamelCase}}Handler, reg{{$Table.UpperCamelCase}}Route
+  {{- if eq $Table.CheckToken "1" -}}
+    ,xmiddlewares.Authorize
+  {{- end -}}
+  {{- if eq $Table.CheckAuth "1" -}}
+    ,xmiddlewares.Verify
+  {{- end -}}
+  {{- if eq $Table.AddLog "1" -}}
+    ,xmiddlewares.LogMiddleHandler
+  {{- end -}}
+)
 
-func regDepartmentMangerRoute(rg *gin.RouterGroup, group *xcore.GroupBase) error {
+func reg{{$Table.UpperCamelCase}}Route(rg *gin.RouterGroup, group *xcore.GroupBase) error {
 	return group.Reg(func(handle *Handler) {
+
 		rg.GET("/list", func(c *gin.Context) {
 			handle.FindByPage(c, func(helper xgorm.IQueryHelper) *gorm.DB {
 				return helper.SpliceQueryIfExit(c, map[string]xgorm.OperationType{
-					"name": xgorm.LIKE,
-					"id":   xgorm.BETWEEN,
+                    {{- range $Columns }}
+                        {{- if eq .IsQuery "1"}}
+                        "{{.LowerCamelCase}}":xgorm.QueryType
+                        {{ end -}}
+                    {{ end -}}
 				})
 			})
 		})

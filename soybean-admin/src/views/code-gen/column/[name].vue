@@ -9,7 +9,7 @@ import { fetchTableColumns } from '@/service/api';
 import TableHeaderOperation from '@/components/advanced/table-header-operation.vue';
 import { useAppStore } from '@/store/modules/app';
 import { $t } from '@/locales';
-import { enableStatusRecord } from '@/constants/business';
+import { enableBooleanRecord, enableStatusRecord } from '@/constants/business';
 import SysDict from '@/components/custom/sys-dict.vue';
 import ColumnDataOperateDrawer from './modules/column-data-drawer.vue';
 interface Props {
@@ -45,7 +45,7 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
       title: $t('page.gen.columnType.tsType'),
       width: 120,
       align: 'center',
-      render: row => row.tsType && <SysDict selectValue={row.tsType} type="show" dictKey="SYS_GEN_TS_TYPE"></SysDict>
+      render: row => row.tsType && <SysDict selectValue={row.tsType} type="show" dictKey="SYS_GEN_TS_TYPE" />
     },
     {
       key: 'htmlType',
@@ -62,6 +62,25 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
       align: 'center',
       render: row =>
         row.queryType && <SysDict selectValue={row.queryType} type="show" dictKey="SYS_GEN_QUERY_TYPE"></SysDict>
+    },
+    {
+      key: 'isShow',
+      width: 120,
+      title: $t('page.gen.columnType.isShow'),
+      align: 'center',
+      render: row => {
+        if (row.isShow === null) {
+          return null;
+        }
+        const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
+          1: 'success',
+          2: 'warning'
+        };
+
+        const label = $t(enableBooleanRecord[row.isShow]);
+
+        return <NTag type={tagMap[row.isShow]}>{label}</NTag>;
+      }
     },
     {
       key: 'required',
@@ -97,7 +116,7 @@ const { loading, data, columns, getData, mobilePagination, columnChecks } = useT
           2: 'warning'
         };
 
-        const label = $t(enableStatusRecord[row.isQuery]);
+        const label = $t(enableBooleanRecord[row.isQuery]);
 
         return <NTag type={tagMap[row.isQuery]}>{label}</NTag>;
       }

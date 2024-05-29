@@ -1,0 +1,56 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+import { request } from '../request';
+
+
+/**
+ * 函数 fetchGet{{$Table.UpperCamelCase}}List 发送一个 GET 请求，从 '{{$Table.RelativePath}}/list' 端点获取分页列表
+ * @param [params] - `params` 参数是一个可选对象，可以传递该参数来指定用于筛选字典类型的任何搜索参数。
+ * @returns 函数fetchGet{{$Table.UpperCamelCase}}List返回从API获取列表。
+ */
+export function fetchGet{{$Table.UpperCamelCase}}List(params?: Api.{{$Table.UpperCamelCase}}.{{$Table.UpperCamelCase}}SearchParams) {
+  return request<Api.{{$Table.UpperCamelCase}}.{{$Table.UpperCamelCase}}List>({
+    url: '{{$Table.RelativePath}}/list',
+    method: 'get',
+    params
+  });
+}
+
+/**
+ * 函数 add{{$Table.UpperCamelCase}} 发送一个 POST 请求，从 '{{$Table.RelativePath}}' 新增一个实体
+ * @param [params] - `params` 包含要更新的类型信息的对象，参见Api.{{$Table.UpperCamelCase}}.AddOrUpdate{{$Table.UpperCamelCase}}Params
+ */
+export function add{{$Table.UpperCamelCase}}(param: Api.{{$Table.UpperCamelCase}}.AddOrUpdate{{$Table.UpperCamelCase}}Params) {
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
+    url: '{{$Table.RelativePath}}',
+    method: 'post',
+    data: param
+  });
+}
+
+/**
+ * 根据ID更新实体信息
+ * @param id 的ID，可以是字符串、数字或未定义，用于指定要更新的类型
+ * @param param 包含要更新的类型信息的对象，参见 Api.{{$Table.UpperCamelCase}}.AddOrUpdate{{$Table.UpperCamelCase}}Params
+ * @returns 返回一个Promise，其解析为Api.BaseCurd.SuccessNoDataResponse类型的对象，表示操作是否成功，不返回具体的数据
+ */
+export function update{{$Table.UpperCamelCase}}ById(id: string | number | undefined, param: Api.{{$Table.UpperCamelCase}}.AddOrUpdate{{$Table.UpperCamelCase}}Params){
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
+    url: `{{$Table.RelativePath}}/${id}`,
+    method: 'put',
+    data: param
+  });
+}
+
+/**
+ * 根据提供的ID列表删除实体。
+ * @param param - 一个包含字符串或数字的数组，代表要删除的实体的IDs。
+ * @returns 返回一个Promise，该Promise解析为API基本CURD操作的成功无数据响应。
+ */
+export function delete{{$Table.UpperCamelCase}}ByIds(param: (string | number)[]){
+  return request<Api.BaseCurd.SuccessNoDataResponse>({
+    url: '{{$Table.RelativePath}}',
+    method: 'delete',
+    data: { ids: param }
+  });
+}

@@ -80,6 +80,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'cron',
+    path: '/cron',
+    component: 'layout.base$view.cron',
+    meta: {
+      title: 'cron',
+      i18nKey: 'route.cron'
+    }
+  },
+  {
     name: 'dict',
     path: '/dict',
     component: 'layout.base',

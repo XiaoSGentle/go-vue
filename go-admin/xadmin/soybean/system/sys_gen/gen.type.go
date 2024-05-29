@@ -8,11 +8,7 @@ type GenTableColumnsParam struct {
 }
 
 type GenTablePreview struct {
-	GoRouter     string `json:"goRouter,omitempty"`
-	GoService    string `json:"goService,omitempty"`
-	GoType       string `json:"goType,omitempty"`
-	VueIndex     string `json:"vueIndex,omitempty"`
-	VueDrawer    string `json:"vueDrawer,omitempty"`
-	VueApi       string `json:"vueApi,omitempty"`
-	VueNameSpace string `json:"vueNameSpace,omitempty"`
+	Lang        string `json:"lang,omitempty"`
+	FileName    string `json:"fileName,omitempty"`
+	FileContent string `json:"fileContent,omitempty"`
 }

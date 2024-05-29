@@ -66,7 +66,7 @@ func (h Handler) GetTableList(c *gin.Context) {
 	}
 	var tableNames []string
 	for _, sqlTable := range tablesInSql {
-		if !strings.HasPrefix(sqlTable, "sys_") {
+		if strings.HasPrefix(sqlTable, "sys_") {
 			tableNames = append(tableNames, sqlTable)
 		}
 	}

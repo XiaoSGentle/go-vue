@@ -4,6 +4,10 @@ export const enableStatusRecord: Record<Api.Common.EnableStatus, App.I18n.I18nKe
   '1': 'page.manage.common.status.enable',
   '2': 'page.manage.common.status.disable'
 };
+export const enableBooleanRecord: Record<Api.Common.EnableStatus, App.I18n.I18nKey> = {
+  '1': 'common.yesOrNo.yes',
+  '2': 'common.yesOrNo.no'
+};
 
 export const enableStatusOptions = transformRecordToOption(enableStatusRecord);
 

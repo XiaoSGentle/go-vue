@@ -14,6 +14,7 @@ const local: App.I18n.Schema = {
     columnSetting: '列设置',
     config: '配置',
     confirm: '确认',
+    preView: '{name}预览',
     delete: '删除',
     deleteSuccess: '删除成功',
     confirmDelete: '确认删除吗？',
@@ -136,6 +137,7 @@ const local: App.I18n.Schema = {
     login: '登录',
     403: '无权限',
     404: '页面不存在',
+    cron: '定时任务',
     500: '服务器错误',
     'iframe-page': '外链页面',
     home: '首页',
@@ -498,6 +500,8 @@ const local: App.I18n.Schema = {
         isQuery: '查询属性',
         length: '字段长度',
         queryType: '查询类型',
+        daoPath: 'Dao路径',
+        isShow: '表格展示',
         required: '必须参数',
         snakeCase: '字段名',
         sort: '排序',
@@ -508,6 +512,7 @@ const local: App.I18n.Schema = {
           edit: '编辑{columnName}列属性',
           baseColumn: '不可变更',
           comment: '请输入备注',
+          daoPath: '请输入Dao路径',
           dictType: '请选择字典',
           goType: '请选择Go类型',
           htmlType: '请选择前端组件类型',
@@ -520,6 +525,23 @@ const local: App.I18n.Schema = {
           tableName: '不可变更',
           tsType: '请选择Ts类型'
         }
+      }
+    },
+    cron: {
+      tableTitle: '无管理',
+      key: '唯一键值',
+      description: '描述',
+      schedule: 'cron表达式',
+      status: '状态',
+      arguments: '参数',
+      form: {
+        add: '新增无',
+        edit: '编辑无',
+        key: '请填写唯一键值',
+        description: '请填写描述',
+        schedule: '请填写cron表达式',
+        status: '请填写状态',
+        arguments: '请填写参数'
       }
     }
   },

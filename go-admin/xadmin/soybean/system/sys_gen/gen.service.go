@@ -2,11 +2,13 @@ package sys_gen
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/duke-git/lancet/v2/slice"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"log"
 	"strconv"
+	"strings"
 	"text/template"
 	"time"
 	"xadmin/soybean/dao/model"
@@ -22,7 +24,7 @@ type ISysGenService interface {
 	AddGenTable(c *gin.Context, params []string) error
 	GetTableColumns(c *gin.Context, params string) ([]*model.SysGenTableColumn, error)
 	GetColumService() xgorm.IServiceFunctions[model.SysGenTableColumn]
-	CodePreview(c *gin.Context, param string) (GenTablePreview, error)
+	CodePreview(c *gin.Context, param string) ([]GenTablePreview, error)
 	GetDB() *gorm.DB
 }
 
@@ -38,8 +40,8 @@ type TmplGenParam struct {
 	Columns []*model.SysGenTableColumn
 }
 
-func (s SysGenService) CodePreview(c *gin.Context, param string) (GenTablePreview, error) {
-	var result GenTablePreview
+func (s SysGenService) CodePreview(c *gin.Context, param string) ([]GenTablePreview, error) {
+	var result []GenTablePreview
 	var genParam TmplGenParam
 	tableQuery := s.query.SysGenTable
 	columnQuery := s.query.SysGenTableColumn
@@ -48,35 +50,46 @@ func (s SysGenService) CodePreview(c *gin.Context, param string) (GenTablePrevie
 	}
 	tableInSql, err := tableQuery.WithContext(c).Where(tableQuery.TableName_.Eq(param)).First()
 	if err != nil {
-		return GenTablePreview{}, err
+		return result, err
 	}
 	genParam.Table = tableInSql
 	columnsInSql, err := columnQuery.WithContext(c).Where(columnQuery.TableName_.Eq(param)).Find()
 	if err != nil {
-		return GenTablePreview{}, err
+		return result, err
 	}
 	genParam.Columns = columnsInSql
 	tmplBasePath := `./public/resources/template`
-	goTmpfs := []string{"/go/xxx.type.tmpl", "/go/xxx.router.tmpl", "/go/xxx.service.tmpl"}
-	for i, tmpl := range goTmpfs {
-		tmplEngine := xtemplate.GetTemplate(tmplBasePath+tmpl, template.FuncMap{})
+	goTmpfs := []string{"/go/xxx.type.go.tmpl", "/go/xxx.router.go.tmpl", "/go/xxx.service.go.tmpl"}
+	for _, tmpl := range goTmpfs {
+		tmplEngine := xtemplate.GetTemplate(tmplBasePath+tmpl, s.genFuncMap())
 		var buffers bytes.Buffer
 		err = tmplEngine.Execute(&buffers, genParam)
 		if err != nil {
 			log.Fatalln(err)
-			return GenTablePreview{}, err
+			return result, err
 		}
-		switch i {
-		case 0:
-			result.GoType = string(buffers.Bytes())
-			break
-		case 1:
-			result.GoRouter = string(buffers.Bytes())
-			break
-		case 2:
-			result.GoService = string(buffers.Bytes())
-			break
+
+		result = append(result, GenTablePreview{
+			Lang:        "golang",
+			FileName:    strings.ReplaceAll(strings.ReplaceAll(tmpl, "/go/xxx", tableInSql.ShortName), ".tmpl", ""),
+			FileContent: buffers.String(),
+		})
+	}
+	vueTmpfs := []string{"/vue/xxx.api.ts.tmpl", "/vue/xxx-table-action.vue.tmpl", "/vue/namespace.d.ts.tmpl", "/vue/index.vue.tmpl", "/vue/i18n.ts.tmpl"}
+
+	for _, tmpl := range vueTmpfs {
+		tmplEngine := xtemplate.GetTemplate(tmplBasePath+tmpl, s.genFuncMap())
+		var buffers bytes.Buffer
+		err = tmplEngine.Execute(&buffers, genParam)
+		if err != nil {
+			log.Fatalln(err)
+			return result, err
 		}
+		result = append(result, GenTablePreview{
+			Lang:        "typescript",
+			FileName:    strings.ReplaceAll(strings.ReplaceAll(strings.ReplaceAll(tmpl, "xxx", tableInSql.ShortName), "/vue/", ""), ".tmpl", ""),
+			FileContent: buffers.String(),
+		})
 	}
 	return result, nil
 }
@@ -108,9 +121,10 @@ func (s SysGenService) AddGenTable(c *gin.Context, params []string) error {
 			var genTable = model.SysGenTable{
 				TableName_:     table,
 				TableComment:   "",
+				ShortName:      xstring.SnackLastName(table),
 				UpperCamelCase: xstring.SnakeToUpperCamelCase(table),
 				LowerCamelCase: xstring.SnakeToLowerCamelCase(table),
-				RelativePath:   "/" + table,
+				RelativePath:   "/" + xstring.SnackToPath(table),
 				CheckToken:     "1",
 				CheckAuth:      "1",
 				AddLog:         "1",
@@ -170,6 +184,126 @@ func (s SysGenService) AddGenTable(c *gin.Context, params []string) error {
 		}
 	}
 	return nil
+}
+
+func (s SysGenService) genFuncMap() template.FuncMap {
+	return template.FuncMap{
+		"AppendQueryEnd": func(i *model.SysGenTableColumn, is []*model.SysGenTableColumn, sign string) string {
+			filters := slice.Filter(is, func(index int, item *model.SysGenTableColumn) bool {
+				return item.IsQuery == "1"
+			})
+			var index int
+			slice.FindBy(filters, func(_index int, item *model.SysGenTableColumn) bool {
+				if item.SnakeCase == i.SnakeCase {
+					index = _index
+					return true
+				}
+				return false
+			})
+			return xbool.BooleanTo(len(filters)-1 == index, "", "|")
+		},
+		"AppendAddEnd": func(i *model.SysGenTableColumn, is []*model.SysGenTableColumn, sign string) string {
+			filters := slice.Filter(is, func(index int, item *model.SysGenTableColumn) bool {
+				return item.IsAdd == "1"
+			})
+			var index int
+			slice.FindBy(filters, func(_index int, item *model.SysGenTableColumn) bool {
+				if item.SnakeCase == i.SnakeCase {
+					index = _index
+					return true
+				}
+				return false
+			})
+			return xbool.BooleanTo(len(filters)-1 == index, "", "|")
+		},
+		"SnakeToLowerCamelCase": func(s string) string {
+			return xstring.SnakeToLowerCamelCase(s)
+		},
+		"GenI18nType": func(s string) string {
+			return xstring.SnakeToLowerCamelCase(s)
+		},
+		"GetTsDefaultValue": func(s string) string {
+			switch s {
+			case "":
+				return ""
+			default:
+				return ""
+			}
+		},
+		"GenRuleKey": func(i *model.SysGenTableColumn, is []*model.SysGenTableColumn) string {
+			filters := slice.Filter(is, func(index int, item *model.SysGenTableColumn) bool {
+				return item.Required == "1"
+			})
+			var index int
+			slice.FindBy(filters, func(_index int, item *model.SysGenTableColumn) bool {
+				if item.SnakeCase == i.SnakeCase {
+					index = _index
+					return true
+				}
+				return false
+			})
+			return xbool.BooleanTo(len(filters)-1 == index, i.LowerCamelCase, i.LowerCamelCase+"|")
+		},
+		"GenEditHtmlItem": func(i *model.SysGenTableColumn, t *model.SysGenTable) string {
+
+			var renderStars string
+			switch i.HTMLType {
+			case "INPUT":
+				renderStars = fmt.Sprintf(`
+		<NFormItem :label="$t('page.%s.%s')" %s>
+          <NInput v-model:value="model.%s" :placeholder="$t('page.%s.from.%s')" />
+        </NFormItem>`, t.ShortName, i.LowerCamelCase, xbool.BooleanTo(i.Required == "1", fmt.Sprintf(`path="%s"`, i.LowerCamelCase), ""), i.LowerCamelCase, t.ShortName, i.LowerCamelCase)
+
+			case "INPUT_TEXTAREA":
+				renderStars = fmt.Sprintf(`
+		<NFormItem :label="$t('page.%s.%s')" %s>
+          <NInput v-model:value="model.%s"  :placeholder="$t('page.%s.from.%s')" type="textarea" />
+        </NFormItem>`, t.ShortName, i.LowerCamelCase, xbool.BooleanTo(i.Required == "1", fmt.Sprintf(`path="%s"`, i.LowerCamelCase), ""), i.LowerCamelCase, t.ShortName, i.LowerCamelCase)
+
+			case "DICT":
+				renderStars = fmt.Sprintf(`
+		<NFormItem :label="$t('page.%s.%s')" %s>
+          <SysDict v-model:value="model.%s" dict-key="%s"/>
+        </NFormItem>`, t.ShortName, i.LowerCamelCase, xbool.BooleanTo(i.Required == "1",
+					fmt.Sprintf(`path="%s"`, i.LowerCamelCase), ""),
+					i.LowerCamelCase, i.DictCode)
+			case "RADIO":
+				renderStars = fmt.Sprintf(`
+		<NFormItem :label="$t('page.%s.%s')" %s>
+		  <NRadioGroup v-model:value="model.%s">
+            <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
+          </NRadioGroup>
+        </NFormItem>`, t.ShortName, i.LowerCamelCase, xbool.BooleanTo(i.Required == "1",
+					fmt.Sprintf(`path="%s"`, i.LowerCamelCase), ""),
+					i.LowerCamelCase)
+			}
+			return renderStars
+		},
+		"GenColumn": func(i *model.SysGenTableColumn, t *model.SysGenTable) string {
+			var renderStars string
+			switch i.HTMLType {
+			case "INPUT":
+				renderStars = fmt.Sprintf(` row => <span>{row.%s}</span>`, i.LowerCamelCase)
+
+			case "INPUT_TEXTAREA":
+				renderStars = fmt.Sprintf(`row => row.%s && <SysDict selectValue={row.%s} type="show" dictKey="%s" />`, i.LowerCamelCase, i.LowerCamelCase, i.DictCode)
+
+			case "DICT":
+				renderStars = fmt.Sprintf(`row => row.%s && <SysDict selectValue={row.%s} type="show" dictKey="%s" />`, i.LowerCamelCase, i.LowerCamelCase, i.DictCode)
+			}
+			return fmt.Sprintf(`
+			{
+			  key: '%s',
+			  title: $t('page.%s.%s'),
+			  align: 'center',
+			  render: %s
+			},	
+`, i.LowerCamelCase, t.ShortName, i.LowerCamelCase, renderStars)
+		},
+		"RenderNative": func(content string) string {
+			return "{{ " + content + " }}"
+		},
+	}
 }
 
 func (s SysGenService) GetDB() *gorm.DB {

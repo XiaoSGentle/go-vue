@@ -32,6 +32,7 @@ func newSysCron(db *gorm.DB, opts ...gen.DOOption) sysCron {
 	_sysCron.Schedule = field.NewString(tableName, "schedule")
 	_sysCron.Status = field.NewString(tableName, "status")
 	_sysCron.Arguments = field.NewString(tableName, "arguments")
+	_sysCron.ArgumentsType = field.NewString(tableName, "arguments_type")
 
 	_sysCron.fillFieldMap()
 
@@ -41,12 +42,13 @@ func newSysCron(db *gorm.DB, opts ...gen.DOOption) sysCron {
 type sysCron struct {
 	sysCronDo
 
-	ALL         field.Asterisk
-	Key         field.String // 唯一键值
-	Description field.String // 描述
-	Schedule    field.String // cron表达式
-	Status      field.String // 状态
-	Arguments   field.String // 参数
+	ALL           field.Asterisk
+	Key           field.String // 唯一键值
+	Description   field.String // 描述
+	Schedule      field.String // cron表达式
+	Status        field.String // 状态
+	Arguments     field.String // 参数
+	ArgumentsType field.String // 参数类型
 
 	fieldMap map[string]field.Expr
 }
@@ -68,6 +70,7 @@ func (s *sysCron) updateTableName(table string) *sysCron {
 	s.Schedule = field.NewString(table, "schedule")
 	s.Status = field.NewString(table, "status")
 	s.Arguments = field.NewString(table, "arguments")
+	s.ArgumentsType = field.NewString(table, "arguments_type")
 
 	s.fillFieldMap()
 
@@ -84,12 +87,13 @@ func (s *sysCron) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysCron) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 5)
+	s.fieldMap = make(map[string]field.Expr, 6)
 	s.fieldMap["key"] = s.Key
 	s.fieldMap["description"] = s.Description
 	s.fieldMap["schedule"] = s.Schedule
 	s.fieldMap["status"] = s.Status
 	s.fieldMap["arguments"] = s.Arguments
+	s.fieldMap["arguments_type"] = s.ArgumentsType
 }
 
 func (s sysCron) clone(db *gorm.DB) sysCron {

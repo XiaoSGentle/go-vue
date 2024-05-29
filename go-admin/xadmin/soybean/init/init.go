@@ -77,11 +77,12 @@ func InitCron() xcron.IXCron {
 	for _, function := range functions {
 		if !xslice.StringExist(keysInSql, function.Key) {
 			_ = cronQuery.Create(&model.SysCron{
-				Key:         function.Key,
-				Description: function.Key,
-				Schedule:    "",
-				Status:      "2",
-				Arguments:   strings.Join(function.ParamTypes, ","),
+				Key:           function.Key,
+				Description:   function.Key,
+				Schedule:      "",
+				Status:        "2",
+				Arguments:     strings.Join(function.ParamTypes, ","),
+				ArgumentsType: strings.Join(function.ParamTypes, ","),
 			})
 		}
 	}

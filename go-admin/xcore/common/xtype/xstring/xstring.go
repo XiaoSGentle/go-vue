@@ -33,6 +33,15 @@ func LowerCamelCaseToSnake(columnName string) string {
 	return converted
 
 }
+func SnackToPath(columnName string) string {
+	return strings.ReplaceAll(columnName, "_", "/")
+}
+
+func SnackLastName(columnName string) string {
+	split := strings.Split(columnName, "_")
+	return split[len(split)-1]
+}
+
 func SnakeToUpperCamelCase(columnName string) string {
 	lowUpStr := SnakeToLowerCamelCase(columnName)
 	upUpStr := strings.Title(lowUpStr)

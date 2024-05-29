@@ -12,25 +12,27 @@ const TableNameSysGenTable = "sys_gen_table"
 
 // SysGenTable mapped from table <sys_gen_table>
 type SysGenTable struct {
-	ID             int32     `gorm:"column:id;type:int(11);primaryKey;autoIncrement:true;comment:主键" json:"id"`            // 主键
-	TableName_     string    `gorm:"column:table_name;type:varchar(200);not null;comment:表名称" json:"tableName"`            // 表名称
-	TableComment   string    `gorm:"column:table_comment;type:varchar(200);default:无;comment:表描述" json:"tableComment"`     // 表描述
-	AuthorName     string    `gorm:"column:author_name;type:varchar(100);default:宋超阳;comment:作者的名称" json:"authorName"`     // 作者的名称
-	UpperCamelCase string    `gorm:"column:upper_camel_case;type:varchar(100);comment:实体的名称" json:"upperCamelCase"`        // 实体的名称
-	LowerCamelCase string    `gorm:"column:lower_camel_case;type:varchar(60);comment:生成模块名" json:"lowerCamelCase"`         // 生成模块名
-	RelativePath   string    `gorm:"column:relative_path;type:varchar(60);comment:相对路径" json:"relativePath"`               // 相对路径
-	CheckToken     string    `gorm:"column:check_token;type:varchar(1);default:1;comment:需要检测是否有Token" json:"checkToken"`  // 需要检测是否有Token
-	CheckAuth      string    `gorm:"column:check_auth;type:varchar(1);default:1;comment:是否鉴权" json:"checkAuth"`            // 是否鉴权
-	AddLog         string    `gorm:"column:add_log;type:varchar(1);default:1;comment:是否创建日志" json:"addLog"`                // 是否创建日志
-	Remarks        string    `gorm:"column:remarks;type:varchar(200);default:无;comment:备注信息" json:"remarks"`               // 备注信息
-	Version        int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"`                               // 乐观锁
-	CreateUID      int32     `gorm:"column:create_uid;type:int(11);comment:创建者uid" json:"createUid"`                       // 创建者uid
-	CreateBy       string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                       // 创建者
-	CreateTime     time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"` // 创建时间
-	UpdateTime     time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"` // 更新时间
-	UpdateUID      int32     `gorm:"column:update_uid;type:int(11);comment:更新者uid" json:"updateUid"`                       // 更新者uid
-	DeleteTag      string    `gorm:"column:delete_tag;type:varchar(1);not null;default:0;comment:软删除标记" json:"deleteTag"`  // 软删除标记
-	UpdateBy       string    `gorm:"column:update_by;type:varchar(255);comment:更新者" json:"updateBy"`                       // 更新者
+	ID             int32     `gorm:"column:id;type:int(11);primaryKey;autoIncrement:true;comment:主键" json:"id"`        // 主键
+	TableName_     string    `gorm:"column:table_name;type:varchar(200);not null;comment:表名称" json:"tableName"`        // 表名称
+	TableComment   string    `gorm:"column:table_comment;type:varchar(200);default:无;comment:表描述" json:"tableComment"` // 表描述
+	ShortName      string    `gorm:"column:short_name;type:varchar(255);not null" json:"shortName"`
+	AuthorName     string    `gorm:"column:author_name;type:varchar(100);default:宋超阳;comment:作者的名称" json:"authorName"`         // 作者的名称
+	UpperCamelCase string    `gorm:"column:upper_camel_case;type:varchar(100);comment:实体的名称" json:"upperCamelCase"`            // 实体的名称
+	LowerCamelCase string    `gorm:"column:lower_camel_case;type:varchar(60);comment:生成模块名" json:"lowerCamelCase"`             // 生成模块名
+	RelativePath   string    `gorm:"column:relative_path;type:varchar(60);comment:相对路径" json:"relativePath"`                   // 相对路径
+	CheckToken     string    `gorm:"column:check_token;type:varchar(1);default:1;comment:需要检测是否有Token" json:"checkToken"`      // 需要检测是否有Token
+	CheckAuth      string    `gorm:"column:check_auth;type:varchar(1);default:1;comment:是否鉴权" json:"checkAuth"`                // 是否鉴权
+	AddLog         string    `gorm:"column:add_log;type:varchar(1);default:1;comment:是否创建日志" json:"addLog"`                    // 是否创建日志
+	Remarks        string    `gorm:"column:remarks;type:varchar(200);default:无;comment:备注信息" json:"remarks"`                   // 备注信息
+	DaoPath        string    `gorm:"column:dao_path;type:varchar(255);default:xadmin/soybean/dao;comment:实体地址" json:"daoPath"` // 实体地址
+	Version        int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"`                                   // 乐观锁
+	CreateUID      int32     `gorm:"column:create_uid;type:int(11);comment:创建者uid" json:"createUid"`                           // 创建者uid
+	CreateBy       string    `gorm:"column:create_by;type:varchar(255);comment:创建者" json:"createBy"`                           // 创建者
+	CreateTime     time.Time `gorm:"column:create_time;type:datetime;autoCreateTime:milli;comment:创建时间" json:"createTime"`     // 创建时间
+	UpdateTime     time.Time `gorm:"column:update_time;type:datetime;autoUpdateTime:milli;comment:更新时间" json:"updateTime"`     // 更新时间
+	UpdateUID      int32     `gorm:"column:update_uid;type:int(11);comment:更新者uid" json:"updateUid"`                           // 更新者uid
+	DeleteTag      string    `gorm:"column:delete_tag;type:varchar(1);not null;default:0;comment:软删除标记" json:"deleteTag"`      // 软删除标记
+	UpdateBy       string    `gorm:"column:update_by;type:varchar(255);comment:更新者" json:"updateBy"`                           // 更新者
 }
 
 // TableName SysGenTable's table name

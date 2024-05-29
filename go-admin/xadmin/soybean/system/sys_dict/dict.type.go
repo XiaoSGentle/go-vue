@@ -1,24 +1,22 @@
 package sys_dict
 
-import (
-	baseType "xcore/common/xtype/xbase"
-)
+import "xcore/common/xtype/xbase"
 
 type SysDictListParam struct {
-	baseType.PageParam
+	xbase.PageParam
 	Code string `json:"code"`
 }
 
 type SysDictListResp struct {
-	baseType.PageResult
+	xbase.PageResult
 	Records []SysDictList `json:"records"`
 }
 type SysDictDataListParam struct {
-	baseType.PageParam
+	xbase.PageParam
 	Code string `json:"code" form:"code" zh_comment:"当前页数" en_comment:"current" validate:"required"`
 }
 type SysDictDataListResp struct {
-	baseType.PageResult
+	xbase.PageResult
 	Records []SysDictDataList `json:"records"`
 }
 
@@ -40,13 +38,13 @@ type AddOrUpDateSysDictParam struct {
 }
 
 type SysDictList struct {
-	baseType.BaseRecord
+	xbase.BaseRecord
 	Name        string `json:"name"`
 	Code        string `json:"code"`
 	Description string `json:"description"`
 }
 type SysDictDataList struct {
-	baseType.BaseRecord
+	xbase.BaseRecord
 	Label   string `json:"label"`
 	Value   string `json:"value"`
 	Code    string `json:"code"`

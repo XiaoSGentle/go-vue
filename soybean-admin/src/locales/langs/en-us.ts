@@ -15,6 +15,7 @@ const local: App.I18n.Schema = {
     config: 'Config',
     confirm: 'Confirm',
     delete: 'Delete',
+    preView: '{name} view',
     deleteSuccess: 'Delete Success',
     confirmDelete: 'Are you sure you want to delete?',
     edit: 'Edit',
@@ -155,6 +156,7 @@ const local: App.I18n.Schema = {
     'function_hide-child': 'Hide Child',
     'function_hide-child_one': 'Hide Child',
     'function_hide-child_two': 'Two',
+    cron: 'Cron',
     'function_hide-child_three': 'Three',
     function_request: 'Request',
     'function_toggle-auth': 'Toggle Auth',
@@ -495,12 +497,14 @@ const local: App.I18n.Schema = {
         dictType: 'Dictionary Type',
         goType: 'Go Type',
         htmlType: 'HTML Component Type',
+        isShow: 'Is Show',
         isQuery: 'Query Attribute',
         length: 'Field Length',
         queryType: 'Query Type',
         required: 'Required Parameter',
         snakeCase: 'Field Name',
         sort: 'Sorting',
+        daoPath: 'Dao Path',
         tableName: 'Table Name',
         tsType: 'TypeScript Type',
         form: {
@@ -508,6 +512,7 @@ const local: App.I18n.Schema = {
           edit: 'Edit Column Attributes',
           baseColumn: 'Immutable',
           comment: 'Please enter a comment',
+          daoPath: 'Please enter a dao path',
           dictType: 'Please select a dictionary',
           goType: 'Please select a Go type',
           htmlType: 'Please select a frontend component type',
@@ -521,42 +526,24 @@ const local: App.I18n.Schema = {
           tsType: 'Please select a TypeScript type'
         }
       }
+    },
+    cron: {
+      tableTitle: 'SysCron Manager',
+      key: 'Key',
+      description: 'Description',
+      schedule: 'Schedule',
+      status: 'Status',
+      arguments: 'Arguments',
+      form: {
+        add: 'Add SysCron',
+        edit: 'Edit SysCron',
+        key: 'Please input Key',
+        description: 'Please input Description',
+        schedule: 'Please input Schedule',
+        status: 'Please input Status',
+        arguments: 'Please input Arguments'
+      }
     }
-    // cron: {
-    //   type: {
-    //     tableTitle: '',
-    //     baseColumn: '',
-    //     comment: '',
-    //     dictType: '',
-    //     goType: '',
-    //     htmlType: '',
-    //     isQuery: '',
-    //     length: '',
-    //     queryType: '',
-    //     required: '',
-    //     snakeCase: '',
-    //     sort: 'number',
-    //     tableName: '',
-    //     tsType: '',
-    //     form: {
-    //       add: '',
-    //       edit: '',
-    //       baseColumn: '',
-    //       comment: '',
-    //       dictType: '',
-    //       goType: '',
-    //       htmlType: '',
-    //       isQuery: '',
-    //       length: '',
-    //       queryType: '',
-    //       required: '',
-    //       snakeCase: '',
-    //       sort: 'number',
-    //       tableName: '',
-    //       tsType: ''
-    //     }
-    //   }
-    // }
   },
   form: {
     required: 'Cannot be empty',

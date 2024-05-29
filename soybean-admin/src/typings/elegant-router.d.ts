@@ -36,6 +36,7 @@ declare module "@elegant-router/types" {
     "code-gen": "/code-gen";
     "code-gen_column": "/code-gen/column/:name";
     "code-gen_table": "/code-gen/table";
+    "cron": "/cron";
     "dict": "/dict";
     "dict_data": "/dict/data/:code";
     "dict_type": "/dict/type";
@@ -112,6 +113,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "about"
     | "code-gen"
+    | "cron"
     | "dict"
     | "function"
     | "home"
@@ -147,6 +149,7 @@ declare module "@elegant-router/types" {
     | "about"
     | "code-gen_column"
     | "code-gen_table"
+    | "cron"
     | "dict_data"
     | "dict_type"
     | "function_hide-child_one"

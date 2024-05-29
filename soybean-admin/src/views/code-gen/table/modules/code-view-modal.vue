@@ -1,38 +1,51 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import hljs from 'highlight.js/lib/core';
+
 import { useClipboard } from '@vueuse/core';
-import { useBoolean } from '~/packages/hooks/src';
+import hljs from 'highlight.js/lib/core';
 
-const { bool: modelVis } = useBoolean();
-type Props = {
-  show: boolean;
-  tableUuid: string;
-};
+import typescript from 'highlight.js/lib/languages/typescript';
+import golang from 'highlight.js/lib/languages/go';
+import html from 'highlight.js/lib/languages/haml';
+import { fetchTableGenPreview } from '@/service/api';
+import { useLoading } from '~/packages/hooks/src';
 defineOptions({ name: 'GenCodeShow' });
-
+hljs.registerLanguage('typescript', typescript);
+hljs.registerLanguage('golang', golang);
+hljs.registerLanguage('html', html);
 const codeView = ref<Api.CodeGen.GenCodeItem[]>();
 
 type Emits = {
   (e: 'modelClose'): () => void;
 };
 const emit = defineEmits<Emits>();
-
-const handlerModelClose = () => {
-  emit('modelClose');
-};
-
-const selectTableUuid = ref('');
-const props = withDefaults(defineProps<Props>(), {
-  show: false,
-  tableUuid: ''
+const tableName = defineModel<string>('tableName', {
+  default: ''
 });
-
+const { loading: dataLoading, startLoading, endLoading } = useLoading(false);
 // 复制
 const selectedTab = ref<string>('');
 const handlerTabSelect = (selectTabName: string) => {
   selectedTab.value = selectTabName;
 };
+async function fetchCodePreview() {
+  startLoading();
+  const { data } = await fetchTableGenPreview(tableName.value);
+  if (data) {
+    codeView.value = data;
+    selectedTab.value = data[0].fileName;
+  }
+  endLoading();
+}
+
+const visible = defineModel<boolean>('visible', {
+  default: false
+});
+
+const handlerModelClose = () => {
+  emit('modelClose');
+};
+
 const { copy, isSupported } = useClipboard();
 const handlerCopyButtonClick = () => {
   if (!isSupported) {
@@ -47,28 +60,16 @@ const handlerCopyButtonClick = () => {
 };
 
 watch(
-  () => props.show,
-  async val => {
-    if (val) {
-      selectTableUuid.value = props.tableUuid;
-      const { data } = await getTableGenView(selectTableUuid.value);
-      if (data) {
-        modelVis.value = val;
-        codeView.value = data;
-        selectedTab.value = data[0].fileName;
-      } else {
-        window.$message?.error('预览失败');
-        emit('modelClose');
-      }
-    }
-  }
+  () => visible.value,
+  val => val && fetchCodePreview()
 );
 </script>
 
 <template>
   <div>
     <NModal
-      v-model:show="modelVis"
+      v-model:show="visible"
+      :loading="dataLoading"
       preset="card"
       :close-on-esc="false"
       :mask-closable="false"
@@ -78,7 +79,11 @@ watch(
     >
       <NTabs type="card" :value="selectedTab" :on-update:value="handlerTabSelect" animated :bar-width="500">
         <NTabPane v-for="(item, index) in codeView" :key="index" :name="item.fileName" :tab="item.fileName">
-          <NCode show-line-numbers :code="item.fileContent" :hljs="hljs" :language="item.lang" />
+          <NScrollbar>
+            <NScrollbar class="h-60vh">
+              <NCode word-wrap :code="item.fileContent" :hljs="hljs" :language="item.lang" />
+            </NScrollbar>
+          </NScrollbar>
         </NTabPane>
       </NTabs>
       <template #footer>

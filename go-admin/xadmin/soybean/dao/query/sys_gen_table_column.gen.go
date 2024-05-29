@@ -39,9 +39,12 @@ func newSysGenTableColumn(db *gorm.DB, opts ...gen.DOOption) sysGenTableColumn {
 	_sysGenTableColumn.Required = field.NewString(tableName, "required")
 	_sysGenTableColumn.BaseColumn = field.NewString(tableName, "base_column")
 	_sysGenTableColumn.IsQuery = field.NewString(tableName, "is_query")
+	_sysGenTableColumn.IsShow = field.NewString(tableName, "is_show")
+	_sysGenTableColumn.IsAdd = field.NewString(tableName, "is_add")
 	_sysGenTableColumn.QueryType = field.NewString(tableName, "query_type")
 	_sysGenTableColumn.HTMLType = field.NewString(tableName, "html_type")
 	_sysGenTableColumn.DictType = field.NewString(tableName, "dict_type")
+	_sysGenTableColumn.DictCode = field.NewString(tableName, "dict_code")
 	_sysGenTableColumn.Sort = field.NewInt32(tableName, "sort")
 	_sysGenTableColumn.Version = field.NewInt32(tableName, "version")
 	_sysGenTableColumn.CreateUID = field.NewInt32(tableName, "create_uid")
@@ -73,9 +76,12 @@ type sysGenTableColumn struct {
 	Required       field.String // 是否必填: [1=是, 0=否]
 	BaseColumn     field.String // 基础字段
 	IsQuery        field.String // 是否查询字段: [1=是, 0=否]
+	IsShow         field.String // 展示
+	IsAdd          field.String // 新增参数
 	QueryType      field.String // 查询方式: [等于、不等于、大于、小于、范围]
 	HTMLType       field.String // 显示类型: [文本框、文本域、下拉框、复选框、单选框、日期控件]
 	DictType       field.String // 字典类型
+	DictCode       field.String // 字典CODE
 	Sort           field.Int32  // 排序编号
 	Version        field.Int32  // 乐观锁
 	CreateUID      field.Int32  // 创建者uid
@@ -113,9 +119,12 @@ func (s *sysGenTableColumn) updateTableName(table string) *sysGenTableColumn {
 	s.Required = field.NewString(table, "required")
 	s.BaseColumn = field.NewString(table, "base_column")
 	s.IsQuery = field.NewString(table, "is_query")
+	s.IsShow = field.NewString(table, "is_show")
+	s.IsAdd = field.NewString(table, "is_add")
 	s.QueryType = field.NewString(table, "query_type")
 	s.HTMLType = field.NewString(table, "html_type")
 	s.DictType = field.NewString(table, "dict_type")
+	s.DictCode = field.NewString(table, "dict_code")
 	s.Sort = field.NewInt32(table, "sort")
 	s.Version = field.NewInt32(table, "version")
 	s.CreateUID = field.NewInt32(table, "create_uid")
@@ -141,7 +150,7 @@ func (s *sysGenTableColumn) GetFieldByName(fieldName string) (field.OrderExpr, b
 }
 
 func (s *sysGenTableColumn) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 24)
+	s.fieldMap = make(map[string]field.Expr, 27)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["table_name"] = s.TableName_
 	s.fieldMap["upper_camel_case"] = s.UpperCamelCase
@@ -154,9 +163,12 @@ func (s *sysGenTableColumn) fillFieldMap() {
 	s.fieldMap["required"] = s.Required
 	s.fieldMap["base_column"] = s.BaseColumn
 	s.fieldMap["is_query"] = s.IsQuery
+	s.fieldMap["is_show"] = s.IsShow
+	s.fieldMap["is_add"] = s.IsAdd
 	s.fieldMap["query_type"] = s.QueryType
 	s.fieldMap["html_type"] = s.HTMLType
 	s.fieldMap["dict_type"] = s.DictType
+	s.fieldMap["dict_code"] = s.DictCode
 	s.fieldMap["sort"] = s.Sort
 	s.fieldMap["version"] = s.Version
 	s.fieldMap["create_uid"] = s.CreateUID

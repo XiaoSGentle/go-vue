@@ -353,6 +353,7 @@ declare namespace Api {
       upperCamelCase: string;
       lowerCamelCase: number;
       relativePath: string;
+      daoPath: string;
       checkToken: Common.EnableStatus;
       checkAuth: Common.EnableStatus;
       addLog: Common.EnableStatus;
@@ -361,7 +362,7 @@ declare namespace Api {
 
     type AddOrUpdateTableInfoDataParams = Pick<
       TableInfoType,
-      'authorName' | 'checkToken' | 'checkAuth' | 'addLog' | 'remarks' | 'relativePath' | 'tableName'
+      'authorName' | 'checkToken' | 'checkAuth' | 'addLog' | 'remarks' | 'relativePath' | 'tableName' | 'daoPath'
     >;
 
     type TableInfoList = Common.PaginatingQueryRecord<TableInfoType>;
@@ -376,6 +377,7 @@ declare namespace Api {
       dictType: string;
       goType: string;
       htmlType: string;
+      isShow: Common.EnableStatus;
       isQuery: Common.EnableStatus;
       length: string;
       queryType: string;
@@ -395,6 +397,7 @@ declare namespace Api {
       | 'dictType'
       | 'goType'
       | 'htmlType'
+      | 'isShow'
       | 'isQuery'
       | 'queryType'
       | 'required'
@@ -403,9 +406,22 @@ declare namespace Api {
     >;
 
     type GenCodeItem = {
-      type: string;
+      lang: string;
       fileName: string;
       fileContent: string;
     };
+  }
+
+  namespace Cron {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type CronType = Common.CommonRecord<{
+      key: string;
+      description: string;
+      schedule: string;
+      status: string;
+      arguments: string[];
+    }>;
+    type CronTypeList = Common.PaginatingQueryRecord<CronType>;
+    type AddOrUpdateCronTypeParams = Pick<CronType, 'arguments' | 'description' | 'schedule' | 'status'>;
   }
 }

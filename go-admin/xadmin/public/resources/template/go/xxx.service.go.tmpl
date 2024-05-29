@@ -1,0 +1,31 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+
+package {{$Table.TableName_}}
+
+import (
+	"gorm.io/gorm"
+	"{{$Table.DaoPath}}/model"
+	"{{$Table.DaoPath}}/query"
+	"xcore/common/xgorm"
+)
+
+type I{{$Table.UpperCamelCase}}Interface {
+    //todo: add you method at here
+}
+
+type {{$Table.UpperCamelCase}}Service struct {
+	xgorm.IServiceFunctions[model.{{$Table.UpperCamelCase}}]
+	query     *query.Query
+	db        *gorm.DB
+}
+
+
+func New{{$Table.UpperCamelCase}}Service(db *gorm.DB) I{{$Table.UpperCamelCase}}Service {
+	return &{{$Table.UpperCamelCase}}Service{
+	    IServiceFunctions: xgorm.InjectService[model.SysDepartment](db),
+		db:        db,
+		query:     query.Use(db),
+	}
+}
+

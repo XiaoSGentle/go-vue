@@ -23,6 +23,7 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   about: () => import("@/views/about/index.vue"),
   "code-gen_column": () => import("@/views/code-gen/column/[name].vue"),
   "code-gen_table": () => import("@/views/code-gen/table/index.vue"),
+  cron: () => import("@/views/cron/index.vue"),
   dict_data: () => import("@/views/dict/data/[code].vue"),
   dict_type: () => import("@/views/dict/type/index.vue"),
   "function_hide-child_one": () => import("@/views/function/hide-child/one/index.vue"),

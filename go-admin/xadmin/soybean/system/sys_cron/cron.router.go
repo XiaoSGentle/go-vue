@@ -60,13 +60,8 @@ func (h Handler) UpdateCron(c *gin.Context) {
 		xresponse.ErrorCtx(c, err)
 		return
 	}
-	var pathId baseType.DetailsId
-	err := c.BindUri(&pathId)
-	if err != nil {
-		xresponse.ErrorCtx(c, err)
-		return
-	}
-	err = h.service.UpdateCron(c, &param)
+
+	err := h.service.UpdateCron(c, &param)
 	if err != nil {
 		xresponse.ErrorCtx(c, err)
 		return

@@ -1,0 +1,136 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+<script setup lang="ts">
+import { computed, reactive, watch } from 'vue';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { $t } from '@/locales';
+import { enableStatusOptions } from '@/constants/business';
+import { update{{$Table.UpperCamelCase}}ById, add{{$Table.UpperCamelCase}}} from '@/service/api';
+
+defineOptions({
+  name: '{{$Table.UpperCamelCase}}OperateDrawer'
+});
+
+interface Props {
+  /** the type of operation */
+  operateType: NaiveUI.TableOperateType;
+  /** the edit row data */
+  rowData?: Api.{{$Table.UpperCamelCase}}.{{$Table.UpperCamelCase}}Type | null;
+}
+
+const props = defineProps<Props>();
+
+interface Emits {
+  (e: 'submitted'): void;
+}
+
+const emit = defineEmits<Emits>();
+
+const visible = defineModel<boolean>('visible', {
+  default: false
+});
+
+const { formRef, validate, restoreValidation } = useNaiveForm();
+const { defaultRequiredRule } = useFormRules();
+
+const title = computed(() => {
+  const titles: Record<NaiveUI.TableOperateType, string> = {
+    add: $t('page.{{- $Table.ShortName -}}.form.add'),
+    edit: $t('page.{{- $Table.ShortName -}}.form.edit', { columnName: props.rowData?.comment })
+  };
+  return titles[props.operateType];
+});
+
+type Model = Api.{{$Table.UpperCamelCase}}.AddOrUpdate{{$Table.UpperCamelCase}}Params;
+
+const model: Model = reactive(createDefaultModel());
+
+function createDefaultModel(): Model {
+  return {
+       {{- range $Columns }}
+         {{- if eq .IsAdd "1"}}
+           {{- .LowerCamelCase -}}:{{ GetTsDefaultValue .TsType }},
+         {{ end -}}
+       {{ end -}}
+  };
+}
+
+type RuleKey = keyof Model & (
+       {{- range $Columns }}
+         {{- if eq .Required "1"}}
+           '{{- GenRuleKey . $Columns -}}',
+         {{ end -}}
+       {{ end -}}
+);
+const rules: Record<RuleKey, App.Global.FormRule> = {
+       {{- range $Columns }}
+         {{- if eq .Required "1"}}
+           {{ .LowerCamelCase -}}: defaultRequiredRule,
+         {{ end -}}
+       {{ end -}}
+};
+
+function handleUpdateModelWhenEdit() {
+  if (props.operateType === 'add') {
+    Object.assign(model, createDefaultModel());
+    return;
+  }
+
+  if (props.operateType === 'edit' && props.rowData) {
+    Object.assign(model, props.rowData);
+  }
+}
+
+function closeDrawer() {
+  visible.value = false;
+}
+
+async function handleSubmit() {
+  await validate();
+
+  await validate();
+  if (props.operateType === 'add') {
+    const { error } = await add{{$Table.UpperCamelCase}}(model);
+    if (!error) {
+      window.$message?.success($t('common.addSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
+  }
+  if (props.operateType === 'edit') {
+    const { error } = await update{{$Table.UpperCamelCase}}ById(props.rowData?.id, model);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+      closeDrawer();
+      emit('submitted');
+    }
+  }
+}
+
+watch(visible, () => {
+  if (visible.value) {
+    handleUpdateModelWhenEdit();
+    restoreValidation();
+  }
+});
+</script>
+
+<template>
+  <NDrawer v-model:show="visible" display-directive="show" :width="360">
+    <NDrawerContent :title="title" :native-scrollbar="false" closable>
+      <NForm ref="formRef" :model="model" :rules="rules">
+           {{- range $Columns }}
+               {{ GenEditHtmlItem . $Table }}
+           {{ end -}}
+      </NForm>
+      <template #footer>
+        <NSpace :size="16" align="center">
+          <NButton @click="closeDrawer" >{{RenderNative "$t('common.cancel')" }}</NButton>
+          <NButton type="primary" @click="handleSubmit">{{RenderNative "$t('common.confirm')" }}</NButton>
+        </NSpace>
+      </template>
+    </NDrawerContent>
+  </NDrawer>
+</template>
+
+<style scoped></style>

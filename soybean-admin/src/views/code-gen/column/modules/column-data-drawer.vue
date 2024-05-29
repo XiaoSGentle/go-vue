@@ -52,6 +52,7 @@ function createDefaultModel(): Model {
     htmlType: '',
     isQuery: '1',
     queryType: '',
+    isShow: '1',
     required: '1',
     sort: 0,
     tsType: ''
@@ -136,6 +137,11 @@ watch(visible, () => {
 
         <NFormItem :label="$t('page.gen.columnType.isQuery')">
           <NRadioGroup v-model:value="model.isQuery">
+            <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
+          </NRadioGroup>
+        </NFormItem>
+        <NFormItem :label="$t('page.gen.columnType.isShow')">
+          <NRadioGroup v-model:value="model.isShow">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>

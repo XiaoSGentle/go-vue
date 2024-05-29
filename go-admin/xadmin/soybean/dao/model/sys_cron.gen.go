@@ -8,11 +8,12 @@ const TableNameSysCron = "sys_cron"
 
 // SysCron mapped from table <sys_cron>
 type SysCron struct {
-	Key         string `gorm:"column:key;type:varchar(255);primaryKey;comment:唯一键值" json:"key"`           // 唯一键值
-	Description string `gorm:"column:description;type:varchar(255);comment:描述" json:"description"`        // 描述
-	Schedule    string `gorm:"column:schedule;type:varchar(255);comment:cron表达式" json:"schedule"`         // cron表达式
-	Status      string `gorm:"column:status;type:varchar(1);not null;default:1;comment:状态" json:"status"` // 状态
-	Arguments   string `gorm:"column:arguments;type:varchar(255);comment:参数" json:"arguments"`            // 参数
+	Key           string `gorm:"column:key;type:varchar(255);primaryKey;comment:唯一键值" json:"key"`           // 唯一键值
+	Description   string `gorm:"column:description;type:varchar(255);comment:描述" json:"description"`        // 描述
+	Schedule      string `gorm:"column:schedule;type:varchar(255);comment:cron表达式" json:"schedule"`         // cron表达式
+	Status        string `gorm:"column:status;type:varchar(1);not null;default:1;comment:状态" json:"status"` // 状态
+	Arguments     string `gorm:"column:arguments;type:varchar(255);comment:参数" json:"arguments"`            // 参数
+	ArgumentsType string `gorm:"column:arguments_type;type:varchar(500);comment:参数类型" json:"argumentsType"` // 参数类型
 }
 
 // TableName SysCron's table name

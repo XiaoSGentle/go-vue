@@ -18,15 +18,18 @@ type SysGenTableColumn struct {
 	LowerCamelCase string    `gorm:"column:lower_camel_case;type:varchar(255)" json:"lowerCamelCase"`
 	SnakeCase      string    `gorm:"column:snake_case;type:varchar(255);comment:字段名" json:"snakeCase"`                               // 字段名
 	Comment        string    `gorm:"column:comment;type:varchar(200);comment:列描述" json:"comment"`                                    // 列描述
-	Length         string    `gorm:"column:length;type:varchar(5);default:0;comment:列长度" json:"length"`                              // 列长度
+	Length         string    `gorm:"column:length;type:varchar(255);default:0;comment:列长度" json:"length"`                            // 列长度
 	GoType         string    `gorm:"column:go_type;type:varchar(100);comment:go类型" json:"goType"`                                    // go类型
 	TsType         string    `gorm:"column:ts_type;type:varchar(100);comment:ts类型" json:"tsType"`                                    // ts类型
-	Required       string    `gorm:"column:required;type:varchar(1);default:0;comment:是否必填: [1=是, 0=否]" json:"required"`             // 是否必填: [1=是, 0=否]
-	BaseColumn     string    `gorm:"column:base_column;type:varchar(1);not null;default:1;comment:基础字段" json:"baseColumn"`           // 基础字段
-	IsQuery        string    `gorm:"column:is_query;type:varchar(1);default:0;comment:是否查询字段: [1=是, 0=否]" json:"isQuery"`            // 是否查询字段: [1=是, 0=否]
+	Required       string    `gorm:"column:required;type:varchar(1);default:2;comment:是否必填: [1=是, 0=否]" json:"required"`             // 是否必填: [1=是, 0=否]
+	BaseColumn     string    `gorm:"column:base_column;type:varchar(1);not null;default:2;comment:基础字段" json:"baseColumn"`           // 基础字段
+	IsQuery        string    `gorm:"column:is_query;type:varchar(1);default:2;comment:是否查询字段: [1=是, 0=否]" json:"isQuery"`            // 是否查询字段: [1=是, 0=否]
+	IsShow         string    `gorm:"column:is_show;type:varchar(1);not null;default:2;comment:展示" json:"isShow"`                     // 展示
+	IsAdd          string    `gorm:"column:is_add;type:varchar(1);not null;default:1;comment:新增参数" json:"isAdd"`                     // 新增参数
 	QueryType      string    `gorm:"column:query_type;type:varchar(30);default:EQ;comment:查询方式: [等于、不等于、大于、小于、范围]" json:"queryType"` // 查询方式: [等于、不等于、大于、小于、范围]
 	HTMLType       string    `gorm:"column:html_type;type:varchar(30);comment:显示类型: [文本框、文本域、下拉框、复选框、单选框、日期控件]" json:"htmlType"`     // 显示类型: [文本框、文本域、下拉框、复选框、单选框、日期控件]
 	DictType       string    `gorm:"column:dict_type;type:varchar(200);comment:字典类型" json:"dictType"`                                // 字典类型
+	DictCode       string    `gorm:"column:dict_code;type:varchar(255);comment:字典CODE" json:"dictCode"`                              // 字典CODE
 	Sort           int32     `gorm:"column:sort;type:int(5);comment:排序编号" json:"sort"`                                               // 排序编号
 	Version        int32     `gorm:"column:version;type:int(11);comment:乐观锁" json:"version"`                                         // 乐观锁
 	CreateUID      int32     `gorm:"column:create_uid;type:int(11);comment:创建者uid" json:"createUid"`                                 // 创建者uid

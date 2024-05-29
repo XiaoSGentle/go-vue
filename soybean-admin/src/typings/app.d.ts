@@ -279,6 +279,7 @@ declare namespace App {
         search: string;
         switch: string;
         tip: string;
+        preView: string;
         trigger: string;
         update: string;
         updateSuccess: string;
@@ -664,10 +665,12 @@ declare namespace App {
             htmlType: string;
             isQuery: string;
             length: string;
+            isShow: string;
             queryType: string;
             required: string;
             snakeCase: string;
             sort: string;
+            daoPath: string;
             tableName: string;
             tsType: string;
             form: {
@@ -677,6 +680,7 @@ declare namespace App {
               comment: string;
               dictType: string;
               goType: string;
+              daoPath: string;
               htmlType: string;
               isQuery: string;
               length: string;
@@ -689,41 +693,31 @@ declare namespace App {
             };
           };
         };
-        // cron: {
-        //   type: {
-        //     tableTitle: string;
-        //     baseColumn: string;
-        //     comment: string;
-        //     dictType: string;
-        //     goType: string;
-        //     htmlType: string;
-        //     isQuery: string;
-        //     length: string;
-        //     queryType: string;
-        //     required: string;
-        //     snakeCase: string;
-        //     sort: string;
-        //     tableName: string;
-        //     tsType: string;
-        //     form: {
-        //       add: string;
-        //       edit: string;
-        //       baseColumn: string;
-        //       comment: string;
-        //       dictType: string;
-        //       goType: string;
-        //       htmlType: string;
-        //       isQuery: string;
-        //       length: string;
-        //       queryType: string;
-        //       required: string;
-        //       snakeCase: string;
-        //       sort: string;
-        //       tableName: string;
-        //       tsType: string;
-        //     };
-        //   };
-        // };
+        cron: {
+          tableTitle: string;
+          key: string;
+
+          description: string;
+
+          schedule: string;
+
+          status: string;
+
+          arguments: string;
+          form: {
+            add: string;
+            edit: string;
+            key: string;
+
+            description: string;
+
+            schedule: string;
+
+            status: string;
+
+            arguments: string;
+          };
+        };
       };
       form: {
         required: string;

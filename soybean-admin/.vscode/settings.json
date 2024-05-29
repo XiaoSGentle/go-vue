@@ -16,8 +16,11 @@
   "unocss.root": ["./"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "vue.server.hybridMode": true,
-  "cSpell.words": [
-    "Popconfirm",
-    "typecheck"
-  ]
+  "cSpell.words": ["haml", "Popconfirm", "typecheck"],
+  "docwriter.style": "JSDoc",
+  "docwriter.language": "Chinese",
+  "docwriter.progress.trackFunctions": true,
+  "docwriter.progress.trackClasses": false,
+  "docwriter.progress.trackTypes": false,
+  "docwriter.progress.trackMethods": false
 }

@@ -30,6 +30,7 @@ func newSysGenTable(db *gorm.DB, opts ...gen.DOOption) sysGenTable {
 	_sysGenTable.ID = field.NewInt32(tableName, "id")
 	_sysGenTable.TableName_ = field.NewString(tableName, "table_name")
 	_sysGenTable.TableComment = field.NewString(tableName, "table_comment")
+	_sysGenTable.ShortName = field.NewString(tableName, "short_name")
 	_sysGenTable.AuthorName = field.NewString(tableName, "author_name")
 	_sysGenTable.UpperCamelCase = field.NewString(tableName, "upper_camel_case")
 	_sysGenTable.LowerCamelCase = field.NewString(tableName, "lower_camel_case")
@@ -38,6 +39,7 @@ func newSysGenTable(db *gorm.DB, opts ...gen.DOOption) sysGenTable {
 	_sysGenTable.CheckAuth = field.NewString(tableName, "check_auth")
 	_sysGenTable.AddLog = field.NewString(tableName, "add_log")
 	_sysGenTable.Remarks = field.NewString(tableName, "remarks")
+	_sysGenTable.DaoPath = field.NewString(tableName, "dao_path")
 	_sysGenTable.Version = field.NewInt32(tableName, "version")
 	_sysGenTable.CreateUID = field.NewInt32(tableName, "create_uid")
 	_sysGenTable.CreateBy = field.NewString(tableName, "create_by")
@@ -59,6 +61,7 @@ type sysGenTable struct {
 	ID             field.Int32  // 主键
 	TableName_     field.String // 表名称
 	TableComment   field.String // 表描述
+	ShortName      field.String
 	AuthorName     field.String // 作者的名称
 	UpperCamelCase field.String // 实体的名称
 	LowerCamelCase field.String // 生成模块名
@@ -67,6 +70,7 @@ type sysGenTable struct {
 	CheckAuth      field.String // 是否鉴权
 	AddLog         field.String // 是否创建日志
 	Remarks        field.String // 备注信息
+	DaoPath        field.String // 实体地址
 	Version        field.Int32  // 乐观锁
 	CreateUID      field.Int32  // 创建者uid
 	CreateBy       field.String // 创建者
@@ -94,6 +98,7 @@ func (s *sysGenTable) updateTableName(table string) *sysGenTable {
 	s.ID = field.NewInt32(table, "id")
 	s.TableName_ = field.NewString(table, "table_name")
 	s.TableComment = field.NewString(table, "table_comment")
+	s.ShortName = field.NewString(table, "short_name")
 	s.AuthorName = field.NewString(table, "author_name")
 	s.UpperCamelCase = field.NewString(table, "upper_camel_case")
 	s.LowerCamelCase = field.NewString(table, "lower_camel_case")
@@ -102,6 +107,7 @@ func (s *sysGenTable) updateTableName(table string) *sysGenTable {
 	s.CheckAuth = field.NewString(table, "check_auth")
 	s.AddLog = field.NewString(table, "add_log")
 	s.Remarks = field.NewString(table, "remarks")
+	s.DaoPath = field.NewString(table, "dao_path")
 	s.Version = field.NewInt32(table, "version")
 	s.CreateUID = field.NewInt32(table, "create_uid")
 	s.CreateBy = field.NewString(table, "create_by")
@@ -126,10 +132,11 @@ func (s *sysGenTable) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysGenTable) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 19)
+	s.fieldMap = make(map[string]field.Expr, 21)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["table_name"] = s.TableName_
 	s.fieldMap["table_comment"] = s.TableComment
+	s.fieldMap["short_name"] = s.ShortName
 	s.fieldMap["author_name"] = s.AuthorName
 	s.fieldMap["upper_camel_case"] = s.UpperCamelCase
 	s.fieldMap["lower_camel_case"] = s.LowerCamelCase
@@ -138,6 +145,7 @@ func (s *sysGenTable) fillFieldMap() {
 	s.fieldMap["check_auth"] = s.CheckAuth
 	s.fieldMap["add_log"] = s.AddLog
 	s.fieldMap["remarks"] = s.Remarks
+	s.fieldMap["dao_path"] = s.DaoPath
 	s.fieldMap["version"] = s.Version
 	s.fieldMap["create_uid"] = s.CreateUID
 	s.fieldMap["create_by"] = s.CreateBy

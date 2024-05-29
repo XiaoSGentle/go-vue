@@ -1,0 +1,28 @@
+{{ $Table := .Table -}}
+{{ $Columns := .Columns -}}
+namespace {{$Table.UpperCamelCase}} {
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+
+    type {{$Table.UpperCamelCase}}Type = Common.CommonRecord<{
+        {{- range $Columns -}}
+        //{{ .Comment }}
+        {{ .LowerCamelCase }}:{{ .TsType }}
+        {{ end -}}
+    }>;
+    type {{$Table.UpperCamelCase}}List = Common.PaginatingQueryRecord<{{$Table.UpperCamelCase}}Type>;
+    type AddOrUpdate{{$Table.UpperCamelCase}}DataParams = Pick<
+      {{$Table.UpperCamelCase}}Type,
+        {{- range $Columns }}
+          {{- if eq .IsAdd "1"}}
+            '{{- .LowerCamelCase -}}'{{- AppendAddEnd . $Columns "|" -}}
+          {{ end -}}
+        {{ end -}}
+    >;
+    type {{$Table.UpperCamelCase}}SearchParams = CommonType.RecordNullable<Pick<Api.{{$Table.UpperCamelCase}}.{{$Table.UpperCamelCase}}Type,
+        {{- range $Columns }}
+          {{- if eq .IsQuery "1"}}
+            {{- .LowerCamelCase -}}{{- AppendQueryEnd . $Columns "|" -}}
+          {{ end -}}
+        {{ end -}}> & CommonSearchParams
+    >;
+}

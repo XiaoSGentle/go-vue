@@ -12,9 +12,9 @@ type ISysDepartService interface {
 }
 
 type SysDepartService struct {
-	serviceFn xgorm.IServiceFunctions[model.SysDepartment]
-	query     *query.Query
-	db        *gorm.DB
+	xgorm.IServiceFunctions[model.SysDepartment]
+	query *query.Query
+	db    *gorm.DB
 }
 
 func (s SysDepartService) FindByName() {
@@ -24,8 +24,8 @@ func (s SysDepartService) FindByName() {
 
 func NewSysDepartService(db *gorm.DB) ISysDepartService {
 	return &SysDepartService{
-		db:        db,
-		serviceFn: xgorm.InjectService[model.SysDepartment](db),
-		query:     query.Use(db),
+		IServiceFunctions: xgorm.InjectService[model.SysDepartment](db),
+		query:             query.Use(db),
+		db:                db,
 	}
 }
