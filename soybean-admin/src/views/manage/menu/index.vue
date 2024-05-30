@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script lang="tsx" setup>
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
@@ -109,14 +109,12 @@ const { columns, columnChecks, data, loading, pagination, getData } = useTable({
         if (row.status === null) {
           return null;
         }
-
         const tagMap: Record<Api.Common.EnableStatus, NaiveUI.ThemeColor> = {
           1: 'success',
           2: 'warning'
         };
 
         const label = $t(enableStatusRecord[row.status]);
-
         return <NTag type={tagMap[row.status]}>{label}</NTag>;
       }
     },
@@ -240,7 +238,7 @@ init();
 
 <template>
   <div ref="wrapperRef" class="flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <NCard :title="$t('page.manage.menu.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard :bordered="false" :title="$t('page.manage.menu.title')" class="sm:flex-1-hidden card-wrapper" size="small">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
@@ -255,20 +253,20 @@ init();
         v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
         :data="data"
-        size="small"
         :flex-height="!appStore.isMobile"
-        :scroll-x="1088"
         :loading="loading"
-        :row-key="row => row.id"
-        remote
         :pagination="pagination"
+        :row-key="row => row.id"
+        :scroll-x="1088"
         class="sm:h-full"
+        remote
+        size="small"
       />
       <MenuOperateDrawer
         v-model:visible="drawerVisible"
+        :all-pages="allPages"
         :operate-type="operateType"
         :row-data="editingData"
-        :all-pages="allPages"
         @submitted="getData"
       />
     </NCard>

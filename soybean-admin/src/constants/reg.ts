@@ -12,6 +12,8 @@ export const REG_PHONE =
 export const REG_PWD = /^\w{6,18}$/;
 
 /** Email reg */
+export const REG_CRON = /(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7})/;
+
 export const REG_EMAIL = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
 /** Six digit code reg */

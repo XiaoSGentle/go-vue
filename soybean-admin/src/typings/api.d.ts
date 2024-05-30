@@ -422,6 +422,6 @@ declare namespace Api {
       arguments: string[];
     }>;
     type CronTypeList = Common.PaginatingQueryRecord<CronType>;
-    type AddOrUpdateCronTypeParams = Pick<CronType, 'arguments' | 'description' | 'schedule' | 'status'>;
+    type AddOrUpdateCronTypeParams = Pick<CronType, 'arguments' | 'description' | 'schedule' | 'status'|'key'>;
   }
 }

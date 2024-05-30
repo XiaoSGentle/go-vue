@@ -712,7 +712,7 @@ declare namespace App {
             description: string;
 
             schedule: string;
-
+            scheduleWarning:string;
             status: string;
 
             arguments: string;

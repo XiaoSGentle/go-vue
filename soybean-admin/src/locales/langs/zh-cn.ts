@@ -540,6 +540,7 @@ const local: App.I18n.Schema = {
         key: '请填写唯一键值',
         description: '请填写描述',
         schedule: '请填写cron表达式',
+        scheduleWarning: '请填写正确的cron表达式',
         status: '请填写状态',
         arguments: '请填写参数'
       }

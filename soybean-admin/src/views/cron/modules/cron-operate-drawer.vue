@@ -1,12 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, reactive, watch } from 'vue';
-import { useBoolean } from '@sa/hooks';
+
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
-import { addRole, updateRoleById } from '@/service/api';
-import MenuAuthModal from './menu-auth-modal.vue';
-import ApiAuthModal from './api-auth-modal.vue';
+import { updateCronDataById } from '@/service/api';
+import {REG_CRON} from "@/constants/reg";
+
 
 defineOptions({
   name: 'CronOperateDrawer'
@@ -16,7 +16,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.SystemManage.Role | null;
+  rowData?: Api.Cron.CronType | null;
 }
 
 const props = defineProps<Props>();
@@ -30,11 +30,8 @@ const emit = defineEmits<Emits>();
 const visible = defineModel<boolean>('visible', {
   default: false
 });
-
-const { formRef, validate, restoreValidation } = useNaiveForm();
 const { defaultRequiredRule } = useFormRules();
-const { bool: menuAuthVisible, setTrue: openMenuAuthModal } = useBoolean();
-const { bool: apiAuthVisible, setTrue: apiButtonAuthModal } = useBoolean();
+const { formRef, validate, restoreValidation } = useNaiveForm();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -44,45 +41,40 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Api.SystemManage.AddOrUpdateRoleParams;
+type Model = Api.Cron.AddOrUpdateCronTypeParams;
 
 const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    roleName: '',
-    roleCode: '',
-    roleDesc: '',
-    status: null,
-    apiCodes: [],
-    menuIds: []
+    key:'',
+    arguments:[],
+    description:"",
+    schedule:"",
+    status:'1'
   };
 }
 
-type RuleKey = Exclude<Exclude<Exclude<keyof Model, 'roleDesc'>, 'apiCodes'>, 'menuIds'>;
+type RuleKey =Pick<Model, 'description'|'schedule'|'arguments'|'status'>;
 
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  roleName: defaultRequiredRule,
-  roleCode: defaultRequiredRule,
-  status: defaultRequiredRule
+const rules: Record<keyof RuleKey, App.Global.FormRule> = {
+  description: defaultRequiredRule,
+  schedule: {
+    pattern:REG_CRON,
+    required: true,
+    trigger:"change",
+    message:$t('page.cron.form.scheduleWarning'),
+  },
+  arguments: defaultRequiredRule,
+  status:defaultRequiredRule
 };
 
-const roleCode = computed(() => props.rowData?.roleCode);
-const roleHome = computed(() => {
-  if (props.rowData?.roleHome) {
-    return props.rowData?.roleHome;
-  }
-  return 'home';
-});
-
-const isEdit = computed(() => props.operateType === 'edit');
-
 function handleUpdateModelWhenEdit() {
+
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
     return;
   }
-
   if (props.operateType === 'edit' && props.rowData) {
     Object.assign(model, props.rowData);
   }
@@ -94,16 +86,8 @@ function closeDrawer() {
 
 async function handleSubmit() {
   await validate();
-  if (props.operateType === 'add') {
-    const { error } = await addRole(model);
-    if (!error) {
-      window.$message?.success($t('common.addSuccess'));
-      closeDrawer();
-      emit('submitted');
-    }
-  }
   if (props.operateType === 'edit') {
-    const { error } = await updateRoleById(props.rowData?.id, model);
+    const { error } = await updateCronDataById(model);
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
       closeDrawer();
@@ -121,30 +105,29 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="show" :width="360">
-    <NDrawerContent :title="title" :native-scrollbar="false" closable>
+  <NDrawer v-model:show="visible" :width="360" display-directive="show">
+    <NDrawerContent :native-scrollbar="false" :title="title" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.manage.role.roleName')" path="roleName">
-          <NInput v-model:value="model.roleName" :placeholder="$t('page.manage.role.form.roleName')" />
+        <NFormItem :label="$t('page.cron.key')" >
+          <NInput v-model:value="model.key" :placeholder="$t('page.cron.form.key')" disabled />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.role.roleCode')" path="roleCode">
-          <NInput v-model:value="model.roleCode" :placeholder="$t('page.manage.role.form.roleCode')" />
+        <NFormItem :label="$t('page.cron.schedule')" path="schedule">
+          <NInput v-model:value="model.schedule" :placeholder="$t('page.cron.form.schedule')" />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.role.roleStatus')" path="status">
+        <NFormItem :label="$t('page.cron.description')" path="description">
+          <NInput v-model:value="model.description" :placeholder="$t('page.cron.form.description')" />
+        </NFormItem>
+        <NFormItem :label="$t('page.cron.arguments')" path="roleDesc">
+          <NInput v-for="(item,index) in model.arguments" v-model:value="model.arguments[index]" :placeholder="$t('page.cron.form.arguments')" />
+        </NFormItem>
+        <NFormItem :label="$t('page.cron.status')" path="status">
           <NRadioGroup v-model:value="model.status">
-            <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
+            <NRadio v-for="item in enableStatusOptions" :key="item.value" :label="$t(item.label)" :value="item.value" />
           </NRadioGroup>
         </NFormItem>
-        <NFormItem :label="$t('page.manage.role.roleDesc')" path="roleDesc">
-          <NInput v-model:value="model.roleDesc" :placeholder="$t('page.manage.role.form.roleDesc')" />
-        </NFormItem>
+
       </NForm>
-      <NSpace v-if="isEdit">
-        <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
-        <MenuAuthModal v-model:visible="menuAuthVisible" :role-code="roleCode" :role-home="roleHome" />
-        <NButton @click="apiButtonAuthModal">{{ $t('page.manage.role.apiAuth') }}</NButton>
-        <ApiAuthModal v-model:visible="apiAuthVisible" :role-code="roleCode" />
-      </NSpace>
+
       <template #footer>
         <NSpace :size="16" align="center">
           <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>

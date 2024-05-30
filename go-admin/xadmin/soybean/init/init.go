@@ -20,7 +20,7 @@ func InsertApisToSql(routers []gin.RouteInfo) {
 	xvariable.Logger.InfoLog.Info("insert apis to sql...")
 	println("insert apis to sql...")
 	apiQuery := query.Use(xvariable.GormDB).SysAPI
-	// 清除所欲路由
+	// 清除所有路由
 	_, _ = apiQuery.Where(apiQuery.APICode.IsNotNull()).Delete()
 	var insertModels []*model.SysAPI
 	for _, router := range routers {
@@ -120,4 +120,8 @@ type Test struct {
 
 func (t Test) Init(string2 string) {
 	println(string2)
+}
+
+func (t Test) Print(string2 string, str string) {
+	println(string2 + str)
 }

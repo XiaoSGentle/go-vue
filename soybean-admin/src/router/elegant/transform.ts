@@ -162,6 +162,7 @@ const routeMap: RouteMap = {
   "code-gen": "/code-gen",
   "code-gen_column": "/code-gen/column/:name",
   "code-gen_table": "/code-gen/table",
+  "cron": "/cron",
   "dict": "/dict",
   "dict_data": "/dict/data/:code",
   "dict_type": "/dict/type",

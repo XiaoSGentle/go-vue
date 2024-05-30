@@ -540,6 +540,7 @@ const local: App.I18n.Schema = {
         key: 'Please input Key',
         description: 'Please input Description',
         schedule: 'Please input Schedule',
+        scheduleWarning:"Please fill in the correct cron expression",
         status: 'Please input Status',
         arguments: 'Please input Arguments'
       }
