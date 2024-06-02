@@ -111,7 +111,7 @@ func (receiver *GinCore) Run(port string) {
 			xvariable.Logger.ErrorLog.ErrorContext(context.Background(), "注册DIG出错:"+err.Error())
 		}
 	}
-	receiver.Router.Static("/assets", "./front/assets")
+	receiver.Router.Static("/assets", "./public/front/assets")
 	receiver.Router.GET("", receiver.FontHandler)
 	/// 注册所有的路由
 	mainRouter := receiver.Router.Group("/api")
@@ -132,7 +132,7 @@ func (receiver *GinCore) Run(port string) {
 }
 
 func (receiver *GinCore) FontHandler(c *gin.Context) {
-	c.File("./front/index.html")
+	c.File("./public/front/index.html")
 }
 
 func InitializeGlobalVariables() {
