@@ -63,7 +63,7 @@ func (s SysCronService) UpdateCron(c *gin.Context, cron *UpdateCronReq) (err err
 	if updates.Error != nil {
 		return updates.Error
 	}
-	if cronInSql.Schedule != cron.Schedule || cronInSql.Arguments != strings.Join(cron.Arguments, ",") {
+	if cronInSql.Status != cron.Status || (cronInSql.Schedule != cron.Schedule || cronInSql.Arguments != strings.Join(cron.Arguments, ",")) {
 		xvariable.XCron.ReStartCorn()
 	}
 	return

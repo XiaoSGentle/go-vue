@@ -1,13 +1,13 @@
 /** Default theme settings */
 export const themeSettings: App.Theme.ThemeSetting = {
   themeScheme: 'auto',
-  themeColor: '#646cff',
-  otherColor: { info: '#2080f0', success: '#52c41a', warning: '#faad14', error: '#f5222d' },
+  themeColor: '#07c59f',
+  otherColor: { info: '#13a3a3', success: '#13a3a3', warning: '#faad14', error: '#f5222d' },
   isInfoFollowPrimary: true,
-  layout: { mode: 'vertical', scrollMode: 'content' },
+  layout: { mode: 'vertical-mix', scrollMode: 'content' },
   page: { animate: true, animateMode: 'fade-slide' },
   header: { height: 56, breadcrumb: { visible: true, showIcon: true } },
-  tab: { visible: true, cache: true, height: 44, mode: 'button' },
+  tab: { visible: false, cache: true, height: 44, mode: 'button' },
   fixedHeaderAndTab: true,
   sider: {
     inverted: false,

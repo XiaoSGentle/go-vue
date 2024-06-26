@@ -56,15 +56,12 @@ func (s SysUserService) AddUser(c *gin.Context, param *AddOrUpdateSysUserParam) 
 func (s SysUserService) UpdateUser(c *gin.Context, id int32, param *AddOrUpdateSysUserParam) (err error) {
 	menuQuery := s.query.SysUser
 	updateC := &model.SysUser{
-		Nickname:       param.UserName,
-		Username:       param.NickName,
+		Nickname:       param.NickName,
+		Username:       param.UserName,
 		Roles:          strings.Join(param.UserRoles, ","),
-		Password:       xencrypt.Base64Md5(param.UserName),
-		LoginAttempts:  time.Now().Format(time.DateOnly) + "|0",
 		Phone:          param.UserPhone,
 		Avatar:         "",
 		Email:          param.UserEmail,
-		NeedChangePwd:  1,
 		Gender:         param.UserGender,
 		LastOnlineTime: time.Time{},
 		LastCpwdTime:   time.Time{},

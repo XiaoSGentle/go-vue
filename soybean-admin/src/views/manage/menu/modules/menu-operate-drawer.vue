@@ -133,6 +133,10 @@ const layoutOptions: CommonType.Option[] = [
   {
     label: 'blank',
     value: 'blank'
+  },
+  {
+    label: 'project',
+    value: 'project'
   }
 ];
 

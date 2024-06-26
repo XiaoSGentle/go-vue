@@ -45,9 +45,7 @@ func NewCaptchaManager() *Captcha {
 	var ctx = context.Background()
 	bigCacheClient, _ := bigcache.New(ctx, bigcache.DefaultConfig(5*time.Minute))
 	bigCacheStore := bigcacheStore.NewBigcache(bigCacheClient)
-
 	cacheManager := cache.New[[]byte](bigCacheStore)
-
 	capt := captcha.GetCaptcha()
 	path, _ := os.Getwd()
 	capt.SetFont([]string{

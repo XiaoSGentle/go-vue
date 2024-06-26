@@ -40,7 +40,6 @@ func (r *Auth) CheckApiPermit(roles []string, requestMethod, apiPath string) boo
 	for _, role := range roles {
 		allApis = append(allApis, r.apiCacheStore.Get(role)...)
 	}
-
 	return xslice.StringExist(allApis, fmt.Sprintf("%s::%s", requestMethod, apiPath))
 }
 

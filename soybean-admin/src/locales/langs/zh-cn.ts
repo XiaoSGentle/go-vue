@@ -181,7 +181,9 @@ const local: App.I18n.Schema = {
     dict_data: '字典详情',
     'code-gen': '代码生成',
     'code-gen_column': '列详情',
-    'code-gen_table': '代码生成'
+    'code-gen_table': '代码生成',
+    projects_list: '项目列表',
+    projects_preview: '项目概览'
   },
   page: {
     login: {
@@ -558,7 +560,7 @@ const local: App.I18n.Schema = {
     },
     pwd: {
       required: '请输入密码',
-      invalid: '密码格式不正确，6-18位字符，包含字母、数字、下划线'
+      invalid: '密码必须包含大小写字母、数字、英文字符，且长度为8-15位'
     },
     confirmPwd: {
       required: '请输入确认密码',

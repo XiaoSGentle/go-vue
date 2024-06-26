@@ -1,0 +1,2258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GoORMHelperCache">
+    <option name="schemaMapping">
+      <map>
+        <entry key="AddOrUpDateSysDictDataParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AddOrUpDateSysDictParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AddOrUpDateSysMenuParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AddOrUpdateSysRoleParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AddOrUpdateSysUserParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AllApisResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AllCron">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/crons/reset_database.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AllRolesResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Auth">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xauth/auth.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AuthContent">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xauth/auth.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="AuthService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="BaseRecord">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtype/xbase/base.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CacheStore">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xcache/cache.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Captcha">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xcaptcha/captcha_code.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CaptchaCodeResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xcaptcha/captcha_code.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CaptchaFontDots">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xcaptcha/captcha_code.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CaptchaVo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CheckCaptchaParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ClaimsPayload">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtoken/jwt_token.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CodeError">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xerror/errors.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Config">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xbuild/main.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CronResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="CustomClaims">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtoken/jwt_token.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="DelIds">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtype/xbase/base.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="DetailsId">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtype/xbase/base.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="DictInfo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GenTableColumnsParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GenTableParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GenTablePreview">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GetSmsTextParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GetUserRoutersVo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GinCore">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/core/xcore/xcore.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="GroupBase">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/core/xcore/xgroup.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Handler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.router.go" />
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_department/department.router.go" />
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Logger">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xlogger/slog.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="LoginParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="LoginVo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="MenuQueryParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Oauth2BindParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Oauth2BindRedisSaveParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Oauth2MaxKeyAccessToken">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Oauth2MaxKeyUserInfo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Oauth2Param">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="PageParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtype/xbase/base.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="PageResult">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtype/xbase/base.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="PageResultList">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xtype/xbase/base.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="PanicExceptionRecord">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/core/xcore/xcore.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Query">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="QueryHelper">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xgorm/query_helper.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="QueryTx">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="RedirectVo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="RefreshTokenParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Resp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xmiddlewares/logger.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ResponseError">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xresponse/response.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ResponseSuccess">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xresponse/response.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ResponseWriterWrapper">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xmiddlewares/logger.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="RouteService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="RouterFunction">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xgorm/inject_router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="RouterModel">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/core/xcore/xcore.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="RouterTreeSimpleResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ScannerFunctionResult">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xcron/xcron.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SmsCodeLoginParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysAPI">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_api.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysCron">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_cron.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysCronListResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysCronService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDepartService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_department/department.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDepartment">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_department.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictDataList">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictDataListParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictDataListResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictDataService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict_data.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictDatum">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_dict_data.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictList">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictListParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictListResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysDictType">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_dict_type.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysGenService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysGenTable">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_gen_table.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysGenTableColumn">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_gen_table_column.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysLogFileZipsResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_log/log.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysLogListResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_log/log.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysMenu">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_menu.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysMenuList">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysMenuListResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysMenuService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysOauth2Bind">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_oauth2_bind.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysRole">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_role.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysRoleList">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysRoleListParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysRoleListResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysRolePermitResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysRoleService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysUser">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_user.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysUserList">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysUserListParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysUserListResp">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="SysUserService">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="System">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/DigFunctions.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="TmplGenParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="UpdateCronReq">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="UpdateRoleHomeParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="UpdateRolePermitParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="UserInfoVo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="UserRouter">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="UserRouterMeta">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="Validator">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xvalidate/validator.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="VerifyCaptchaCodeParam">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xcaptcha/captcha_code.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="XCron">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xcron/xcron.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="authHandler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="fontDots">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="logHandler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_log/log.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="queryCtx">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="routeHandler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="serviceFunction">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xgorm/inject_service.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysAPI">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_api.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysAPIDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_api.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysCron">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_cron.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysCronDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_cron.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysDepartment">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_department.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysDepartmentDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_department.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysDictDatum">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_data.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysDictDatumDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_data.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysDictHandler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysDictType">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_type.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysDictTypeDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_type.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysGenTable">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysGenTableColumn">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table_column.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysGenTableColumnDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table_column.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysGenTableDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysMenu">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_menu.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysMenuDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_menu.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysMenuHandler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysOauth2Bind">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_oauth2_bind.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysOauth2BindDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_oauth2_bind.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysRole">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_role.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysRoleDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_role.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysRoleHandler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysUser">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_user.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysUserDo">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_user.gen.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="sysUserHandler">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.router.go" />
+            </set>
+          </value>
+        </entry>
+        <entry key="ymlConfig">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xcore/common/xconfig/yml_config.go" />
+            </set>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="scannedPathMapping">
+      <map>
+        <entry key="file://$PROJECT_DIR$/xadmin/main.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719217228841" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/crons/reset_database.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719294646161" />
+              <option name="schema">
+                <list>
+                  <option value="AllCron" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/base/base_status.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719278340849" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_api.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475372" />
+              <option name="schema">
+                <list>
+                  <option value="SysAPI" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_cron.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475372" />
+              <option name="schema">
+                <list>
+                  <option value="SysCron" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_department.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719215583372" />
+              <option name="schema">
+                <list>
+                  <option value="SysDepartment" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_dict_data.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475368" />
+              <option name="schema">
+                <list>
+                  <option value="SysDictDatum" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_dict_type.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475372" />
+              <option name="schema">
+                <list>
+                  <option value="SysDictType" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_gen_table.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475371" />
+              <option name="schema">
+                <list>
+                  <option value="SysGenTable" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_gen_table_column.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475371" />
+              <option name="schema">
+                <list>
+                  <option value="SysGenTableColumn" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_menu.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475371" />
+              <option name="schema">
+                <list>
+                  <option value="SysMenu" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_oauth2_bind.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475372" />
+              <option name="schema">
+                <list>
+                  <option value="SysOauth2Bind" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_role.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475372" />
+              <option name="schema">
+                <list>
+                  <option value="SysRole" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_user.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475367" />
+              <option name="schema">
+                <list>
+                  <option value="SysUser" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475662" />
+              <option name="schema">
+                <list>
+                  <option value="Query" />
+                  <option value="queryCtx" />
+                  <option value="QueryTx" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_api.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475660" />
+              <option name="schema">
+                <list>
+                  <option value="sysAPI" />
+                  <option value="sysAPIDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_cron.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475659" />
+              <option name="schema">
+                <list>
+                  <option value="sysCron" />
+                  <option value="sysCronDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_department.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475658" />
+              <option name="schema">
+                <list>
+                  <option value="sysDepartment" />
+                  <option value="sysDepartmentDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_data.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475660" />
+              <option name="schema">
+                <list>
+                  <option value="sysDictDatum" />
+                  <option value="sysDictDatumDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_type.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475657" />
+              <option name="schema">
+                <list>
+                  <option value="sysDictType" />
+                  <option value="sysDictTypeDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475660" />
+              <option name="schema">
+                <list>
+                  <option value="sysGenTable" />
+                  <option value="sysGenTableDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table_column.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475660" />
+              <option name="schema">
+                <list>
+                  <option value="sysGenTableColumn" />
+                  <option value="sysGenTableColumnDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_menu.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475659" />
+              <option name="schema">
+                <list>
+                  <option value="sysMenu" />
+                  <option value="sysMenuDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_oauth2_bind.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475659" />
+              <option name="schema">
+                <list>
+                  <option value="sysOauth2Bind" />
+                  <option value="sysOauth2BindDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_role.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475657" />
+              <option name="schema">
+                <list>
+                  <option value="sysRole" />
+                  <option value="sysRoleDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_user.gen.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353475660" />
+              <option name="schema">
+                <list>
+                  <option value="sysUser" />
+                  <option value="sysUserDo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/init/init.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719392594733" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1717033359919" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/DigFunctions.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715652188381" />
+              <option name="schema">
+                <list>
+                  <option value="System" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437368" />
+              <option name="schema">
+                <list>
+                  <option value="authHandler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719392601775" />
+              <option name="schema">
+                <list>
+                  <option value="AuthService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_auth/auth.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715133758855" />
+              <option name="schema">
+                <list>
+                  <option value="LoginParam" />
+                  <option value="RefreshTokenParam" />
+                  <option value="CheckCaptchaParam" />
+                  <option value="fontDots" />
+                  <option value="GetSmsTextParam" />
+                  <option value="SmsCodeLoginParam" />
+                  <option value="Oauth2MaxKeyAccessToken" />
+                  <option value="Oauth2MaxKeyUserInfo" />
+                  <option value="Oauth2Param" />
+                  <option value="Oauth2BindParam" />
+                  <option value="Oauth2BindRedisSaveParam" />
+                  <option value="LoginVo" />
+                  <option value="UserInfoVo" />
+                  <option value="RedirectVo" />
+                  <option value="CaptchaVo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716348007971" />
+              <option name="schema">
+                <list>
+                  <option value="Handler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719209029937" />
+              <option name="schema">
+                <list>
+                  <option value="SysCronService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_cron/cron.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715601729149" />
+              <option name="schema">
+                <list>
+                  <option value="SysCronListResp" />
+                  <option value="CronResp" />
+                  <option value="UpdateCronReq" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_department/department.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715849154574" />
+              <option name="schema">
+                <list>
+                  <option value="Handler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_department/department.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716182410697" />
+              <option name="schema">
+                <list>
+                  <option value="SysDepartService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437368" />
+              <option name="schema">
+                <list>
+                  <option value="sysDictHandler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715582820978" />
+              <option name="schema">
+                <list>
+                  <option value="SysDictService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716182521025" />
+              <option name="schema">
+                <list>
+                  <option value="SysDictListParam" />
+                  <option value="SysDictListResp" />
+                  <option value="SysDictDataListParam" />
+                  <option value="SysDictDataListResp" />
+                  <option value="AddOrUpDateSysDictDataParam" />
+                  <option value="AddOrUpDateSysDictParam" />
+                  <option value="SysDictList" />
+                  <option value="SysDictDataList" />
+                  <option value="DictInfo" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_dict/dict_data.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715582953791" />
+              <option name="schema">
+                <list>
+                  <option value="SysDictDataService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716180423078" />
+              <option name="schema">
+                <list>
+                  <option value="Handler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716368775852" />
+              <option name="schema">
+                <list>
+                  <option value="SysGenService" />
+                  <option value="TmplGenParam" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_gen/gen.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716178970534" />
+              <option name="schema">
+                <list>
+                  <option value="GenTableParam" />
+                  <option value="GenTableColumnsParam" />
+                  <option value="GenTablePreview" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_log/log.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437369" />
+              <option name="schema">
+                <list>
+                  <option value="logHandler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_log/log.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715404105100" />
+              <option name="schema">
+                <list>
+                  <option value="SysLogListResp" />
+                  <option value="SysLogFileZipsResp" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437369" />
+              <option name="schema">
+                <list>
+                  <option value="sysMenuHandler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715583142786" />
+              <option name="schema">
+                <list>
+                  <option value="SysMenuService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715404105116" />
+              <option name="schema">
+                <list>
+                  <option value="SysMenuListResp" />
+                  <option value="AddOrUpDateSysMenuParam" />
+                  <option value="SysMenuList" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437369" />
+              <option name="schema">
+                <list>
+                  <option value="sysRoleHandler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1717722578174" />
+              <option name="schema">
+                <list>
+                  <option value="SysRoleService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_role/role.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715404105102" />
+              <option name="schema">
+                <list>
+                  <option value="SysRoleListParam" />
+                  <option value="UpdateRoleHomeParam" />
+                  <option value="UpdateRolePermitParam" />
+                  <option value="SysRolePermitResp" />
+                  <option value="SysRoleList" />
+                  <option value="AddOrUpdateSysRoleParam" />
+                  <option value="SysRoleListResp" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719296762885" />
+              <option name="schema">
+                <list>
+                  <option value="routeHandler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719393349681" />
+              <option name="schema">
+                <list>
+                  <option value="RouteService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715069894090" />
+              <option name="schema">
+                <list>
+                  <option value="GetUserRoutersVo" />
+                  <option value="UserRouter" />
+                  <option value="UserRouterMeta" />
+                  <option value="MenuQueryParam" />
+                  <option value="RouterTreeSimpleResp" />
+                  <option value="AllApisResp" />
+                  <option value="AllRolesResp" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437370" />
+              <option name="schema">
+                <list>
+                  <option value="sysUserHandler" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719218608771" />
+              <option name="schema">
+                <list>
+                  <option value="SysUserService" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_user/user.type.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715404105097" />
+              <option name="schema">
+                <list>
+                  <option value="SysUserListParam" />
+                  <option value="SysUserList" />
+                  <option value="AddOrUpdateSysUserParam" />
+                  <option value="SysUserListResp" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xbuild/main.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719216741651" />
+              <option name="schema">
+                <list>
+                  <option value="Config" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xauth/auth.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719306319890" />
+              <option name="schema">
+                <list>
+                  <option value="Auth" />
+                  <option value="AuthContent" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xcache/cache.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437371" />
+              <option name="schema">
+                <list>
+                  <option value="CacheStore" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xcaptcha/captcha_code.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719309560794" />
+              <option name="schema">
+                <list>
+                  <option value="CaptchaFontDots" />
+                  <option value="VerifyCaptchaCodeParam" />
+                  <option value="Captcha" />
+                  <option value="CaptchaCodeResp" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xconfig/interf/yml_conf_interf.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1714372945465" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xconfig/yml_config.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437371" />
+              <option name="schema">
+                <list>
+                  <option value="ymlConfig" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xcron/xcron.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719209191938" />
+              <option name="schema">
+                <list>
+                  <option value="XCron" />
+                  <option value="ScannerFunctionResult" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xencrypt/md5_encrypt.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1714377303535" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xerror/err_code.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715849957405" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xerror/err_msg.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715849990096" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xerror/errors.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1714377303496" />
+              <option name="schema">
+                <list>
+                  <option value="CodeError" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xgorm/bind_operator.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715420078961" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xgorm/gorm_connect.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437372" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xgorm/inject_router.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715599474593" />
+              <option name="schema">
+                <list>
+                  <option value="RouterFunction" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xgorm/inject_service.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715583072424" />
+              <option name="schema">
+                <list>
+                  <option value="serviceFunction" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xgorm/query_helper.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715849108267" />
+              <option name="schema">
+                <list>
+                  <option value="QueryHelper" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xlogger/slog.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719294167488" />
+              <option name="schema">
+                <list>
+                  <option value="Logger" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xmiddlewares/authorized.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715414871298" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xmiddlewares/captcha.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1714957640290" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xmiddlewares/cors.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716174121144" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xmiddlewares/logger.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715414871280" />
+              <option name="schema">
+                <list>
+                  <option value="Resp" />
+                  <option value="ResponseWriterWrapper" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xmiddlewares/validator.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437372" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xmiddlewares/verify.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715414871278" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xresponse/response.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715408684927" />
+              <option name="schema">
+                <list>
+                  <option value="ResponseSuccess" />
+                  <option value="ResponseError" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xtemplate/xtemplate.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715852450736" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xtoken/jwt_token.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715585316575" />
+              <option name="schema">
+                <list>
+                  <option value="ClaimsPayload" />
+                  <option value="CustomClaims" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xtype/xbase/base.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715408900822" />
+              <option name="schema">
+                <list>
+                  <option value="PageParam" />
+                  <option value="BaseRecord" />
+                  <option value="PageResult" />
+                  <option value="PageResultList" />
+                  <option value="DelIds" />
+                  <option value="DetailsId" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xtype/xbool/bool.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715438613216" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xtype/xslice/slice.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715404177301" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xtype/xstring/xstring.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1716353558329" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/common/xvalidate/validator.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715562437373" />
+              <option name="schema">
+                <list>
+                  <option value="Validator" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/core/xconst/const.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719392578726" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/core/xcore/xcore.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1717417314813" />
+              <option name="schema">
+                <list>
+                  <option value="GinCore" />
+                  <option value="RouterModel" />
+                  <option value="PanicExceptionRecord" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/core/xcore/xgroup.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1714463937821" />
+              <option name="schema">
+                <list>
+                  <option value="GroupBase" />
+                </list>
+              </option>
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/core/xcosnt/const.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719392547620" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/core/xdig/core_dig.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1715584332910" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xcore/core/xvariable/variable.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1719392609005" />
+            </ScannedPath>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/xgen/main.go">
+          <value>
+            <ScannedPath>
+              <option name="lastModified" value="1714957640295" />
+            </ScannedPath>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="tableStructMapping">
+      <map>
+        <entry key="add_or_up_date_sys_dict_data_param" value="AddOrUpDateSysDictDataParam" />
+        <entry key="add_or_up_date_sys_dict_param" value="AddOrUpDateSysDictParam" />
+        <entry key="add_or_up_date_sys_menu_param" value="AddOrUpDateSysMenuParam" />
+        <entry key="add_or_update_sys_role_param" value="AddOrUpdateSysRoleParam" />
+        <entry key="add_or_update_sys_user_param" value="AddOrUpdateSysUserParam" />
+        <entry key="all_apis_resp" value="AllApisResp" />
+        <entry key="all_cron" value="AllCron" />
+        <entry key="all_roles_resp" value="AllRolesResp" />
+        <entry key="auth" value="Auth" />
+        <entry key="auth_content" value="AuthContent" />
+        <entry key="auth_handler" value="authHandler" />
+        <entry key="auth_service" value="AuthService" />
+        <entry key="base_record" value="BaseRecord" />
+        <entry key="cache_store" value="CacheStore" />
+        <entry key="captcha" value="Captcha" />
+        <entry key="captcha_code_resp" value="CaptchaCodeResp" />
+        <entry key="captcha_font_dots" value="CaptchaFontDots" />
+        <entry key="captcha_vo" value="CaptchaVo" />
+        <entry key="check_captcha_param" value="CheckCaptchaParam" />
+        <entry key="claims_payload" value="ClaimsPayload" />
+        <entry key="code_error" value="CodeError" />
+        <entry key="config" value="Config" />
+        <entry key="cron_resp" value="CronResp" />
+        <entry key="custom_claims" value="CustomClaims" />
+        <entry key="del_ids" value="DelIds" />
+        <entry key="details_id" value="DetailsId" />
+        <entry key="dict_info" value="DictInfo" />
+        <entry key="font_dots" value="fontDots" />
+        <entry key="gen_table_columns_param" value="GenTableColumnsParam" />
+        <entry key="gen_table_param" value="GenTableParam" />
+        <entry key="gen_table_preview" value="GenTablePreview" />
+        <entry key="get_sms_text_param" value="GetSmsTextParam" />
+        <entry key="get_user_routers_vo" value="GetUserRoutersVo" />
+        <entry key="gin_core" value="GinCore" />
+        <entry key="group_base" value="GroupBase" />
+        <entry key="handler" value="Handler" />
+        <entry key="log_handler" value="logHandler" />
+        <entry key="logger" value="Logger" />
+        <entry key="login_param" value="LoginParam" />
+        <entry key="login_vo" value="LoginVo" />
+        <entry key="menu_query_param" value="MenuQueryParam" />
+        <entry key="oauth2_bind_param" value="Oauth2BindParam" />
+        <entry key="oauth2_bind_redis_save_param" value="Oauth2BindRedisSaveParam" />
+        <entry key="oauth2_max_key_access_token" value="Oauth2MaxKeyAccessToken" />
+        <entry key="oauth2_max_key_user_info" value="Oauth2MaxKeyUserInfo" />
+        <entry key="oauth2_param" value="Oauth2Param" />
+        <entry key="page_param" value="PageParam" />
+        <entry key="page_result" value="PageResult" />
+        <entry key="page_result_list" value="PageResultList" />
+        <entry key="panic_exception_record" value="PanicExceptionRecord" />
+        <entry key="query" value="Query" />
+        <entry key="query_ctx" value="queryCtx" />
+        <entry key="query_helper" value="QueryHelper" />
+        <entry key="query_tx" value="QueryTx" />
+        <entry key="redirect_vo" value="RedirectVo" />
+        <entry key="refresh_token_param" value="RefreshTokenParam" />
+        <entry key="resp" value="Resp" />
+        <entry key="response_error" value="ResponseError" />
+        <entry key="response_success" value="ResponseSuccess" />
+        <entry key="response_writer_wrapper" value="ResponseWriterWrapper" />
+        <entry key="route_handler" value="routeHandler" />
+        <entry key="route_service" value="RouteService" />
+        <entry key="router_function" value="RouterFunction" />
+        <entry key="router_model" value="RouterModel" />
+        <entry key="router_tree_simple_resp" value="RouterTreeSimpleResp" />
+        <entry key="scanner_function_result" value="ScannerFunctionResult" />
+        <entry key="service_function" value="serviceFunction" />
+        <entry key="sms_code_login_param" value="SmsCodeLoginParam" />
+        <entry key="sys_api" value="sysAPI" />
+        <entry key="sys_api_do" value="sysAPIDo" />
+        <entry key="sys_cron" value="sysCron" />
+        <entry key="sys_cron_do" value="sysCronDo" />
+        <entry key="sys_cron_list_resp" value="SysCronListResp" />
+        <entry key="sys_cron_service" value="SysCronService" />
+        <entry key="sys_depart_service" value="SysDepartService" />
+        <entry key="sys_department" value="sysDepartment" />
+        <entry key="sys_department_do" value="sysDepartmentDo" />
+        <entry key="sys_dict_data_list" value="SysDictDataList" />
+        <entry key="sys_dict_data_list_param" value="SysDictDataListParam" />
+        <entry key="sys_dict_data_list_resp" value="SysDictDataListResp" />
+        <entry key="sys_dict_data_service" value="SysDictDataService" />
+        <entry key="sys_dict_datum" value="sysDictDatum" />
+        <entry key="sys_dict_datum_do" value="sysDictDatumDo" />
+        <entry key="sys_dict_handler" value="sysDictHandler" />
+        <entry key="sys_dict_list" value="SysDictList" />
+        <entry key="sys_dict_list_param" value="SysDictListParam" />
+        <entry key="sys_dict_list_resp" value="SysDictListResp" />
+        <entry key="sys_dict_service" value="SysDictService" />
+        <entry key="sys_dict_type" value="sysDictType" />
+        <entry key="sys_dict_type_do" value="sysDictTypeDo" />
+        <entry key="sys_gen_service" value="SysGenService" />
+        <entry key="sys_gen_table" value="sysGenTable" />
+        <entry key="sys_gen_table_column" value="sysGenTableColumn" />
+        <entry key="sys_gen_table_column_do" value="sysGenTableColumnDo" />
+        <entry key="sys_gen_table_do" value="sysGenTableDo" />
+        <entry key="sys_log_file_zips_resp" value="SysLogFileZipsResp" />
+        <entry key="sys_log_list_resp" value="SysLogListResp" />
+        <entry key="sys_menu" value="sysMenu" />
+        <entry key="sys_menu_do" value="sysMenuDo" />
+        <entry key="sys_menu_handler" value="sysMenuHandler" />
+        <entry key="sys_menu_list" value="SysMenuList" />
+        <entry key="sys_menu_list_resp" value="SysMenuListResp" />
+        <entry key="sys_menu_service" value="SysMenuService" />
+        <entry key="sys_oauth2_bind" value="sysOauth2Bind" />
+        <entry key="sys_oauth2_bind_do" value="sysOauth2BindDo" />
+        <entry key="sys_role" value="sysRole" />
+        <entry key="sys_role_do" value="sysRoleDo" />
+        <entry key="sys_role_handler" value="sysRoleHandler" />
+        <entry key="sys_role_list" value="SysRoleList" />
+        <entry key="sys_role_list_param" value="SysRoleListParam" />
+        <entry key="sys_role_list_resp" value="SysRoleListResp" />
+        <entry key="sys_role_permit_resp" value="SysRolePermitResp" />
+        <entry key="sys_role_service" value="SysRoleService" />
+        <entry key="sys_user" value="sysUser" />
+        <entry key="sys_user_do" value="sysUserDo" />
+        <entry key="sys_user_handler" value="sysUserHandler" />
+        <entry key="sys_user_list" value="SysUserList" />
+        <entry key="sys_user_list_param" value="SysUserListParam" />
+        <entry key="sys_user_list_resp" value="SysUserListResp" />
+        <entry key="sys_user_service" value="SysUserService" />
+        <entry key="system" value="System" />
+        <entry key="tmpl_gen_param" value="TmplGenParam" />
+        <entry key="update_cron_req" value="UpdateCronReq" />
+        <entry key="update_role_home_param" value="UpdateRoleHomeParam" />
+        <entry key="update_role_permit_param" value="UpdateRolePermitParam" />
+        <entry key="user_info_vo" value="UserInfoVo" />
+        <entry key="user_router" value="UserRouter" />
+        <entry key="user_router_meta" value="UserRouterMeta" />
+        <entry key="validator" value="Validator" />
+        <entry key="verify_captcha_code_param" value="VerifyCaptchaCodeParam" />
+        <entry key="x_cron" value="XCron" />
+        <entry key="yml_config" value="ymlConfig" />
+      </map>
+    </option>
+    <option name="lastTimeChecked" value="1719363887258" />
+  </component>
+</project>

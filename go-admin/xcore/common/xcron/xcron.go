@@ -24,6 +24,8 @@ type XCron struct {
 }
 
 func (c *XCron) SetCronRule(f func(*cron.Cron)) {
+	entries := c.cron.Entries()
+	entries = append(entries[:0], entries[len(entries):]...)
 	c.resetFunc = func() {
 		f(c.cron)
 	}

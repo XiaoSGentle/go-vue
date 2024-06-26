@@ -4,6 +4,9 @@ import type { RouteKey } from '@elegant-router/types';
 
 export function setupElegantRouter() {
   return ElegantVueRouter({
+    alias: {
+      '@': 'src'
+    },
     layouts: {
       base: 'src/layouts/base-layout/index.vue',
       blank: 'src/layouts/blank-layout/index.vue'
@@ -22,9 +25,9 @@ export function setupElegantRouter() {
         'document_antd'
       ]
     },
+    pagePatterns: ['**/index.vue', '**/[[]*[]].vue'],
     routePathTransformer(routeName, routePath) {
       const key = routeName as RouteKey;
-
       if (key === 'login') {
         const modules: UnionKey.LoginModule[] = ['pwd-login', 'code-login', 'register', 'reset-pwd', 'bind-wechat'];
 

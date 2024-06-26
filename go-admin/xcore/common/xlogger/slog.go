@@ -16,7 +16,7 @@ func NewSlog(logPath string) *Logger {
 	errLumberjack := &lumberjack.Logger{
 		Filename:   logPath + "/error.log",
 		LocalTime:  true,
-		MaxSize:    1,
+		MaxSize:    10000,
 		MaxAge:     30,
 		MaxBackups: 10,
 		Compress:   true,
@@ -28,7 +28,7 @@ func NewSlog(logPath string) *Logger {
 	cronLumberjack := &lumberjack.Logger{
 		Filename:   logPath + "/cron.log",
 		LocalTime:  true,
-		MaxSize:    1,
+		MaxSize:    10000,
 		MaxAge:     30,
 		MaxBackups: 10,
 		Compress:   true,
@@ -40,7 +40,7 @@ func NewSlog(logPath string) *Logger {
 	infoLumberjack := &lumberjack.Logger{
 		Filename:   logPath + "/info.log",
 		LocalTime:  true,
-		MaxSize:    2,
+		MaxSize:    10000,
 		MaxAge:     30,
 		MaxBackups: 10,
 		Compress:   true,

@@ -8,9 +8,11 @@ import (
 	"xadmin/soybean/dao/model"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xtype/xbool"
+	"xcore/core/xconst"
 )
 
 type IRouteService interface {
+	IsRouteExist(c *gin.Context, routerName string) (exist bool, err error)
 	GetUserRouters(c *gin.Context, ids []int32) (getUserRoutersVo GetUserRoutersVo, err error)
 	GetConstantRoutes(c *gin.Context) (getUserRoutersVo []UserRouter, err error)
 	GetAllPages(c *gin.Context, roles []string) (allPages []string, err error)
@@ -25,6 +27,14 @@ func NewRouteService(db *gorm.DB) IRouteService {
 
 type RouteService struct {
 	db *gorm.DB
+}
+
+func (r RouteService) IsRouteExist(c *gin.Context, routerName string) (exist bool, err error) {
+	menuQuery := r.db.WithContext(c).Model(model.SysMenu{})
+	var routerCount int64
+	err = menuQuery.Where("name = ?", routerName).Count(&routerCount).Error
+	exist = routerCount > 0
+	return
 }
 
 func (r RouteService) GetAllRoles(c *gin.Context) (allRoles []AllRolesResp, err error) {
@@ -82,14 +92,18 @@ func (r RouteService) GetAllPages(c *gin.Context, roles []string) (allPages []st
 }
 
 func (r RouteService) GetUserRouters(c *gin.Context, ids []int32) (getUserRoutersVo GetUserRoutersVo, err error) {
-	menuQuery := query.Use(r.db).SysMenu
-	find, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Find()
+	var menuInSql []model.SysMenu
+	err = r.db.WithContext(c).Model(model.SysMenu{}).
+		Where("id in ?", ids).
+		Where("status = ?", xconst.StatusOK).
+		Where("delete_tag = ?", xconst.NotDelete).
+		Find(&menuInSql).Error
 	if err != nil {
 		return GetUserRoutersVo{}, err
 	}
 	result := GetUserRoutersVo{
 		Home:   "home",
-		Routes: sysMenuToRouterVoTree(find),
+		Routes: sysMenuToRouterVoTree(menuInSql),
 	}
 	return result, nil
 }
@@ -110,7 +124,7 @@ func (r RouteService) GetConstantRoutes(c *gin.Context) (getUserRoutersVo []User
 	}, nil
 }
 
-func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRouter) {
+func sysMenuToRouterVoTree(sysMenuList []model.SysMenu) (menuVoList []UserRouter) {
 	for _, menu := range sysMenuList {
 		m := UserRouter{
 			ID:        fmt.Sprintf("%d", menu.ID),
@@ -120,15 +134,15 @@ func sysMenuToRouterVoTree(sysMenuList []*model.SysMenu) (menuVoList []UserRoute
 			Component: menu.Component,
 			RouterMeta: UserRouterMeta{
 				Order:      menu.MetaOrder,
-				HideInMenu: menu.MetaHideInMenu == "1",
-				Icon:       xbool.BooleanTo(menu.MetaIconType == "1", menu.MetaIcon, ""),
-				LocalIcon:  xbool.BooleanTo(menu.MetaIconType == "2", menu.MetaIcon, ""),
+				HideInMenu: menu.MetaHideInMenu == xconst.StatusOK,
+				Icon:       xbool.BooleanTo(menu.MetaIconType == xconst.StatusOK, menu.MetaIcon, ""),
+				LocalIcon:  xbool.BooleanTo(menu.MetaIconType == xconst.StatusBanned, menu.MetaIcon, ""),
 				I18nKey:    menu.MetaI18nKey,
 				Href:       menu.MetaHref,
-				KeepAlive:  menu.MetaKeepAlive == "1",
+				KeepAlive:  menu.MetaKeepAlive == xconst.StatusOK,
 				Title:      menu.MetaTitle,
 				ActiveMenu: menu.MetaActiveMenu,
-				MultiTab:   menu.MetaMultiTab == "1",
+				MultiTab:   menu.MetaMultiTab == xconst.StatusOK,
 				FixedInTab: menu.MetaFixedInTab,
 				Query:      []MenuQueryParam{},
 			},

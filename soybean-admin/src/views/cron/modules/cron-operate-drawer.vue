@@ -5,8 +5,7 @@ import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
 import { updateCronDataById } from '@/service/api';
-import {REG_CRON} from "@/constants/reg";
-
+import { REG_CRON } from '@/constants/reg';
 
 defineOptions({
   name: 'CronOperateDrawer'
@@ -47,30 +46,29 @@ const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    key:'',
-    arguments:[],
-    description:"",
-    schedule:"",
-    status:'1'
+    key: '',
+    arguments: [],
+    description: '',
+    schedule: '',
+    status: '1'
   };
 }
 
-type RuleKey =Pick<Model, 'description'|'schedule'|'arguments'|'status'>;
+type RuleKey = Pick<Model, 'description' | 'schedule' | 'arguments' | 'status'>;
 
 const rules: Record<keyof RuleKey, App.Global.FormRule> = {
   description: defaultRequiredRule,
   schedule: {
-    pattern:REG_CRON,
+    pattern: REG_CRON,
     required: true,
-    trigger:"change",
-    message:$t('page.cron.form.scheduleWarning'),
+    trigger: 'change',
+    message: $t('page.cron.form.scheduleWarning')
   },
   arguments: defaultRequiredRule,
-  status:defaultRequiredRule
+  status: defaultRequiredRule
 };
 
 function handleUpdateModelWhenEdit() {
-
   if (props.operateType === 'add') {
     Object.assign(model, createDefaultModel());
     return;
@@ -108,7 +106,7 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" :width="360" display-directive="show">
     <NDrawerContent :native-scrollbar="false" :title="title" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
-        <NFormItem :label="$t('page.cron.key')" >
+        <NFormItem :label="$t('page.cron.key')">
           <NInput v-model:value="model.key" :placeholder="$t('page.cron.form.key')" disabled />
         </NFormItem>
         <NFormItem :label="$t('page.cron.schedule')" path="schedule">
@@ -118,14 +116,21 @@ watch(visible, () => {
           <NInput v-model:value="model.description" :placeholder="$t('page.cron.form.description')" />
         </NFormItem>
         <NFormItem :label="$t('page.cron.arguments')" path="roleDesc">
-          <NInput v-for="(item,index) in model.arguments" v-model:value="model.arguments[index]" :placeholder="$t('page.cron.form.arguments')" />
+          <div>
+            <NInput
+              v-for="(item, index) in model.arguments"
+              :key="index"
+              v-model:value="model.arguments[index]"
+              class="mb-2"
+              :placeholder="$t('page.cron.form.arguments')"
+            />
+          </div>
         </NFormItem>
         <NFormItem :label="$t('page.cron.status')" path="status">
           <NRadioGroup v-model:value="model.status">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :label="$t(item.label)" :value="item.value" />
           </NRadioGroup>
         </NFormItem>
-
       </NForm>
 
       <template #footer>

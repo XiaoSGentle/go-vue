@@ -8,11 +8,13 @@ import (
 	"golang.org/x/net/context"
 	"strings"
 	"time"
+	"xadmin/soybean/crons"
 	"xadmin/soybean/dao/model"
 	"xadmin/soybean/dao/query"
 	"xcore/common/xauth"
 	"xcore/common/xcron"
 	"xcore/common/xtype/xslice"
+	"xcore/core/xconst"
 	"xcore/core/xvariable"
 )
 
@@ -65,7 +67,7 @@ func GetRolesPermits() []xauth.AuthContent {
 
 func InitCron() xcron.IXCron {
 	println("init Cron...")
-	xCorn := xcron.NewXCorn(Test{})
+	xCorn := xcron.NewXCorn(crons.AllCron{})
 	cronQuery := query.Use(xvariable.GormDB).SysCron
 	// 扫描一个结构体下所有的函数
 	keys, functions := xCorn.ScannerFunctions()
@@ -80,7 +82,7 @@ func InitCron() xcron.IXCron {
 				Key:           function.Key,
 				Description:   function.Key,
 				Schedule:      "",
-				Status:        "2",
+				Status:        xconst.StatusBanned,
 				Arguments:     strings.Join(function.ParamTypes, ","),
 				ArgumentsType: strings.Join(function.ParamTypes, ","),
 			})
@@ -90,7 +92,7 @@ func InitCron() xcron.IXCron {
 	xCorn.SetCronRule(func(cron *cron.Cron) {
 		cronInSql, _ := cronQuery.Find()
 		for _, sysCron := range cronInSql {
-			if sysCron.Status == "1" {
+			if sysCron.Status == xconst.StatusOK {
 				_ = cron.AddFunc(sysCron.Schedule, func() {
 					var interfaceSlice []interface{}
 					for _, arg := range strings.Split(sysCron.Arguments, ",") {
@@ -113,15 +115,4 @@ func extractKeys(results []*model.SysCron) []string {
 		keys[i] = result.Key
 	}
 	return keys
-}
-
-type Test struct {
-}
-
-func (t Test) Init(string2 string) {
-	println(string2)
-}
-
-func (t Test) Print(string2 string, str string) {
-	println(string2 + str)
 }

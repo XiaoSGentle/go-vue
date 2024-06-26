@@ -104,13 +104,12 @@ func (s SysRoleService) AddRole(c *gin.Context, param *AddOrUpdateSysRoleParam) 
 		MenuIds:     "",
 		APICodes:    "",
 		Version:     0,
-
-		UpdateTime: time.Now(),
-		UpdateUID:  0,
-		CreateUID:  0,
-		CreateBy:   "",
-		CreateTime: time.Now(),
-		UpdateBy:   "",
+		UpdateTime:  time.Now(),
+		UpdateUID:   0,
+		CreateUID:   0,
+		CreateBy:    "",
+		CreateTime:  time.Now(),
+		UpdateBy:    "",
 	})
 	return
 }

@@ -12,6 +12,7 @@ import (
 	"xcore/common/xencrypt"
 	"xcore/common/xerror"
 	"xcore/common/xtoken"
+	"xcore/core/xconst"
 	"xcore/core/xvariable"
 )
 
@@ -30,34 +31,28 @@ type AuthService struct {
 }
 
 func (s AuthService) GetUserById(c *gin.Context, uid int32) (user *model.SysUser, err error) {
-	userQuery := s.query.SysUser
-	user, err = userQuery.WithContext(c).Where(userQuery.ID.Eq(uid)).Where(userQuery.DeleteTag.Eq(0)).First()
+	s.db.WithContext(c).Model(model.SysUser{}).Where("id = ?", uid).Where("delete_tag = ?", 0).First(&user)
 	return
 }
 
 func (s AuthService) UserLogin(c *gin.Context, param *LoginParam) (loginVo LoginVo, err error) {
 	userQuery := s.query.SysUser
+	userNativeQuery := s.db.WithContext(c).Model(model.SysUser{})
 	jwtTokenSignKey := xvariable.GlobalYmlConfig.GetString("Token.JwtTokenSignKey")
 	jwtTokenCreatedExpireAt := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenCreatedExpireAt")
 	maxLoginFailTimes := xvariable.GlobalYmlConfig.GetInt64("LoginPolicy.MaxLoginFailTimes")
 	jwtTokenRefreshAllowSec := xvariable.GlobalYmlConfig.GetInt64("Token.JwtTokenRefreshAllowSec")
-	count, err := userQuery.Where(userQuery.Username.Eq(param.UserName)).Where(userQuery.DeleteTag.Eq(0)).Count()
-	if err != nil || count < 1 {
+	var count int64
+	userNativeQuery.Where("username = ?", param.UserName).Where("delete_tag = ?", 0).Count(&count)
+	if count < 1 {
 		return LoginVo{}, xerror.NewErrCode(xerror.USER_NOT_EXIST_ERROR)
 	}
-	userInfoInSql, err := userQuery.
-		Where(userQuery.Username.Eq(param.UserName)).
-		Where(userQuery.DeleteTag.Eq(0)).
-		First()
-
-	if userInfoInSql == nil {
-		return LoginVo{}, xerror.NewErrCode(xerror.USER_NOT_EXIST_ERROR)
-	}
-	if userInfoInSql.Status != "1" {
+	var userInfoInSql model.SysUser
+	userNativeQuery.Where("username = ?", param.UserName).Where("delete_tag = ?", xconst.NotDelete).First(&userInfoInSql)
+	if userInfoInSql.Status != xconst.StatusOK {
 		return LoginVo{}, xerror.NewErrCode(xerror.USER_NOT_EXIST_ERROR)
 	}
 	if userInfoInSql.Password == xencrypt.Base64Md5(param.Password) {
-
 		jwtToken, getTokenErr := xtoken.GenerateJwtToken(jwtTokenSignKey, jwtTokenCreatedExpireAt, &xtoken.ClaimsPayload{
 			Uid:      userInfoInSql.ID,
 			NickName: userInfoInSql.Nickname,
@@ -71,8 +66,8 @@ func (s AuthService) UserLogin(c *gin.Context, param *LoginParam) (loginVo Login
 		if getTokenErr != nil {
 			return LoginVo{}, xerror.NewErrCode(xerror.TOKEN_GENERATE_ERROR)
 		}
-		_, _ = userQuery.Where(userQuery.ID.Eq(userInfoInSql.ID)).Update(userQuery.LastOnlineTime, time.Now())
-
+		// 更新最后在线时间
+		userNativeQuery.Where("id = ?", userInfoInSql.ID).Update("last_online_time", time.Now())
 		return LoginVo{
 			Token:        jwtToken,
 			RefreshToken: refreshToken,
@@ -88,7 +83,7 @@ func (s AuthService) UserLogin(c *gin.Context, param *LoginParam) (loginVo Login
 
 			var errMsg string
 			if toDayAttemptLoginTime >= maxLoginFailTimes {
-				errMsg = "您已被限制登录"
+				errMsg = "您已被限制登录,请联系管理员！"
 			} else {
 				errMsg = fmt.Sprintf("密码错误,失败%d次后进入限制登录", maxLoginFailTimes-toDayAttemptLoginTime)
 			}
@@ -96,7 +91,6 @@ func (s AuthService) UserLogin(c *gin.Context, param *LoginParam) (loginVo Login
 		} else {
 			// 未尝试登陆
 			_, _ = userQuery.WithContext(c).Where(userQuery.Username.Eq(param.UserName)).Update(userQuery.LoginAttempts, time.Now().Format(time.DateOnly)+"|1")
-
 			return LoginVo{}, xerror.NewErrCodeMsg(xerror.USER_PASSWORD_ERROR, fmt.Sprintf("密码错误,失败%d次后限制登录", maxLoginFailTimes-1))
 		}
 	}

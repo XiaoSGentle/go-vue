@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, reactive } from 'vue';
 import { $t } from '@/locales';
 import { loginModuleRecord } from '@/constants/app';
@@ -10,6 +10,7 @@ defineOptions({
   name: 'PwdLogin'
 });
 
+
 const authStore = useAuthStore();
 const { toggleLoginModule } = useRouterPush();
 const { formRef, validate } = useNaiveForm();
@@ -20,8 +21,8 @@ interface FormModel {
 }
 
 const model: FormModel = reactive({
-  userName: 'Xiaos',
-  password: 'zhoulanlin'
+  userName: 'Xiaos1',
+  password: 'Xiaos123!'
 });
 
 const rules = computed<Record<keyof FormModel, App.Global.FormRule[]>>(() => {
@@ -75,33 +76,33 @@ async function handleAccountLogin(account: Account) {
 </script>
 
 <template>
-  <NForm ref="formRef" :model="model" :rules="rules" size="large" :show-label="false">
+  <NForm ref="formRef" :model="model" :rules="rules" :show-label="false" size="large">
     <NFormItem path="userName">
       <NInput v-model:value="model.userName" :placeholder="$t('page.login.common.userNamePlaceholder')" />
     </NFormItem>
     <NFormItem path="password">
       <NInput
         v-model:value="model.password"
-        type="password"
-        show-password-on="click"
         :placeholder="$t('page.login.common.passwordPlaceholder')"
+        show-password-on="click"
+        type="password"
       />
     </NFormItem>
-    <NSpace vertical :size="24">
+    <NSpace :size="24" vertical>
       <div class="flex-y-center justify-between">
         <NCheckbox>{{ $t('page.login.pwdLogin.rememberMe') }}</NCheckbox>
         <NButton v-if="false" quaternary @click="toggleLoginModule('reset-pwd')">
           {{ $t('page.login.pwdLogin.forgetPassword') }}
         </NButton>
       </div>
-      <NButton type="primary" size="large" round block :loading="authStore.loginLoading" @click="handleSubmit">
+      <NButton :loading="authStore.loginLoading" block round size="large" type="primary" @click="handleSubmit">
         {{ $t('common.confirm') }}
       </NButton>
       <div v-if="false" class="flex-y-center justify-between gap-12px">
-        <NButton class="flex-1" block @click="toggleLoginModule('code-login')">
+        <NButton block class="flex-1" @click="toggleLoginModule('code-login')">
           {{ $t(loginModuleRecord['code-login']) }}
         </NButton>
-        <NButton class="flex-1" block @click="toggleLoginModule('register')">
+        <NButton block class="flex-1" @click="toggleLoginModule('register')">
           {{ $t(loginModuleRecord.register) }}
         </NButton>
       </div>

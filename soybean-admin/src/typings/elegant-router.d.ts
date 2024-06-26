@@ -61,6 +61,9 @@ declare module "@elegant-router/types" {
     "manage_role": "/manage/role";
     "manage_user": "/manage/user";
     "manage_user-detail": "/manage/user-detail/:id";
+    "projects": "/projects";
+    "projects_list": "/projects/list";
+    "projects_preview": "/projects/preview";
     "test-page": "/test-page";
     "test-page_page-one": "/test-page/page-one";
     "test-page_page-two": "/test-page/page-two";
@@ -121,6 +124,7 @@ declare module "@elegant-router/types" {
     | "logger"
     | "login"
     | "manage"
+    | "projects"
     | "test-page"
     | "user-center"
   >;
@@ -167,6 +171,8 @@ declare module "@elegant-router/types" {
     | "manage_role"
     | "manage_user-detail"
     | "manage_user"
+    | "projects_list"
+    | "projects_preview"
     | "test-page_page-one"
     | "test-page_page-two"
     | "user-center"

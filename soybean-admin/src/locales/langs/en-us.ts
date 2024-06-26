@@ -181,7 +181,9 @@ const local: App.I18n.Schema = {
     dict_data: 'Dict Data',
     'code-gen': 'Code Gen',
     'code-gen_column': 'Table Columns',
-    'code-gen_table': 'Code Gen'
+    'code-gen_table': 'Code Gen',
+    projects_list: 'Projects List',
+    projects_preview: 'Projects Preview'
   },
   page: {
     login: {
@@ -540,7 +542,7 @@ const local: App.I18n.Schema = {
         key: 'Please input Key',
         description: 'Please input Description',
         schedule: 'Please input Schedule',
-        scheduleWarning:"Please fill in the correct cron expression",
+        scheduleWarning: 'Please fill in the correct cron expression',
         status: 'Please input Status',
         arguments: 'Please input Arguments'
       }

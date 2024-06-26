@@ -17,7 +17,6 @@ Token:
 LoginPolicy: #账号登陆策略，建议开发者配置redis，开启此功能
   MaxLoginFailTimes: 5 #登陆连续失败的最大次数
 
-
 Redis:
   Host: "www.xiaos.cool"
   Port: 6379
@@ -67,24 +66,6 @@ FileUploadSetting:
     - "video/mp4" #视频文件，例如：mp4
     - "audio/mpeg" #音频文件，例如: mp3
 
-
-# 接口权限控制
-Casbin:
-  IsInit: 1 # 是否随项目启动同步初始化：1=是；0=否,
-  AutoLoadPolicySeconds: 3600 # 扫描数据库策略的频率(单位：秒)
-  TablePrefix: ""
-  TableName: "sys_casbin_rule" # 程序最终创建的表为： tb_casbin_rule (即在前缀和名称之间自动添加了下划线 _ )
-  ModelConfig: | # 竖线 | 表示以下整段文本保持换行格式
-    [request_definition]
-    r = sub, dom, obj, act
-    [policy_definition]
-    p = sub, dom, obj, act
-    [role_definition]
-    g = _ , _ , _
-    [policy_effect] 
-    e = some(where (p.eft == allow))
-    [matchers]
-    m = g(r.sub, p.sub, r.dom) && r.dom == p.dom && r.obj == p.obj && r.act == p.act || r.sub == "super"
 
 #验证码(包括中间件)配置信息
 Captcha:

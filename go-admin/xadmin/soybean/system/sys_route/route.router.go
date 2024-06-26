@@ -72,7 +72,13 @@ func (a routeHandler) GetAllPages(c *gin.Context) {
 }
 
 func (a routeHandler) IsRouteExist(c *gin.Context) {
-
+	exist, err := a.authService.IsRouteExist(c, c.Query("routeName"))
+	if err != nil {
+		xresponse.ErrorCtx(c, err)
+		return
+	}
+	xresponse.SuccessCtx(c, exist)
+	return
 }
 
 func (a routeHandler) GetMenuTree(c *gin.Context) {
