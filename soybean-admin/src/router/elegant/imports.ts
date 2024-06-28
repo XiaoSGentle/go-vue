@@ -8,10 +8,12 @@ import type { LastLevelRouteKey, RouteLayout } from "@elegant-router/types";
 
 import BaseLayout from "@/layouts/base-layout/index.vue";
 import BlankLayout from "@/layouts/blank-layout/index.vue";
+import ProjectLayout from "@/layouts/project-layout/index.vue";
 
 export const layouts: Record<RouteLayout, RouteComponent | (() => Promise<RouteComponent>)> = {
   base: BaseLayout,
   blank: BlankLayout,
+  project: ProjectLayout,
 };
 
 export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<RouteComponent>)> = {
@@ -41,8 +43,18 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   manage_role: () => import("@/views/manage/role/index.vue"),
   "manage_user-detail": () => import("@/views/manage/user-detail/[id].vue"),
   manage_user: () => import("@/views/manage/user/index.vue"),
-  projects_list: () => import("@/views/projects/list/index.vue"),
-  projects_preview: () => import("@/views/projects/preview/index.vue"),
+  "project-list": () => import("@/views/project-list/index.vue"),
+  projects_document_api: () => import("@/views/projects/document/api/index.vue"),
+  projects_document_files: () => import("@/views/projects/document/files/index.vue"),
+  projects_document_knowledge: () => import("@/views/projects/document/knowledge/index.vue"),
+  projects_document_wiki: () => import("@/views/projects/document/wiki/index.vue"),
+  projects_overview: () => import("@/views/projects/overview/index.vue"),
+  projects_repository: () => import("@/views/projects/repository/index.vue"),
+  projects_synergy: () => import("@/views/projects/synergy/index.vue"),
+  projects_test_overview: () => import("@/views/projects/test/overview/index.vue"),
+  projects_test_plan: () => import("@/views/projects/test/plan/index.vue"),
+  projects_test_report: () => import("@/views/projects/test/report/index.vue"),
+  "projects_test_use-case": () => import("@/views/projects/test/use-case/index.vue"),
   "test-page_page-one": () => import("@/views/test-page/page-one/index.vue"),
   "test-page_page-two": () => import("@/views/test-page/page-two/index.vue"),
   "user-center": () => import("@/views/user-center/index.vue"),

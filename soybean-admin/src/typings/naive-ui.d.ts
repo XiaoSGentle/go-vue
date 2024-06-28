@@ -43,5 +43,12 @@ declare namespace NaiveUI {
   type NaiveTableConfig<A extends TableApiFn> = Pick<
     import('@sa/hooks').TableConfig<A, GetTableData<A>, TableColumn<TableDataWithIndex<GetTableData<A>>>>,
     'apiFn' | 'apiParams' | 'columns' | 'immediate'
-  >;
+  > & {
+    /**
+     * whether to display the total items count
+     *
+     * @default false
+     */
+    showTotal?: boolean;
+  };
 }

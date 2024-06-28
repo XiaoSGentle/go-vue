@@ -6,12 +6,12 @@ import (
 	"strings"
 	"time"
 	"xadmin/soybean/dao/model"
-	"xadmin/soybean/dao/query"
 	"xcore/common/xerror"
 	"xcore/common/xgorm"
 	"xcore/common/xtoken"
 	"xcore/common/xtype/xbase"
 	"xcore/common/xtype/xbool"
+	"xcore/core/xconst"
 )
 
 type ISysMenuService interface {
@@ -22,43 +22,34 @@ type ISysMenuService interface {
 }
 
 func NewSysMenuService(db *gorm.DB) ISysMenuService {
-	return &SysMenuService{db: db, query: query.Use(db), serviceFun: xgorm.InjectService[model.SysMenu](db)}
+	return &SysMenuService{db: db, serviceFun: xgorm.InjectService[model.SysMenu](db)}
 }
 
 type SysMenuService struct {
-	db         *gorm.DB
-	query      *query.Query
+	db *gorm.DB
+
 	serviceFun xgorm.IServiceFunctions[model.SysMenu]
 }
 
 func (m SysMenuService) DeleteMenu(c *gin.Context, ids []int32) (err error) {
-	menuQuery := m.query.SysMenu
 	operatorInfo := m.serviceFun.GetOperatorInfo(c)
-	info, err := menuQuery.WithContext(c).Where(menuQuery.ID.In(ids...)).Updates(&model.SysMenu{
+	db := m.db.WithContext(c).Model(model.SysMenu{}).Where("id in ?", ids).Updates(&model.SysMenu{
 		DeleteTag:  1,
 		UpdateBy:   operatorInfo.NickName,
 		UpdateUID:  operatorInfo.Uid,
 		UpdateTime: time.Now(),
 	})
-	if err != nil {
-		return err
-	}
-	if info.Error != nil {
-		return info.Error
-	}
-	if info.RowsAffected == 0 {
+	err = db.Error
+	if db.RowsAffected == 0 {
 		return xerror.NewErrCode(xerror.CURD_AFFECT_NONE_ERROR)
 	}
 	return nil
 }
 
 func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateSysMenuParam) (err error) {
-	menuQuery := m.query.SysMenu
 	payload := xtoken.GetBindCustomPayload(c)
-	updates, err := menuQuery.WithContext(c).
-		Where(menuQuery.ID.Eq(id)).
-		Where(menuQuery.DeleteTag.Eq(0)).
-		Updates(&model.SysMenu{
+	db := m.db.WithContext(c).Where(model.SysMenu{}).Where("id = ?", id).Where("delete_tag = ?", xconst.NotDelete).Updates(
+		&model.SysMenu{
 			Name:           param.MenuName,
 			RouterName:     param.RouteName,
 			Path:           param.RoutePath,
@@ -71,7 +62,6 @@ func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateS
 			MetaConstant:   xbool.BooleanTo(param.Constant, "1", "2"),
 			MetaHideInMenu: xbool.BooleanTo(param.HideInMenu, "1", "2"),
 			MetaIcon:       param.Icon,
-			MetaLocalIcon:  "",
 			MetaI18nKey:    param.I18NKey,
 			MetaHref:       param.Href,
 			MetaKeepAlive:  xbool.BooleanTo(param.KeepAlive, "1", "2"),
@@ -79,24 +69,19 @@ func (m SysMenuService) UpdateMenu(c *gin.Context, id int32, param *AddOrUpDateS
 			MetaActiveMenu: param.ActiveMenu,
 			MetaMultiTab:   xbool.BooleanTo(param.MultiTab, "1", "2"),
 			MetaFixedInTab: param.FixedIndexInTab,
-			MetaQuery:      strings.Join(param.Query, ","),
+			MetaQuery:      "",
 			UpdateTime:     time.Now(),
 			UpdateUID:      payload.Uid,
 			UpdateBy:       payload.NickName,
-		})
-	if err != nil {
-		return err
-	}
-	if updates.Error != nil {
-		return updates.Error
-	}
+		},
+	)
+	err = db.Error
 	return
 }
 
 func (m SysMenuService) AddMenu(c *gin.Context, param *AddOrUpDateSysMenuParam) (err error) {
-	sysMenuQuery := m.query.SysMenu.WithContext(c)
 	payload := xtoken.GetBindCustomPayload(c)
-	err = sysMenuQuery.Create(&model.SysMenu{
+	db := m.db.WithContext(c).Model(model.SysMenu{}).Create(&model.SysMenu{
 		Name:           param.MenuName,
 		RouterName:     param.RouteName,
 		Path:           param.RoutePath,
@@ -108,8 +93,7 @@ func (m SysMenuService) AddMenu(c *gin.Context, param *AddOrUpDateSysMenuParam) 
 		MetaOrder:      param.Order,
 		MetaConstant:   xbool.BooleanTo(param.Constant, "1", "2"),
 		MetaHideInMenu: xbool.BooleanTo(param.HideInMenu, "1", "2"),
-		MetaIcon:       xbool.BooleanTo(param.MenuType == "1", param.Icon, ""),
-		MetaLocalIcon:  xbool.BooleanTo(param.MenuType == "1", "", param.Icon),
+		MetaIcon:       param.Icon,
 		MetaI18nKey:    param.I18NKey,
 		MetaHref:       param.Href,
 		MetaKeepAlive:  xbool.BooleanTo(param.KeepAlive, "1", "2"),
@@ -117,23 +101,20 @@ func (m SysMenuService) AddMenu(c *gin.Context, param *AddOrUpDateSysMenuParam) 
 		MetaActiveMenu: param.ActiveMenu,
 		MetaMultiTab:   xbool.BooleanTo(param.MultiTab, "1", "2"),
 		MetaFixedInTab: param.FixedIndexInTab,
-		MetaQuery:      strings.Join(param.Query, ","),
+		MetaQuery:      "",
 		CreateTime:     time.Now(),
 		CreateUID:      payload.Uid,
 		CreateBy:       payload.NickName,
 	})
+	err = db.Error
 	return
 }
 
 func (m SysMenuService) GetMenuList(c *gin.Context) (resp SysMenuListResp, err error) {
-	menuQuery := query.Use(m.db).SysMenu
-	find, err := menuQuery.Where(menuQuery.DeleteTag.Eq(0)).Find()
-	if err != nil {
-		return SysMenuListResp{}, err
-	}
-
+	var find []model.SysMenu
+	db := m.db.WithContext(c).Model(model.SysMenu{}).Where("delete_tag = ?", xconst.NotDelete).Find(&find)
+	err = db.Error
 	result := sysMenuToSysMenuListRespTree(find)
-
 	return SysMenuListResp{
 		PageResult: xbase.PageResult{
 			PageParam: xbase.PageParam{
@@ -146,7 +127,7 @@ func (m SysMenuService) GetMenuList(c *gin.Context) (resp SysMenuListResp, err e
 	}, nil
 }
 
-func sysMenuToSysMenuListRespTree(sysMenuList []*model.SysMenu) (menuVoList []SysMenuList) {
+func sysMenuToSysMenuListRespTree(sysMenuList []model.SysMenu) (menuVoList []SysMenuList) {
 	for _, menu := range sysMenuList {
 		m := SysMenuList{
 			BaseRecord: xbase.BaseRecord{

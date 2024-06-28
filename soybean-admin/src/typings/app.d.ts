@@ -248,6 +248,7 @@ declare namespace App {
       system: {
         title: string;
       };
+      datatable: { itemCount: string };
       common: {
         action: string;
         add: string;
@@ -282,6 +283,7 @@ declare namespace App {
         preView: string;
         trigger: string;
         update: string;
+        expandColumn: string;
         updateSuccess: string;
         userCenter: string;
         yesOrNo: {
@@ -543,6 +545,7 @@ declare namespace App {
             localIcon: string;
             iconTypeTitle: string;
             order: string;
+            pathParam: string;
             keepAlive: string;
             href: string;
             query: string;
@@ -560,6 +563,7 @@ declare namespace App {
               menuName: string;
               routeName: string;
               routePath: string;
+              pathParam: string;
               layout: string;
               page: string;
               i18nKey: string;
@@ -712,7 +716,7 @@ declare namespace App {
             description: string;
 
             schedule: string;
-            scheduleWarning:string;
+            scheduleWarning: string;
             status: string;
 
             arguments: string;

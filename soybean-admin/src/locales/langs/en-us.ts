@@ -2,6 +2,9 @@ const local: App.I18n.Schema = {
   system: {
     title: 'SoybeanAdmin'
   },
+  datatable: {
+    itemCount: 'Total {total} items'
+  },
   common: {
     action: 'Action',
     add: 'Add',
@@ -38,6 +41,7 @@ const local: App.I18n.Schema = {
     update: 'Update',
     updateSuccess: 'Update Success',
     userCenter: 'User Center',
+    expandColumn: 'Expand Column',
     yesOrNo: {
       yes: 'Yes',
       no: 'No'
@@ -182,8 +186,10 @@ const local: App.I18n.Schema = {
     'code-gen': 'Code Gen',
     'code-gen_column': 'Table Columns',
     'code-gen_table': 'Code Gen',
+    "project-list":"Project",
+    projects: 'Projects',
     projects_list: 'Projects List',
-    projects_preview: 'Projects Preview'
+    projects_overview: 'Projects Overview'
   },
   page: {
     login: {
@@ -380,6 +386,7 @@ const local: App.I18n.Schema = {
         icon: 'Icon',
         localIcon: 'Local Icon',
         iconTypeTitle: 'Icon Type',
+        pathParam: 'Path Param',
         order: 'Order',
         keepAlive: 'Keep Alive',
         href: 'Href',
@@ -400,6 +407,7 @@ const local: App.I18n.Schema = {
           routePath: 'Please enter route path',
           page: 'Please select page component',
           queryKey: 'Please enter route parameter Key',
+          pathParam: 'Please enter route parameter',
           queryValue: 'Please enter route parameter Value',
           otherConfig: 'Other Config',
           mainConfig: 'Main Config',

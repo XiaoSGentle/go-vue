@@ -8,10 +8,11 @@ import (
 	"xcore/core/xvariable"
 )
 
-func SuccessCtx(c *gin.Context, v any) {
+func SuccessCtx(c *gin.Context, v any) any {
 	success := createSuccess(v)
 	ReturnJson(c, 200, success)
 	c.Abort()
+	return nil
 }
 func CreateSuccessCtx(c *gin.Context) {
 	success := createSuccess("创建成功")
@@ -31,7 +32,7 @@ func DeleteSuccessCtx(c *gin.Context) {
 	c.Abort()
 }
 
-func ErrorCtx(c *gin.Context, err error) {
+func ErrorCtx(c *gin.Context, err error) any {
 	errCode := xerror.SERVER_COMMON_ERROR
 	errMsg := "服务器开小差啦，稍后再来试一试"
 	causeErr := errors.Cause(err)
@@ -48,7 +49,7 @@ func ErrorCtx(c *gin.Context, err error) {
 	}
 	ReturnJson(c, http.StatusOK, createError(errCode, errMsg))
 	c.Abort()
-	return
+	return nil
 }
 
 func createSuccess(v any) *ResponseSuccess {

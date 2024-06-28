@@ -12,8 +12,8 @@ const TableNameSysMenu = "sys_menu"
 
 // SysMenu mapped from table <sys_menu>
 type SysMenu struct {
-	ID               int32     `gorm:"column:id;type:int(11) unsigned;primaryKey;autoIncrement:true;comment:主键" json:"id"` // 主键
-	Name             string    `gorm:"column:name;type:varchar(255);not null;comment:菜单项名称" json:"name"`                   // 菜单项名称
+	ID               int32     `gorm:"column:id;type:int(11);primaryKey;autoIncrement:true;comment:主键" json:"id"` // 主键
+	Name             string    `gorm:"column:name;type:varchar(255);not null;comment:菜单项名称" json:"name"`          // 菜单项名称
 	RouterName       string    `gorm:"column:router_name;type:varchar(255);not null" json:"routerName"`
 	Path             string    `gorm:"column:path;type:varchar(255);not null;comment:路径" json:"path"`                                              // 路径
 	Redirect         string    `gorm:"column:redirect;type:varchar(255);not null;comment:重定向地址" json:"redirect"`                                   // 重定向地址
@@ -29,7 +29,6 @@ type SysMenu struct {
 	MetaHideInMenu   string    `gorm:"column:meta_hide_in_menu;type:varchar(1);not null;default:2;comment:菜单中隐藏" json:"metaHideInMenu"`           // 菜单中隐藏
 	MetaRequiresAuth int32     `gorm:"column:meta_requires_auth;type:int(11) unsigned;not null;default:1;comment:是否需要认证" json:"metaRequiresAuth"` // 是否需要认证
 	MetaIcon         string    `gorm:"column:meta_icon;type:varchar(255);not null;comment:元图标" json:"metaIcon"`                                   // 元图标
-	MetaLocalIcon    string    `gorm:"column:meta_local_icon;type:varchar(255);not null;comment:本地元图标" json:"metaLocalIcon"`                      // 本地元图标
 	MetaI18nKey      string    `gorm:"column:meta_i18n_key;type:varchar(255);not null;comment:国际化标题" json:"metaI18nKey"`                          // 国际化标题
 	MetaHref         string    `gorm:"column:meta_href;type:varchar(255);not null;comment:外部连接" json:"metaHref"`                                  // 外部连接
 	MetaKeepAlive    string    `gorm:"column:meta_keep_alive;type:varchar(1);not null;default:1;comment:缓存该路由" json:"metaKeepAlive"`              // 缓存该路由

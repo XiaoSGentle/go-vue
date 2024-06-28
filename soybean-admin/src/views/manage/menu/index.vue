@@ -10,15 +10,13 @@ import { $t } from '@/locales';
 import { yesOrNoRecord } from '@/constants/common';
 import { enableStatusRecord, menuTypeRecord } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
-import MenuOperateDrawer, { type OperateType } from './modules/menu-operate-drawer.vue';
+import MenuOperateModal, { type OperateType } from './modules/menu-operate-modal.vue';
 
 const appStore = useAppStore();
 
-const { bool: drawerVisible, setTrue: openDrawer, setFalse: _closeDrawer } = useBoolean();
-
 const wrapperRef = ref<HTMLElement | null>(null);
 
-const { columns, columnChecks, data, loading, pagination, getData } = useTable({
+const { columns, columnChecks, data, loading, pagination, getData, getDataByPage } = useTable({
   apiFn: fetchGetMenuList,
   columns: () => [
     {
@@ -183,9 +181,11 @@ const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getD
 
 const operateType = ref<OperateType>('add');
 
+const { bool: visible, setTrue: openModal } = useBoolean();
+
 function handleAdd() {
   operateType.value = 'add';
-  openDrawer();
+  openModal();
 }
 
 async function handleBatchDelete() {
@@ -210,7 +210,7 @@ const editingData: Ref<Api.SystemManage.Menu | null> = ref(null);
 function handleEdit(item: Api.SystemManage.Menu) {
   operateType.value = 'edit';
   editingData.value = { ...item };
-  openDrawer();
+  openModal();
 }
 
 function handleAddChildMenu(item: Api.SystemManage.Menu) {
@@ -218,7 +218,7 @@ function handleAddChildMenu(item: Api.SystemManage.Menu) {
 
   editingData.value = { ...item };
 
-  openDrawer();
+  openModal();
 }
 
 const allPages = ref<string[]>([]);
@@ -238,7 +238,7 @@ init();
 
 <template>
   <div ref="wrapperRef" class="flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <NCard :bordered="false" :title="$t('page.manage.menu.title')" class="sm:flex-1-hidden card-wrapper" size="small">
+    <NCard :title="$t('page.manage.menu.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
@@ -253,21 +253,21 @@ init();
         v-model:checked-row-keys="checkedRowKeys"
         :columns="columns"
         :data="data"
-        :flex-height="!appStore.isMobile"
-        :loading="loading"
-        :pagination="pagination"
-        :row-key="row => row.id"
-        :scroll-x="1088"
-        class="sm:h-full"
-        remote
         size="small"
+        :flex-height="!appStore.isMobile"
+        :scroll-x="1088"
+        :loading="loading"
+        :row-key="row => row.id"
+        remote
+        :pagination="pagination"
+        class="sm:h-full"
       />
-      <MenuOperateDrawer
-        v-model:visible="drawerVisible"
-        :all-pages="allPages"
+      <MenuOperateModal
+        v-model:visible="visible"
         :operate-type="operateType"
         :row-data="editingData"
-        @submitted="getData"
+        :all-pages="allPages"
+        @submitted="getDataByPage"
       />
     </NCard>
   </div>

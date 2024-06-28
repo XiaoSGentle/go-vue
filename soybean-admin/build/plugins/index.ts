@@ -6,7 +6,6 @@ import progress from 'vite-plugin-progress';
 import { setupElegantRouter } from './router';
 import { setupUnocss } from './unocss';
 import { setupUnplugin } from './unplugin';
-
 export function setupVitePlugins(viteEnv: Env.ImportMeta) {
   const plugins: PluginOption = [
     vue({

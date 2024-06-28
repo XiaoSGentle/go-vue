@@ -9,7 +9,7 @@ declare module "@elegant-router/types" {
   /**
    * route layout
    */
-  export type RouteLayout = "base" | "blank";
+  export type RouteLayout = "base" | "blank" | "project";
 
   /**
    * route map
@@ -61,9 +61,21 @@ declare module "@elegant-router/types" {
     "manage_role": "/manage/role";
     "manage_user": "/manage/user";
     "manage_user-detail": "/manage/user-detail/:id";
+    "project-list": "/project-list";
     "projects": "/projects";
-    "projects_list": "/projects/list";
-    "projects_preview": "/projects/preview";
+    "projects_document": "/projects/document";
+    "projects_document_api": "/projects/document/api";
+    "projects_document_files": "/projects/document/files";
+    "projects_document_knowledge": "/projects/document/knowledge";
+    "projects_document_wiki": "/projects/document/wiki";
+    "projects_overview": "/projects/overview";
+    "projects_repository": "/projects/repository";
+    "projects_synergy": "/projects/synergy";
+    "projects_test": "/projects/test";
+    "projects_test_overview": "/projects/test/overview";
+    "projects_test_plan": "/projects/test/plan";
+    "projects_test_report": "/projects/test/report";
+    "projects_test_use-case": "/projects/test/use-case";
     "test-page": "/test-page";
     "test-page_page-one": "/test-page/page-one";
     "test-page_page-two": "/test-page/page-two";
@@ -124,6 +136,7 @@ declare module "@elegant-router/types" {
     | "logger"
     | "login"
     | "manage"
+    | "project-list"
     | "projects"
     | "test-page"
     | "user-center"
@@ -171,8 +184,18 @@ declare module "@elegant-router/types" {
     | "manage_role"
     | "manage_user-detail"
     | "manage_user"
-    | "projects_list"
-    | "projects_preview"
+    | "project-list"
+    | "projects_document_api"
+    | "projects_document_files"
+    | "projects_document_knowledge"
+    | "projects_document_wiki"
+    | "projects_overview"
+    | "projects_repository"
+    | "projects_synergy"
+    | "projects_test_overview"
+    | "projects_test_plan"
+    | "projects_test_report"
+    | "projects_test_use-case"
     | "test-page_page-one"
     | "test-page_page-two"
     | "user-center"

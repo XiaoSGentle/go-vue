@@ -271,6 +271,13 @@
             </set>
           </value>
         </entry>
+        <entry key="MenuQueryType">
+          <value>
+            <set>
+              <option value="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.type.go" />
+            </set>
+          </value>
+        </entry>
         <entry key="Oauth2BindParam">
           <value>
             <set>
@@ -1039,7 +1046,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_api.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475372" />
+              <option name="lastModified" value="1719456978720" />
               <option name="schema">
                 <list>
                   <option value="SysAPI" />
@@ -1051,7 +1058,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_cron.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475372" />
+              <option name="lastModified" value="1719456978720" />
               <option name="schema">
                 <list>
                   <option value="SysCron" />
@@ -1063,7 +1070,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_department.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1719215583372" />
+              <option name="lastModified" value="1719456978720" />
               <option name="schema">
                 <list>
                   <option value="SysDepartment" />
@@ -1075,7 +1082,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_dict_data.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475368" />
+              <option name="lastModified" value="1719456978719" />
               <option name="schema">
                 <list>
                   <option value="SysDictDatum" />
@@ -1087,7 +1094,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_dict_type.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475372" />
+              <option name="lastModified" value="1719456978719" />
               <option name="schema">
                 <list>
                   <option value="SysDictType" />
@@ -1099,7 +1106,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_gen_table.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475371" />
+              <option name="lastModified" value="1719456978720" />
               <option name="schema">
                 <list>
                   <option value="SysGenTable" />
@@ -1111,7 +1118,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_gen_table_column.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475371" />
+              <option name="lastModified" value="1719456978718" />
               <option name="schema">
                 <list>
                   <option value="SysGenTableColumn" />
@@ -1123,7 +1130,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_menu.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475371" />
+              <option name="lastModified" value="1719456978720" />
               <option name="schema">
                 <list>
                   <option value="SysMenu" />
@@ -1135,7 +1142,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_oauth2_bind.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475372" />
+              <option name="lastModified" value="1719456978717" />
               <option name="schema">
                 <list>
                   <option value="SysOauth2Bind" />
@@ -1147,7 +1154,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_role.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475372" />
+              <option name="lastModified" value="1719456978720" />
               <option name="schema">
                 <list>
                   <option value="SysRole" />
@@ -1159,7 +1166,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/model/sys_user.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475367" />
+              <option name="lastModified" value="1719456978719" />
               <option name="schema">
                 <list>
                   <option value="SysUser" />
@@ -1171,7 +1178,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475662" />
+              <option name="lastModified" value="1719456979036" />
               <option name="schema">
                 <list>
                   <option value="Query" />
@@ -1185,7 +1192,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_api.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475660" />
+              <option name="lastModified" value="1719456979033" />
               <option name="schema">
                 <list>
                   <option value="sysAPI" />
@@ -1198,7 +1205,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_cron.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475659" />
+              <option name="lastModified" value="1719456979032" />
               <option name="schema">
                 <list>
                   <option value="sysCron" />
@@ -1211,7 +1218,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_department.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475658" />
+              <option name="lastModified" value="1719456979033" />
               <option name="schema">
                 <list>
                   <option value="sysDepartment" />
@@ -1224,7 +1231,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_data.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475660" />
+              <option name="lastModified" value="1719456979033" />
               <option name="schema">
                 <list>
                   <option value="sysDictDatum" />
@@ -1237,7 +1244,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_dict_type.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475657" />
+              <option name="lastModified" value="1719456979033" />
               <option name="schema">
                 <list>
                   <option value="sysDictType" />
@@ -1250,7 +1257,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475660" />
+              <option name="lastModified" value="1719456979034" />
               <option name="schema">
                 <list>
                   <option value="sysGenTable" />
@@ -1263,7 +1270,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_gen_table_column.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475660" />
+              <option name="lastModified" value="1719456979034" />
               <option name="schema">
                 <list>
                   <option value="sysGenTableColumn" />
@@ -1276,7 +1283,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_menu.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475659" />
+              <option name="lastModified" value="1719456979033" />
               <option name="schema">
                 <list>
                   <option value="sysMenu" />
@@ -1289,7 +1296,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_oauth2_bind.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475659" />
+              <option name="lastModified" value="1719456979033" />
               <option name="schema">
                 <list>
                   <option value="sysOauth2Bind" />
@@ -1302,7 +1309,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_role.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475657" />
+              <option name="lastModified" value="1719456979032" />
               <option name="schema">
                 <list>
                   <option value="sysRole" />
@@ -1315,7 +1322,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/dao/query/sys_user.gen.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1716353475660" />
+              <option name="lastModified" value="1719456979031" />
               <option name="schema">
                 <list>
                   <option value="sysUser" />
@@ -1598,7 +1605,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.service.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1715583142786" />
+              <option name="lastModified" value="1719457524076" />
               <option name="schema">
                 <list>
                   <option value="SysMenuService" />
@@ -1610,11 +1617,12 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.type.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1715404105116" />
+              <option name="lastModified" value="1719456432510" />
               <option name="schema">
                 <list>
                   <option value="SysMenuListResp" />
                   <option value="AddOrUpDateSysMenuParam" />
+                  <option value="MenuQueryType" />
                   <option value="SysMenuList" />
                 </list>
               </option>
@@ -1666,7 +1674,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.router.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1719296762885" />
+              <option name="lastModified" value="1719458081189" />
               <option name="schema">
                 <list>
                   <option value="routeHandler" />
@@ -1678,7 +1686,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_route/route.service.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1719393349681" />
+              <option name="lastModified" value="1719458441048" />
               <option name="schema">
                 <list>
                   <option value="RouteService" />
@@ -1974,7 +1982,7 @@
         <entry key="file://$PROJECT_DIR$/xcore/common/xresponse/response.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1715408684927" />
+              <option name="lastModified" value="1719457830593" />
               <option name="schema">
                 <list>
                   <option value="ResponseSuccess" />
@@ -2087,13 +2095,6 @@
             </ScannedPath>
           </value>
         </entry>
-        <entry key="file://$PROJECT_DIR$/xcore/core/xcosnt/const.go">
-          <value>
-            <ScannedPath>
-              <option name="lastModified" value="1719392547620" />
-            </ScannedPath>
-          </value>
-        </entry>
         <entry key="file://$PROJECT_DIR$/xcore/core/xdig/core_dig.go">
           <value>
             <ScannedPath>
@@ -2160,6 +2161,7 @@
         <entry key="login_param" value="LoginParam" />
         <entry key="login_vo" value="LoginVo" />
         <entry key="menu_query_param" value="MenuQueryParam" />
+        <entry key="menu_query_type" value="MenuQueryType" />
         <entry key="oauth2_bind_param" value="Oauth2BindParam" />
         <entry key="oauth2_bind_redis_save_param" value="Oauth2BindRedisSaveParam" />
         <entry key="oauth2_max_key_access_token" value="Oauth2MaxKeyAccessToken" />
@@ -2253,6 +2255,6 @@
         <entry key="yml_config" value="ymlConfig" />
       </map>
     </option>
-    <option name="lastTimeChecked" value="1719363887258" />
+    <option name="lastTimeChecked" value="1719453460332" />
   </component>
 </project>

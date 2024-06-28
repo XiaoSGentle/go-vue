@@ -312,6 +312,15 @@ export const generatedRoutes: GeneratedRoute[] = [
     ]
   },
   {
+    name: 'project-list',
+    path: '/project-list',
+    component: 'layout.base$view.project-list',
+    meta: {
+      title: 'project-list',
+      i18nKey: 'route.project-list'
+    }
+  },
+  {
     name: 'projects',
     path: '/projects',
     component: 'layout.base',
@@ -321,22 +330,123 @@ export const generatedRoutes: GeneratedRoute[] = [
     },
     children: [
       {
-        name: 'projects_list',
-        path: '/projects/list',
-        component: 'view.projects_list',
+        name: 'projects_document',
+        path: '/projects/document',
         meta: {
-          title: 'projects_list',
-          i18nKey: 'route.projects_list'
+          title: 'projects_document',
+          i18nKey: 'route.projects_document'
+        },
+        children: [
+          {
+            name: 'projects_document_api',
+            path: '/projects/document/api',
+            component: 'view.projects_document_api',
+            meta: {
+              title: 'projects_document_api',
+              i18nKey: 'route.projects_document_api'
+            }
+          },
+          {
+            name: 'projects_document_files',
+            path: '/projects/document/files',
+            component: 'view.projects_document_files',
+            meta: {
+              title: 'projects_document_files',
+              i18nKey: 'route.projects_document_files'
+            }
+          },
+          {
+            name: 'projects_document_knowledge',
+            path: '/projects/document/knowledge',
+            component: 'view.projects_document_knowledge',
+            meta: {
+              title: 'projects_document_knowledge',
+              i18nKey: 'route.projects_document_knowledge'
+            }
+          },
+          {
+            name: 'projects_document_wiki',
+            path: '/projects/document/wiki',
+            component: 'view.projects_document_wiki',
+            meta: {
+              title: 'projects_document_wiki',
+              i18nKey: 'route.projects_document_wiki'
+            }
+          }
+        ]
+      },
+      {
+        name: 'projects_overview',
+        path: '/projects/overview',
+        component: 'view.projects_overview',
+        meta: {
+          title: 'projects_overview',
+          i18nKey: 'route.projects_overview'
         }
       },
       {
-        name: 'projects_preview',
-        path: '/projects/preview',
-        component: 'view.projects_preview',
+        name: 'projects_repository',
+        path: '/projects/repository',
+        component: 'view.projects_repository',
         meta: {
-          title: 'projects_preview',
-          i18nKey: 'route.projects_preview'
+          title: 'projects_repository',
+          i18nKey: 'route.projects_repository'
         }
+      },
+      {
+        name: 'projects_synergy',
+        path: '/projects/synergy',
+        component: 'view.projects_synergy',
+        meta: {
+          title: 'projects_synergy',
+          i18nKey: 'route.projects_synergy'
+        }
+      },
+      {
+        name: 'projects_test',
+        path: '/projects/test',
+        meta: {
+          title: 'projects_test',
+          i18nKey: 'route.projects_test'
+        },
+        children: [
+          {
+            name: 'projects_test_overview',
+            path: '/projects/test/overview',
+            component: 'view.projects_test_overview',
+            meta: {
+              title: 'projects_test_overview',
+              i18nKey: 'route.projects_test_overview'
+            }
+          },
+          {
+            name: 'projects_test_plan',
+            path: '/projects/test/plan',
+            component: 'view.projects_test_plan',
+            meta: {
+              title: 'projects_test_plan',
+              i18nKey: 'route.projects_test_plan'
+            }
+          },
+          {
+            name: 'projects_test_report',
+            path: '/projects/test/report',
+            component: 'view.projects_test_report',
+            meta: {
+              title: 'projects_test_report',
+              i18nKey: 'route.projects_test_report'
+            }
+          },
+          {
+            name: 'projects_test_use-case',
+            path: '/projects/test/use-case',
+            component: 'view.projects_test_use-case',
+            meta: {
+              title: 'projects_test_use-case',
+              i18nKey: 'route.projects_test_use-case'
+            }
+          }
+        ]
       }
     ]
   },

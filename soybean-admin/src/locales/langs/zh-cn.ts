@@ -2,6 +2,9 @@ const local: App.I18n.Schema = {
   system: {
     title: 'Soybean 管理系统'
   },
+  datatable: {
+    itemCount: '共 {total} 条'
+  },
   common: {
     action: '操作',
     add: '新增',
@@ -37,6 +40,7 @@ const local: App.I18n.Schema = {
     trigger: '触发',
     update: '更新',
     updateSuccess: '更新成功',
+    expandColumn: '展开列',
     userCenter: '个人中心',
     yesOrNo: {
       yes: '是',
@@ -182,8 +186,10 @@ const local: App.I18n.Schema = {
     'code-gen': '代码生成',
     'code-gen_column': '列详情',
     'code-gen_table': '代码生成',
+    "project-list":'项目',
+    projects: '项目',
     projects_list: '项目列表',
-    projects_preview: '项目概览'
+    projects_overview: '项目概览'
   },
   page: {
     login: {
@@ -370,6 +376,7 @@ const local: App.I18n.Schema = {
         parentId: '父级菜单ID',
         menuType: '菜单类型',
         menuName: '菜单名称',
+        pathParam: '路径参数',
         routeName: '路由名称',
         routePath: '路由路径',
         routeParams: '路由参数',
@@ -387,7 +394,7 @@ const local: App.I18n.Schema = {
         hideInMenu: '隐藏菜单',
         activeMenu: '高亮的菜单',
         multiTab: '支持多页签',
-        fixedIndexInTab: '固定在页签中的序号',
+        fixedIndexInTab: '固定页签序号',
         button: '按钮',
         buttonCode: '按钮编码',
         buttonDesc: '按钮描述',
@@ -409,6 +416,7 @@ const local: App.I18n.Schema = {
           localIcon: '请选择本地图标',
           order: '请输入排序',
           keepAlive: '请选择是否缓存路由',
+          pathParam: '请输入路径参数',
           href: '请输入外链',
           hideInMenu: '请选择是否隐藏菜单',
           activeMenu: '请输入高亮的菜单的路由名称',

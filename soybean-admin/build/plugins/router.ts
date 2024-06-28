@@ -9,7 +9,8 @@ export function setupElegantRouter() {
     },
     layouts: {
       base: 'src/layouts/base-layout/index.vue',
-      blank: 'src/layouts/blank-layout/index.vue'
+      blank: 'src/layouts/blank-layout/index.vue',
+      project: 'src/layouts/project-layout/index.vue'
     },
     customRoutes: {
       names: [

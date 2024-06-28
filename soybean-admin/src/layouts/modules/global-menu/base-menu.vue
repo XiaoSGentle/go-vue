@@ -1,13 +1,14 @@
-<script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import type { MentionOption, MenuProps } from 'naive-ui';
-import { SimpleScrollbar } from '@sa/materials';
-import type { RouteKey } from '@elegant-router/types';
-import { useAppStore } from '@/store/modules/app';
-import { useThemeStore } from '@/store/modules/theme';
-import { useRouteStore } from '@/store/modules/route';
-import { useRouterPush } from '@/hooks/common/router';
+<script lang="ts" setup>
+import {computed, ref, watch} from 'vue';
+import {useRoute} from 'vue-router';
+import type {MentionOption, MenuProps} from 'naive-ui';
+import {SimpleScrollbar} from '@sa/materials';
+import type {RouteKey} from '@elegant-router/types';
+import {useAppStore} from '@/store/modules/app';
+import {useThemeStore} from '@/store/modules/theme';
+import {useRouteStore} from '@/store/modules/route';
+import {useRouterPush} from '@/hooks/common/router';
+import ProjectSelect from "@/layouts/project-layout/global-menu/conponents/project-select.vue";
 
 defineOptions({
   name: 'BaseMenu'
@@ -27,7 +28,7 @@ const route = useRoute();
 const appStore = useAppStore();
 const themeStore = useThemeStore();
 const routeStore = useRouteStore();
-const { routerPushByKey } = useRouterPush();
+const {routerPushByKey} = useRouterPush();
 
 const naiveMenus = computed(() => props.menus as unknown as MentionOption[]);
 
@@ -38,7 +39,7 @@ const siderCollapse = computed(() => themeStore.layout.mode === 'vertical' && ap
 const headerHeight = computed(() => `${themeStore.header.height}px`);
 
 const selectedKey = computed(() => {
-  const { hideInMenu, activeMenu } = route.meta;
+  const {hideInMenu, activeMenu} = route.meta;
   const name = route.name as string;
 
   const routeName = (hideInMenu ? activeMenu : name) || name;
@@ -59,32 +60,33 @@ function updateExpandedKeys() {
 function handleClickMenu(key: RouteKey) {
   const query = routeStore.getRouteQueryOfMetaByKey(key);
 
-  routerPushByKey(key, { query });
+  routerPushByKey(key, {query});
 }
 
+
 watch(
-  () => route.name,
-  () => {
-    updateExpandedKeys();
-  },
-  { immediate: true }
+    () => route.name,
+    () => {
+      updateExpandedKeys();
+    },
+    {immediate: true}
 );
 </script>
 
 <template>
   <SimpleScrollbar>
     <NMenu
-      v-model:expanded-keys="expandedKeys"
-      :mode="mode"
-      :value="selectedKey"
-      :collapsed="siderCollapse"
-      :collapsed-width="themeStore.sider.collapsedWidth"
-      :collapsed-icon-size="22"
-      :options="naiveMenus"
-      :inverted="darkTheme"
-      :indent="18"
-      responsive
-      @update:value="handleClickMenu"
+        v-model:expanded-keys="expandedKeys"
+        :collapsed="siderCollapse"
+        :collapsed-icon-size="22"
+        :collapsed-width="themeStore.sider.collapsedWidth"
+        :indent="18"
+        :inverted="darkTheme"
+        :mode="mode"
+        :options="naiveMenus"
+        :value="selectedKey"
+        responsive
+        @update:value="handleClickMenu"
     />
   </SimpleScrollbar>
 </template>

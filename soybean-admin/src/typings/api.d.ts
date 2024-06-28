@@ -231,9 +231,6 @@ declare namespace Api {
       | 'fixedIndexInTab'
     > & {
       query: NonNullable<Api.SystemManage.Menu['query']>;
-      layout: string;
-      page: string;
-      pathParam: string;
     };
 
     type Menu = Common.CommonRecord<{
@@ -422,6 +419,6 @@ declare namespace Api {
       arguments: string[];
     }>;
     type CronTypeList = Common.PaginatingQueryRecord<CronType>;
-    type AddOrUpdateCronTypeParams = Pick<CronType, 'arguments' | 'description' | 'schedule' | 'status'|'key'>;
+    type AddOrUpdateCronTypeParams = Pick<CronType, 'arguments' | 'description' | 'schedule' | 'status' | 'key'>;
   }
 }

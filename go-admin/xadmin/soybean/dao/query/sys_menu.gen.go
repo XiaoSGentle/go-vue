@@ -44,7 +44,6 @@ func newSysMenu(db *gorm.DB, opts ...gen.DOOption) sysMenu {
 	_sysMenu.MetaHideInMenu = field.NewString(tableName, "meta_hide_in_menu")
 	_sysMenu.MetaRequiresAuth = field.NewInt32(tableName, "meta_requires_auth")
 	_sysMenu.MetaIcon = field.NewString(tableName, "meta_icon")
-	_sysMenu.MetaLocalIcon = field.NewString(tableName, "meta_local_icon")
 	_sysMenu.MetaI18nKey = field.NewString(tableName, "meta_i18n_key")
 	_sysMenu.MetaHref = field.NewString(tableName, "meta_href")
 	_sysMenu.MetaKeepAlive = field.NewString(tableName, "meta_keep_alive")
@@ -88,7 +87,6 @@ type sysMenu struct {
 	MetaHideInMenu   field.String // 菜单中隐藏
 	MetaRequiresAuth field.Int32  // 是否需要认证
 	MetaIcon         field.String // 元图标
-	MetaLocalIcon    field.String // 本地元图标
 	MetaI18nKey      field.String // 国际化标题
 	MetaHref         field.String // 外部连接
 	MetaKeepAlive    field.String // 缓存该路由
@@ -138,7 +136,6 @@ func (s *sysMenu) updateTableName(table string) *sysMenu {
 	s.MetaHideInMenu = field.NewString(table, "meta_hide_in_menu")
 	s.MetaRequiresAuth = field.NewInt32(table, "meta_requires_auth")
 	s.MetaIcon = field.NewString(table, "meta_icon")
-	s.MetaLocalIcon = field.NewString(table, "meta_local_icon")
 	s.MetaI18nKey = field.NewString(table, "meta_i18n_key")
 	s.MetaHref = field.NewString(table, "meta_href")
 	s.MetaKeepAlive = field.NewString(table, "meta_keep_alive")
@@ -171,7 +168,7 @@ func (s *sysMenu) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (s *sysMenu) fillFieldMap() {
-	s.fieldMap = make(map[string]field.Expr, 34)
+	s.fieldMap = make(map[string]field.Expr, 33)
 	s.fieldMap["id"] = s.ID
 	s.fieldMap["name"] = s.Name
 	s.fieldMap["router_name"] = s.RouterName
@@ -189,7 +186,6 @@ func (s *sysMenu) fillFieldMap() {
 	s.fieldMap["meta_hide_in_menu"] = s.MetaHideInMenu
 	s.fieldMap["meta_requires_auth"] = s.MetaRequiresAuth
 	s.fieldMap["meta_icon"] = s.MetaIcon
-	s.fieldMap["meta_local_icon"] = s.MetaLocalIcon
 	s.fieldMap["meta_i18n_key"] = s.MetaI18nKey
 	s.fieldMap["meta_href"] = s.MetaHref
 	s.fieldMap["meta_keep_alive"] = s.MetaKeepAlive

@@ -6,7 +6,6 @@ import (
 	"gorm.io/gorm"
 	"strconv"
 	"xadmin/soybean/dao/model"
-	"xadmin/soybean/dao/query"
 	"xcore/common/xtype/xbool"
 	"xcore/core/xconst"
 )
@@ -38,12 +37,10 @@ func (r RouteService) IsRouteExist(c *gin.Context, routerName string) (exist boo
 }
 
 func (r RouteService) GetAllRoles(c *gin.Context) (allRoles []AllRolesResp, err error) {
-	roleQuery := query.Use(r.db).SysRole
-	findInSql, err := roleQuery.WithContext(c).Find()
-	if err != nil {
-		return []AllRolesResp{}, err
-	}
-	for _, role := range findInSql {
+	var find []model.SysRole
+	db := r.db.WithContext(c).Model(model.SysRole{}).Find(&find)
+	err = db.Error
+	for _, role := range find {
 		allRoles = append(allRoles, AllRolesResp{
 			Id:       fmt.Sprintf("%d", role.ID),
 			RoleName: role.Name,
@@ -55,12 +52,10 @@ func (r RouteService) GetAllRoles(c *gin.Context) (allRoles []AllRolesResp, err 
 
 func (r RouteService) GetALLApis(c *gin.Context) (allApisResp []AllApisResp, err error) {
 	var result []AllApisResp
-	apiQuery := query.Use(r.db).SysAPI
-	findApisInSql, err := apiQuery.WithContext(c).Find()
-	if err != nil {
-		return []AllApisResp{}, err
-	}
-	for _, api := range findApisInSql {
+	var find []model.SysAPI
+	db := r.db.WithContext(c).Model(model.SysAPI{}).Find(&find)
+	err = db.Error
+	for _, api := range find {
 		result = append(result, AllApisResp{
 			Code: api.APICode,
 			Name: api.APICode,
@@ -70,22 +65,18 @@ func (r RouteService) GetALLApis(c *gin.Context) (allApisResp []AllApisResp, err
 }
 
 func (r RouteService) GetMenuTreeSimple(c *gin.Context) (routerTreeSimpleResp []RouterTreeSimpleResp, err error) {
-	menuQuery := query.Use(r.db).WithContext(c).SysMenu
-	find, err := menuQuery.Find()
-	if err != nil {
-		return []RouterTreeSimpleResp{}, err
-	}
+	var find []model.SysMenu
+	db := r.db.WithContext(c).Model(model.SysMenu{}).Find(&find)
+	err = db.Error
 	result := sysMenuToSimpleRouterTree(find)
 	return result, nil
 }
 
 func (r RouteService) GetAllPages(c *gin.Context, roles []string) (allPages []string, err error) {
-	menuQuery := query.Use(r.db).WithContext(c).SysMenu
-	menusInSql, err := menuQuery.Find()
-	if err != nil {
-		return []string{}, err
-	}
-	for _, menu := range menusInSql {
+	var find []model.SysMenu
+	db := r.db.WithContext(c).Model(model.SysMenu{}).Find(&find)
+	err = db.Error
+	for _, menu := range find {
 		allPages = append(allPages, menu.RouterName)
 	}
 	return
@@ -167,7 +158,7 @@ func userRouterListToTree(list []UserRouter, Pid int32) (tree []UserRouter) {
 	return
 }
 
-func sysMenuToSimpleRouterTree(sysMenuList []*model.SysMenu) (routerTreeSimpleResp []RouterTreeSimpleResp) {
+func sysMenuToSimpleRouterTree(sysMenuList []model.SysMenu) (routerTreeSimpleResp []RouterTreeSimpleResp) {
 	for _, menu := range sysMenuList {
 		routerTreeSimpleResp = append(routerTreeSimpleResp, RouterTreeSimpleResp{
 			ID:       fmt.Sprintf("%d", menu.ID),
