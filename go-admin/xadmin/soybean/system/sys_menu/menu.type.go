@@ -15,7 +15,7 @@ type AddOrUpDateSysMenuParam struct {
 	MenuName        string          `json:"menuName" form:"menuName" zh_comment:"目录名称" en_comment:"menuName" validate:"required"`
 	RouteName       string          `json:"routeName" form:"routeName" zh_comment:"路由名称" en_comment:"routeName" validate:"required"`
 	RoutePath       string          `json:"routePath" form:"routePath" zh_comment:"路由地址" en_comment:"routePath" validate:"required"`
-	Component       string          `json:"component" form:"component" zh_comment:"组件" en_comment:"component" validate:"required"`
+	Component       string          `json:"component" form:"component" zh_comment:"组件" en_comment:"component"`
 	HideInMenu      bool            `json:"hideInMenu"`
 	Order           int32           `json:"order"`
 	I18NKey         string          `json:"i18nKey"`

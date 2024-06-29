@@ -1617,7 +1617,7 @@
         <entry key="file://$PROJECT_DIR$/xadmin/soybean/system/sys_menu/menu.type.go">
           <value>
             <ScannedPath>
-              <option name="lastModified" value="1719456432510" />
+              <option name="lastModified" value="1719545275214" />
               <option name="schema">
                 <list>
                   <option value="SysMenuListResp" />

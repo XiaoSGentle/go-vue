@@ -123,7 +123,7 @@ const projectLeftMenuWidth = computed(() => isProjectCollapse.value ? 240 : 80);
     <template #sider>
       <GlobalSider/>
     </template>
-    <ProjectTwoLayout/>
+    <ProjectTwoLayout class="z-1"/>
     <ThemeDrawer/>
     <template #footer>
       <GlobalFooter/>

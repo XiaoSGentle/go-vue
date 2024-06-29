@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-defineOptions({ name: 'SystemLogo' });
+defineOptions({name: 'SystemLogo'});
 </script>
 
 <template>
-  <icon-local-logo />
+  <SvgIcon local-icon="logo"></SvgIcon>
 </template>
 
 <style scoped></style>

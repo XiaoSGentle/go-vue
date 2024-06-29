@@ -1,23 +1,23 @@
 /** Default theme settings */
 export const themeSettings: App.Theme.ThemeSetting = {
-  themeScheme: 'auto',
-  themeColor: '#07c59f',
-  otherColor: { info: '#13a3a3', success: '#13a3a3', warning: '#faad14', error: '#f5222d' },
-  isInfoFollowPrimary: true,
-  layout: { mode: 'vertical-mix', scrollMode: 'content' },
-  page: { animate: true, animateMode: 'fade-slide' },
-  header: { height: 56, breadcrumb: { visible: true, showIcon: true } },
-  tab: { visible: false, cache: true, height: 44, mode: 'button' },
-  fixedHeaderAndTab: true,
-  sider: {
-    inverted: false,
-    width: 220,
-    collapsedWidth: 64,
-    mixWidth: 90,
-    mixCollapsedWidth: 64,
-    mixChildMenuWidth: 200
-  },
-  footer: { visible: true, fixed: false, height: 48, right: true }
+    themeScheme: 'light',
+    themeColor: '#07c59f',
+    otherColor: {info: '#13a3a3', success: '#13a3a3', warning: '#faad14', error: '#f5222d'},
+    isInfoFollowPrimary: true,
+    layout: {mode: 'vertical-mix', scrollMode: 'content'},
+    page: {animate: true, animateMode: 'fade-slide'},
+    header: {height: 56, breadcrumb: {visible: true, showIcon: true}},
+    tab: {visible: false, cache: true, height: 44, mode: 'button'},
+    fixedHeaderAndTab: true,
+    sider: {
+        inverted: false,
+        width: 220,
+        collapsedWidth: 64,
+        mixWidth: 90,
+        mixCollapsedWidth: 64,
+        mixChildMenuWidth: 200
+    },
+    footer: {visible: true, fixed: false, height: 48, right: true}
 };
 
 /**

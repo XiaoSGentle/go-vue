@@ -7,101 +7,63 @@ import {useThemeStore} from "@/store/modules/theme/index.js";
 import {useBoolean} from "~/packages/hooks/src/index.js";
 import AdminLayout from "~/packages/materials/src/libs/admin-layout/index.vue";
 import GlobalContent from "@/layouts/modules/global-content/index.vue";
-import {useSvgIcon} from "@/hooks/common/icon.js";
 import type {MenuOption} from "naive-ui";
 import {computed} from "vue";
+import {useRouteStore} from "@/store/modules/route";
+import {getGlobalMenusByAuthRoutes} from "@/store/modules/route/shared";
+import {useRouterPush} from "@/hooks/common/router";
 
 defineOptions({
   name: 'ProjectTwoLayout'
 });
-
+const route = useRouterPush()
 const appStore = useAppStore();
 const themeStore = useThemeStore();
+const {bool: menuLoading, setBool: setMenuLoading} = useBoolean()
+const routeStore = useRouteStore();
 
 
-const {SvgIconVNode} = useSvgIcon();
+// Menus
+const menuOptions = computed(() => {
+  setMenuLoading(true)
+  const _projectMenus = routeStore.nativeRoutes.filter(route => route.name === 'projects');
+  if (_projectMenus.length === 0 || _projectMenus[0].children === undefined) return []
+  const menu = getGlobalMenusByAuthRoutes(_projectMenus[0].children) as unknown as MenuOption[];
+  setMenuLoading(false)
+  return menu
+})
 
+const handleMenuValueUpdate = (_: string, b: MenuOption) => {
+  route.routerPush(b.routePath as string)
+}
 
-const menuOptions: MenuOption[] = [
-  {
-    label: '项目概览',
-    key: 'project-a',
-    icon: SvgIconVNode({icon: 'iconamoon:apps-fill'}),
-
-  }, {
-    label: '项目协同',
-    key: 'project-c',
-    icon: SvgIconVNode({icon: 'carbon:application'}),
-
-  },
-  {
-    label: '代码仓库',
-    key: 'bear-paw',
-    icon: SvgIconVNode({icon: 'carbon:logo-gitlab'}),
-  },
-  {
-    label: '文档管理',
-    key: 'both',
-    icon: SvgIconVNode({icon: 'hugeicons:folder-file-storage'}),
-    children: [
-      {
-        label: '知识管理',
-        key: 'can-not-1'
-      }, {
-        label: 'Wiki',
-        key: 'can-not-2'
-      },
-      {
-        label: '文件网盘',
-        key: 'can-not-3'
-      }, {
-        label: 'API文档',
-        key: 'can-not-4'
-      },
-    ]
-  }, {
-    label: '测试管理',
-    key: 'both-1',
-    icon: SvgIconVNode({icon: 'hugeicons:notebook-02'}),
-    children: [
-      {
-        label: '测试概览',
-        key: 'can-not-5'
-      }, {
-        label: '测试用例',
-        key: 'can-not-6'
-      }, {
-        label: '测试计划',
-        key: 'can-not-7'
-      }, {
-        label: '测试报告',
-        key: 'can-not-8'
-      },
-    ]
-  }
-]
 const {bool: isProjectCollapse, setBool: setProjectCollapse} = useBoolean(true);
+
 
 </script>
 
 <template>
   <AdminLayout
       v-model:sider-collapse="isProjectCollapse"
-      :content-class="appStore.contentXScrollable ? 'overflow-x-hidden' : ''"
+      :content-class="appStore.contentXScrollable ? 'overflow-x-hidden'  :  ''"
       :is-mobile="appStore.isMobile"
       :right-footer="themeStore.footer.right"
       :scroll-el-id="LAYOUT_SCROLL_EL_ID"
       :scroll-mode="themeStore.layout.scrollMode"
-      :sider-collapsed-width="180"
+      :sider-collapsed-width="200"
       :sider-width="50"
   >
     <template #sider>
       <DarkModeContainer class="size-full flex-col-stretch shadow-sider">
         <SimpleScrollbar>
-          <NMenu :collapsed="!isProjectCollapse" :collapsed-icon-size="20" :options="menuOptions"/>
+          <NSkeleton v-if="menuLoading" :repeat="10" :sharp="false" animated size="large" text/>
+          <NMenu v-else :collapsed="!isProjectCollapse" :collapsed-icon-size="20"
+                 :on-update:value="handleMenuValueUpdate"
+                 :options="menuOptions"/>
         </SimpleScrollbar>
       </DarkModeContainer>
       <NButton
+          v-if="!menuLoading"
           circle
           class="red right--2.8 top-80% absolute z-100"
           secondary

@@ -6,7 +6,10 @@ defineOptions({
 
 <template>
   <DarkModeContainer>
-    代码仓库
+    <div class="h-full">
+      <iframe id="iframePage"
+              class="size-full"></iframe>
+    </div>
   </DarkModeContainer>
 </template>
 

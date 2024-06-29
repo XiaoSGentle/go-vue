@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { $t } from '@/locales';
+<script lang="ts" setup>
+import {$t} from '@/locales';
 
 defineOptions({
   name: 'GlobalLogo'
@@ -16,8 +16,8 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <RouterLink to="/" class="w-full flex-center nowrap-hidden">
-    <SystemLogo class="text-32px text-primary" />
+  <RouterLink class="w-full flex-center nowrap-hidden" to="/">
+    <SystemLogo class="text-52px text-primary"/>
     <h2 v-show="showTitle" class="pl-8px text-16px text-primary font-bold transition duration-300 ease-in-out">
       {{ $t('system.title') }}
     </h2>
